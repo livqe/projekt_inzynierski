@@ -1,0 +1,63 @@
+# =========================
+# Unity 6.x .gitignore
+# =========================
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / Visual Studio
+.vs/
+*.csproj
+*.sln
+*.user
+*.suo
+
+# Unity generated
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+MemoryCaptures/
+UserSettings/
+MemoryCaptures/
+sysinfo.txt
+*.pidb
+*.booproj
+*.svd
+
+# Cache
+*.stackdump
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Crash reports
+*.dmp
+*.crash
+
+# Auto-generated files
+*.unitypackage
+*.apk
+*.aab
+*.xcodeproj
+*.xcworkspace
+
+# Local test data
+*.db
+*.mdb
+
+# Visual Scripting
+*.asset.meta
+*.unityproj
+GeneratedVisualScripts/
+
+# Package Manager
+/Packages/com.unity.collab-proxy/
+/Packages/com.unity.package-manager-ui/
+
+# Logs
+Logs/

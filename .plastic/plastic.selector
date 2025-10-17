@@ -1,0 +1,4 @@
+repository "gra_karciana 2025-10-17_17-58-11/gra_karciana@7971518532488@cloud"
+  path "/"
+    br "/main"
+    co "/main"
