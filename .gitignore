@@ -61,3 +61,7 @@ GeneratedVisualScripts/
 
 # Logs
 Logs/
+
+#Plastoc SCM leftovers
+.plastic/
+ignore.conf
