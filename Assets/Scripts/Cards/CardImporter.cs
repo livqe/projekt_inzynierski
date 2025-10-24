@@ -25,6 +25,7 @@ public class CardImporter : EditorWindow
             card.faction = Enum.TryParse<Faction>(cols[1], out var f) ? f : Faction.Neutralne;
             card.power = int.TryParse(cols[2], out var p) ? p : 0;
             card.range = Enum.TryParse<RangeType>(cols[3], out var r) ? r : RangeType.Dowolny;
+            card.effect = EffectFactory.CreateEffectFromName(cols[5]);
             card.effectDescription = cols[4];
 
             string spritePath = $"Assets/Art/Cards/{card.cardName}.png";

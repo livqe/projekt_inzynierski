@@ -25,5 +25,6 @@ public class CardData : ScriptableObject
     public int power;
 
     [Header("Efekt specjalny")]
-    public string effectDescription;
+    public CardEffect effect;
+    [TextArea] public string effectDescription;
 }
