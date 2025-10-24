@@ -1,56 +1,56 @@
-ÔªøNazwa;Frakcja;Moc;Zasiƒôg;Dodatkowa funkcja
-Thorin Dƒôbowa Tarcza;Krasnoludy;10;Bliski;"Zyskuje tarczƒô o warto≈õci 5 punkt√≥w, kt√≥ra chroni go przed obra≈ºeniami"
-Fili;Krasnoludy;7;Bliski;"Je≈õli Kili i Fili sƒÖ na planszy, a Kili otrzyma obra≈ºenia r√≥wne jego aktualnej mocy (zostaje wyeliminowany z planszy), to Fili r√≥wnie≈º zostaje wyeliminowany z planszy."
-Balin;Krasnoludy;4;Bliski;Co drugƒÖ turƒô zyskuje +1 do mocy
-Dwalin;Krasnoludy;6;Bliski;Co dwie tury zadaje wrogiej karcie na planszy obra≈ºenia o warto≈õci -3
-Gloin;Krasnoludy;5;Bliski;Zadaje wybranej wrogiej karcie na planszy obra≈ºenia o warto≈õci -5
-Gimli;Krasnoludy;5;Bliski;"Je≈õli Legolas i Gimli sƒÖ razem na planszy, to obie karty zostajƒÖ wyeliminowane (moc obu kart przyjmuje warto≈õƒá 0)"
-Dori;Krasnoludy;4;Bliski;"Je≈õli Ori zostanie wyeliminowany, to Dori zyskuje +3"
-Nori;Krasnoludy;5;Bliski;"Je≈õli Dori i Ori sƒÖ na planszy, to Nori zyskuje +3"
-Bofur;Krasnoludy;6;Bliski;Zadaje obra≈ºenia o warto≈õci -3 wybranej wrogiej karcie na planszy
-Bombur;Krasnoludy;3;Bliski;Dodaje +2 mocy dla 2 innych wybranych kart na planszy
-Koz≈Çy Bojowe;Krasnoludy;4;Bliski;Zadaje obra≈ºenia o wysoko≈õci -2 wybranej karcie wroga na planszy
-Durin;Krasnoludy;12;Bliski;Jest odporny na obra≈ºenia
-Gwardzista;Krasnoludy;2;Bliski;
-Ori;Krasnoludy;1;Daleki;Dodaje +1 mocy wszystkim kartom w rzƒôdzie
-Bifur;Krasnoludy;8;Daleki;Zadaje obra≈ºenia o wysoko≈õci -4 wybranej karcie wroga na planszy
-Miotacz Topor√≥w;Krasnoludy;1;Daleki;
-Katapulta;Krasnoludy;3;Daleki;
-Thr√≥r;Krasnoludy;0;Daleki;Wzywa wszystkich gwardzist√≥w z talii
-Kili;Krasnoludy;7;Dowolny;"Zadaje Tauriel obra≈ºenia w wysoko≈õci -5, je≈õli Tauriel jest na planszy i otrzymuje -4 obra≈ºe≈Ñ"
-Oin;Krasnoludy;1;Dowolny;Dodaje +6 mocy dla innej wybranej karty na planszy
-Thrain;Krasnoludy;0;Dowolny;Jego moc zmienia siƒô co turƒô losowo w przedziale 0-11
-Dain ≈ªelazna Stopa;Krasnoludy;6;Dowolny;Wzywa rydwan z talii
-Rydwan;Krasnoludy;4;Dowolny;
-Thranduil;Elfy;10;Bliski;Zadaje obra≈ºenia w wysoko≈õci -4 wybranej wrogiej karcie na planszy
-Oropher;Elfy;3;Bliski;Wzywa wszsystkich wartownik√≥w z talii
-Miecznik;Elfy;1;Bliski;
-Wartownik;Elfy;2;Bliski;
-≈Åo≈õ;Elfy;5;Bliski;Zadaje obra≈ºenia w wysoko≈õci -2 wybranej wrogiej karcie na planszy
-Gil-Galad;Elfy;5;Daleki;Zadaje obra≈ºenia w wysoko≈õci -3 wybranej wrogiej karcie na planszy
-Galadriela;Elfy;12;Daleki;
-Fingolfin;Elfy;3;Daleki;Zadaje obra≈ºenia w wysoko≈õci -2 wybranej wrogiej karcie na planszy
-Tauriel;Elfy;8;Daleki;"Zadaje Kiliemu obra≈ºenia w wysoko≈õci -4, je≈õli Kili jest na planszy i otrzymuje -5 obra≈ºe≈Ñ"
-≈Åucznik;Elfy;2;Daleki;
-Celeborn;Elfy;3;Daleki;"Dodaje +2 do mocy ka≈ºdej karcie w rzƒôdzie, je≈õli Galadriela jest na planszy"
-Celebrimbor;Elfy;7;Daleki;Jest odporny na obra≈ºenia
-Haldir;Elfy;3;Daleki;Na koniec ka≈ºdej tury otrzymuje +1 do mocy
-F√´anor;Elfy;6;Daleki;Co turƒô zadaje obra≈ºenia w wysoko≈õci -1 losowej wrogiej karcie na planszy
-Elladan;Elfy;4;Daleki;"Otrzymuje +2 do mocy, je≈õli Arwena jest na planszy"
-Elrohir;Elfy;3;Daleki;"Otrzymuje +3 do mocy, je≈õli Arwena jest na planszy"
-Elrond;Elfy;10;Dowolny;Zadaje obra≈ºenia w wysoko≈õci -4 wybranej wrogiej karcie na planszy
-Lindir;Elfy;4;Dowolny;"Otrzymuje +3 do mocy, je≈õli Elrond jest na planszy"
-Legolas;Elfy;9;Dowolny;"Je≈õli Legolas i Gimli sƒÖ razem na planszy, to obie karty zostajƒÖ wyeliminowane (moc obu kart przyjmuje warto≈õƒá 0)"
-Arwena;Elfy;1;Dowolny;Dodaje +5 do mocy wybranej innej karcie na planszy
-Glorfindel;Elfy;1;Dowolny;"Dodaje +4 do mocy Elrondowi, je≈õli zostanie wyeliminowany z planszy"
-Maglor;Elfy;0;Dowolny;Dodaje +2 do mocy wszystkim kartom w rzƒôdzie
-Aragorn;Neutralne;6;Bliski;Dodaje +2 do mocy losowej przyjaznej karcie na planszy
-Bard;Neutralne;3;Bliski;Dodaje +2 do mocy wszystkim kartom w rzƒôdzie
-Beorn;Neutralne;9;Bliski;Zadaje obra≈ºenia w wysoko≈õci - 5 wybranej wrogiej karcie na planszy
-Bilbo Baggins;Neutralne;2;Bliski;"Karta zostaje dodana na pole wroga, ale wzamian dobierasz nowƒÖ kartƒô z talii"
-ƒÜma;Neutralne;0;Daleki;"Wzywa wszystkie or≈Çy z talii, je≈õli Gandalf jest na planszy"
-Or≈Çy;Neutralne;3;Daleki;
-Gandalf;Neutralne;12;Dowolny;"Istnieje 5% szans, ≈ºe karta zostanie zagrana z talii, je≈õli siƒô w niej znajduje. Istnieje 10% szans, ≈ºe karta zostanie zagrana, je≈õli znajduje siƒô w rƒôce gracza."
-Radagast;Neutralne;10;Dowolny;Zadaje obra≈ºenia w wysoko≈õci -3 lub dodaje +3 do mocy losowej przyjaznej karcie na planszy
-Tom Bombadil;Neutralne;13;Dowolny;Dodaje +7 do mocy losowej przyjaznej karcie na planszy
-Tolkien;Neutralne;0;Dowolny;Zadaje obra≈ºenia w wysoko≈õci -7 kartom w wybranym rzƒôdzie gracza i przeciwnika
+Nazwa;Frakcja;Moc;ZasiÍg;Opis efektu;Nazwa efektu;Parametry efektu
+Thorin DÍbowa Tarcza;Krasnoludy;10;Bliski;"Zyskuje tarczÍ o wartoúci 5 punktÛw, ktÛra chroni go przed obraøeniami";AddShieldEffect;5
+Fili;Krasnoludy;7;Bliski;"Jeúli Kili i Fili sπ na planszy, a Kili otrzyma obraøenia rÛwne jego aktualnej mocy (zostaje wyeliminowany z planszy), to Fili rÛwnieø zostaje wyeliminowany z planszy.";DeathLinkEffect;Kili
+Balin;Krasnoludy;4;Bliski;Co drugπ turÍ zyskuje +1 do mocy;BuffSelfEffect;"1;2"
+Dwalin;Krasnoludy;6;Bliski;Co dwie tury zadaje wrogiej karcie na planszy obraøenia o wartoúci -3;PeriodicDamageEffect;"3;2"
+Gloin;Krasnoludy;5;Bliski;Zadaje wybranej wrogiej karcie na planszy obraøenia o wartoúci -5;DamageTargetEnemyEffect;5
+Gimli;Krasnoludy;5;Bliski;"Jeúli Legolas i Gimli sπ razem na planszy, to obie karty zostajπ wyeliminowane (moc obu kart przyjmuje wartoúÊ 0)";MutualDestructionEffect;Legolas
+Dori;Krasnoludy;4;Bliski;"Jeúli Ori zostanie wyeliminowany, to Dori zyskuje +3";BuffSelfOnAllyDeathEffect;"3;Ori"
+Nori;Krasnoludy;5;Bliski;"Jeúli Dori i Ori sπ na planszy, to Nori zyskuje +3";ConditionalBuffSelfEffect;"3;Dori;Ori"
+Bofur;Krasnoludy;6;Bliski;Zadaje obraøenia o wartoúci -3 wybranej wrogiej karcie na planszy;DamageTargetEnemyEffect;3
+Bombur;Krasnoludy;3;Bliski;Dodaje +2 mocy dla 2 innych wybranych kart na planszy;BuffTargetEffect;"2;2"
+Koz≥y Bojowe;Krasnoludy;4;Bliski;Zadaje obraøenia o wysokoúci -2 wybranej karcie wroga na planszy;DamageTargetEnemyEffect;2
+Durin;Krasnoludy;12;Bliski;Jest odporny na obraøenia;ImmuneToDamageEffect;
+Gwardzista;Krasnoludy;2;Bliski;;;
+Ori;Krasnoludy;1;Daleki;Dodaje +1 mocy wszystkim kartom w rzÍdzie;BuffRowEffect;1
+Bifur;Krasnoludy;8;Daleki;Zadaje obraøenia o wysokoúci -4 wybranej karcie wroga na planszy;DamageTargetEnemyEffect;4
+Miotacz ToporÛw;Krasnoludy;1;Daleki;;;
+Katapulta;Krasnoludy;3;Daleki;;;
+ThrÛr;Krasnoludy;0;Daleki;Wzywa wszystkich gwardzistÛw z talii;SummonCardEffect;"Gwardzista;All"
+Kili;Krasnoludy;7;Dowolny;"Zadaje Tauriel obraøenia w wysokoúci -5, jeúli Tauriel jest na planszy i otrzymuje -4 obraøeÒ";MutualDamageLinkEffect;"5;Tauriel"
+Oin;Krasnoludy;1;Dowolny;Dodaje +6 mocy dla innej wybranej karty na planszy;BuffTargetEffect;6
+Thrain;Krasnoludy;0;Dowolny;Jego moc zmienia siÍ co turÍ losowo w przedziale 0-11;RandomPowerEffect;"0;11"
+Dain Øelazna Stopa;Krasnoludy;6;Dowolny;Wzywa rydwan z talii;SummonCardEffect;"Rydwan;1"
+Rydwan;Krasnoludy;4;Dowolny;;;
+Thranduil;Elfy;10;Bliski;Zadaje obraøenia w wysokoúci -4 wybranej wrogiej karcie na planszy;DamageTargetEnemyEffect;4
+Oropher;Elfy;3;Bliski;Wzywa wszysstkich wartownikÛw z talii;SummonCardEffect;"Wartownik;All"
+Miecznik;Elfy;1;Bliski;;;
+Wartownik;Elfy;2;Bliski;;;
+£oú;Elfy;5;Bliski;Zadaje obraøenia w wysokoúci -2 wybranej wrogiej karcie na planszy;DamageTargetEnemyEffect;2
+Gil-Galad;Elfy;5;Daleki;Zadaje obraøenia w wysokoúci -3 wybranej wrogiej karcie na planszy;DamageTargetEnemyEffect;3
+Galadriela;Elfy;12;Daleki;;;
+Fingolfin;Elfy;3;Daleki;Zadaje obraøenia w wysokoúci -2 wybranej wrogiej karcie na planszy;DamageTargetEnemyEffect;2
+Tauriel;Elfy;8;Daleki;"Zadaje Kiliemu obraøenia w wysokoúci -4, jeúli Kili jest na planszy i otrzymuje -5 obraøeÒ";MutualDamageLinkEffect;"4;Kili"
+£ucznik;Elfy;2;Daleki;;;
+Celeborn;Elfy;3;Daleki;"Dodaje +2 do mocy kaødej karcie w rzÍdzie, jeúli Galadriela jest na planszy";ConditionalBuffRowEffect;"2;Galadriela"
+Celebrimbor;Elfy;7;Daleki;Jest odporny na obraøenia;ImmuneToDamageEffect;
+Haldir;Elfy;3;Daleki;Na koniec kaødej tury otrzymuje +1 do mocy;BuffSelfEffect;"1;1"
+FÎanor;Elfy;6;Daleki;Co turÍ zadaje obraøenia w wysokoúci -1 losowej wrogiej karcie na planszy;PeriodicDamageEffect;"1;1"
+Elladan;Elfy;4;Daleki;"Otrzymuje +2 do mocy, jeúli Arwena jest na planszy";ConditionalBuffSelfEffect;"2;Arwena"
+Elrohir;Elfy;3;Daleki;"Otrzymuje +3 do mocy, jeúli Arwena jest na planszy";ConditionalBuffSelfEffect;"3;Arwena"
+Elrond;Elfy;10;Dowolny;Zadaje obraøenia w wysokoúci -4 wybranej wrogiej karcie na planszy;DamageTargetEnemyEffect;4
+Lindir;Elfy;4;Dowolny;"Otrzymuje +3 do mocy, jeúli Elrond jest na planszy";ConditionalBuffSelfEffect;"3;Elrond"
+Legolas;Elfy;9;Dowolny;"Jeúli Legolas i Gimli sπ razem na planszy, to obie karty zostajπ wyeliminowane (moc obu kart przyjmuje wartoúÊ 0)";MutualDestructionEffect;Gimli
+Arwena;Elfy;1;Dowolny;Dodaje +5 do mocy wybranej innej karcie na planszy;BuffTargetEffect;"5;1"
+Glorfindel;Elfy;1;Dowolny;"Dodaje +4 do mocy Elrondowi, jeúli zostanie wyeliminowany z planszy";BuffAllyOnSelfDeathEffect;"4;Elrond"
+Maglor;Elfy;0;Dowolny;Dodaje +2 do mocy wszystkim kartom w rzÍdzie;BuffRowEffect;2
+Aragorn;Neutralne;6;Bliski;Dodaje +2 do mocy losowej przyjaznej karcie na planszy;BuffRandomAllyEffect;2
+Bard;Neutralne;3;Bliski;Dodaje +2 do mocy wszystkim kartom w rzÍdzie;BuffRowEffect;2
+Beorn;Neutralne;9;Bliski;Zadaje obraøenia w wysokoúci - 5 wybranej wrogiej karcie na planszy;DamageTargetEnemyEffect;5
+Bilbo Baggins;Neutralne;2;Bliski;"Karta zostaje dodana na pole wroga, ale wzamian dobierasz nowπ kartÍ z talii";SpyEffect;1
+∆ma;Neutralne;0;Daleki;"Wzywa wszystkie or≥y z talii, jeúli Gandalf jest na planszy";ConditionalSummonCardEffect;"Or≥y;Gandalf"
+Or≥y;Neutralne;3;Daleki;;;
+Gandalf;Neutralne;12;Dowolny;"Istnieje 5% szans, øe karta zostanie zagrana z talii, jeúli siÍ w niej znajduje. Istnieje 10% szans, øe karta zostanie zagrana, jeúli znajduje siÍ w rÍce gracza.";ChanceAutoPlayEffect;"5;10"
+Radagast;Neutralne;10;Dowolny;Zadaje obraøenia w wysokoúci -3 lub dodaje +3 do mocy losowej przyjaznej karcie na planszy;RandomDmgBuffChoiceEffect;"3;3"
+Tom Bombadil;Neutralne;13;Dowolny;Dodaje +7 do mocy losowej przyjaznej karcie na planszy;BuffRandomAllyEffect;7
+Tolkien;Neutralne;0;Dowolny;Zadaje obraøenia w wysokoúci -7 kartom w wybranym rzÍdzie gracza i przeciwnika;RowDamageEffect;7
