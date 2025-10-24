@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: "Koz\u0142y Bojowe"
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: "Koz\u0142y Bojowe"
+  artwork: {fileID: 4155995730881198470, guid: 4cada9c0cd44f26438e012a03441c4ce, type: 3}
+  faction: 1
+  range: 0
+  power: 4
+  effectDescription: "Zadaje obra\u017Cenia o wysoko\u015Bci -2 wybranej karcie wroga
+    na planszy"

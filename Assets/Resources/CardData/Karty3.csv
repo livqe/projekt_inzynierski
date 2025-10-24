@@ -1,0 +1,6 @@
+﻿Nazwa;Frakcja;Moc;Zasięg;Dodatkowa funkcja
+Kozły Bojowe;Krasnoludy;4;Bliski;Zadaje obrażenia o wysokości -2 wybranej karcie wroga na planszy
+Ćma;Neutralne;0;Daleki;"Wzywa wszystkie orły z talii, jeśli Gandalf jest na planszy"
+Orły;Neutralne;3;Daleki;
+Gandalf;Neutralne;12;Dowolny;"Istnieje 5% szans, że karta zostanie zagrana z talii, jeśli się w niej znajduje. Istnieje 10% szans, że karta zostanie zagrana, jeśli znajduje się w ręce gracza."
+Tolkien;Neutralne;0;Dowolny;Zadaje obrażenia w wysokości -7 kartom w wybranym rzędzie gracza i przeciwnika

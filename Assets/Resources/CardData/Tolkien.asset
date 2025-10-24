@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Tolkien
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Tolkien
+  artwork: {fileID: 1934323766780816918, guid: 6a47750b76b41e14abca3a08c6918216, type: 3}
+  faction: 2
+  range: 2
+  power: 0
+  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
+    rz\u0119dzie gracza i przeciwnika"

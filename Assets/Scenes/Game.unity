@@ -397,11 +397,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6367338505886752861, guid: 70615cb34f783f74fbe53e510879dfa1, type: 3}
+      propertyPath: powerText
+      value: 
+      objectReference: {fileID: 320709783}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70615cb34f783f74fbe53e510879dfa1, type: 3}
+--- !u!114 &320709783 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5193356905663088010, guid: 70615cb34f783f74fbe53e510879dfa1, type: 3}
+  m_PrefabInstance: {fileID: 320709782}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &354169195
 GameObject:
   m_ObjectHideFlags: 0
