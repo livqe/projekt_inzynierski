@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class CardEffect :ScriptableObject
+public abstract class CardEffect : ScriptableObject
 {
     [Header("Opis efektu")]
     public string effectName;
