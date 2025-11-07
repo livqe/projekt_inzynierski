@@ -1,10 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewAddShieldEffect", menuName = "Card/Effects/Buff/AddShieldEffect")]
+[CreateAssetMenu(menuName = "Card/Effects/Buff/AddShieldEffect")]
 public class AddShieldEffect : CardEffect
 {
-    [SerializeField]
-    private int shieldToAdd;
+    [SerializeField] private int shieldToAdd;
 
     public void Initialize(int shieldAmount)
     {

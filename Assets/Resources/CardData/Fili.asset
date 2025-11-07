@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Fili
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Fili
+  artwork: {fileID: 0}
+  faction: 1
+  range: 0
+  power: 7
+  effect: {fileID: 8826362115549796003}
+  effectDescription: "\"Je\u015Bli Kili i Fili s\u0105 na planszy, a Kili otrzyma
+    obra\u017Cenia r\xF3wne jego aktualnej mocy (zostaje wyeliminowany z planszy),
+    to Fili r\xF3wnie\u017C zostaje wyeliminowany z planszy.\""
+--- !u!114 &8826362115549796003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e393ce3786d434489dde0174cf1823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeathLinkEffect
+  effectName: DeathLinkEffect
+  effectDescription: "\"Je\u015Bli Kili i Fili s\u0105 na planszy, a Kili otrzyma
+    obra\u017Cenia r\xF3wne jego aktualnej mocy (zostaje wyeliminowany z planszy),
+    to Fili r\xF3wnie\u017C zostaje wyeliminowany z planszy.\""
+  linkedCard: Kili

@@ -12,54 +12,61 @@ public class CardImporter : EditorWindow
         if (string.IsNullOrEmpty(path)) return;
 
         string[] lines = File.ReadAllLines(path);
+        int lineNumber = 0;
 
         foreach (string line in lines)
         {
+            lineNumber++;
             if (string.IsNullOrWhiteSpace(line) || line.StartsWith("Nazwa")) continue;
 
-            string[] cols = line.Split(";");
-            if (cols.Length < 7)
+            try
             {
-                Debug.LogWarning($"Pominiêto liniê (za ma³o kolumn): {linie}");
-                continue;
+                string[] cols = line.Split(";");
+                if (cols.Length < 7)
+                {
+                    Debug.LogWarning($"Pominiêto liniê (za ma³o kolumn): {line}");
+                    continue;
+                }
+
+                CardData card = ScriptableObject.CreateInstance<CardData>();
+                card.cardName = cols[0];
+                card.faction = Enum.TryParse<Faction>(cols[1], out var f) ? f : Faction.Neutralne;
+                card.power = int.TryParse(cols[2], out var p) ? p : 0;
+                card.range = Enum.TryParse<RangeType>(cols[3], out var r) ? r : RangeType.Dowolny;
+                card.effectDescription = cols[4];
+                string effectName = cols[5];
+                string effectParams = cols[6];
+
+                string assetPath = $"Assets/Resources/CardData/{card.cardName}.asset";
+                AssetDatabase.CreateAsset(card, assetPath);
+
+                CardEffect newEffect = EffectFactory.CreateEffectFromName(effectName, effectParams);
+
+                if (newEffect != null)
+                {
+                    newEffect.effectName = effectName;
+                    newEffect.effectDescription = card.effectDescription;
+
+                    AssetDatabase.AddObjectToAsset(newEffect, card);
+
+                    card.effect = newEffect;
+                }
+
+                string spritePath = $"Assets/Art/Cards/{card.cardName}.png";
+                Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+                if (sprite != null)
+                {
+                    card.artwork = sprite;
+                }
+                else
+                {
+                    Debug.LogWarning($"Brak grafiki dla karty: {card.cardName}. Szukano w: {spritePath}.");
+                }
             }
-
-            CardData card = ScriptableObject.CreateInstance<CardData>();
-            card.cardName = cols[0];
-            card.faction = Enum.TryParse<Faction>(cols[1], out var f) ? f : Faction.Neutralne;
-            card.power = int.TryParse(cols[2], out var p) ? p : 0;
-            card.range = Enum.TryParse<RangeType>(cols[3], out var r) ? r : RangeType.Dowolny;
-            card.effectDescription = cols[4];
-            
-            string effectName = cols[5];
-            string effectParams = cols[6];
-
-            string assetPath = $"Assets/Resources/CardData/{card.cardName}.asset";
-            AssetDatabase.CreateAsset(card, assetPath);
-
-            CardEffect newEffect = EffectFactory.CreateEffectFromName(effectName, effectParams);
-
-            if (newEffect != null)
+            catch (System.Exception ex)
             {
-                newEffect.effectName = effectName;
-                newEffect.effectDescription = card.effectDescription;
-
-                AssetDatabase.AddObjectToAsset(newEffect, card);
-
-                card.effect = newEffect;
+                Debug.LogError($"B³¹d w linii {lineNumber} CSV. Treœæ linii: {line}\nSzczegó³y b³êdu: {ex.Message}");
             }
-
-            string spritePath = $"Assets/Art/Cards/{card.cardName}.png";
-            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
-            if (sprite != null)
-            {
-                card.artwork = sprite;
-            }
-            else
-            {
-                Debug.LogWarning($"Brak grafiki dla karty: {card.cardName}. Szukano w: {spritePath}.");
-            }
-
         }
 
         AssetDatabase.SaveAssets();

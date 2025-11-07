@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3776601074377345451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe2000218dcf7f4bb861586ee457a78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PeriodicDamageEffect
+  effectName: PeriodicDamageEffect
+  effectDescription: "Co dwie tury zadaje wrogiej karcie na planszy obra\u017Cenia
+    o warto\u015Bci -3"
+  damageToDeal: 3
+  turnFrequency: 2
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Dwalin
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Dwalin
+  artwork: {fileID: 0}
+  faction: 1
+  range: 0
+  power: 6
+  effect: {fileID: -3776601074377345451}
+  effectDescription: "Co dwie tury zadaje wrogiej karcie na planszy obra\u017Cenia
+    o warto\u015Bci -3"

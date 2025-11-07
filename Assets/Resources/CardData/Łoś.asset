@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: "\u0141o\u015B"
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: "\u0141o\u015B"
+  artwork: {fileID: 0}
+  faction: 0
+  range: 0
+  power: 5
+  effect: {fileID: 6646631392448351062}
+  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -2 wybranej wrogiej
+    karcie na planszy"
+--- !u!114 &6646631392448351062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f072841064e908043b5cd9dac797eaf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageTargetEnemyEffect
+  effectName: DamageTargetEnemyEffect
+  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -2 wybranej wrogiej
+    karcie na planszy"
+  damageToDeal: 2

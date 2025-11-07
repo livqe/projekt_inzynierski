@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using UnityEngine;
 
 public static class EffectFactory
@@ -8,7 +7,7 @@ public static class EffectFactory
         if (string.IsNullOrEmpty(effectName))
             return null;
 
-        string[] parameters = effectParams.Split(";");
+        string[] parameters = effectParams.Split("|");
         CardEffect createdEffect = null;
 
         switch (effectName)
@@ -34,13 +33,15 @@ public static class EffectFactory
 
             case "BuffSelfOnAllyDeathEffect":
                 var buffSelfOnAllyDeathEffect = ScriptableObject.CreateInstance<BuffSelfOnAllyDeathEffect>();
-                buffSelfOnAllyDeathEffect.Initialize(int.Parse(parameters[0]), int.Parse(parameters[1]));
+                buffSelfOnAllyDeathEffect.Initialize(int.Parse(parameters[0]), parameters[1]);
                 createdEffect = buffSelfOnAllyDeathEffect;
                 break;
 
             case "ConditionalBuffSelfEffect":
                 var conditionalBuffSelfEffect = ScriptableObject.CreateInstance<ConditionalBuffSelfEffect>();
-                conditionalBuffSelfEffect.Initialize(int.Parse(parameters[0]), parameters[1]);
+                string[] allies = new string[parameters.Length - 1];
+                System.Array.Copy(parameters, 1, allies, 0, parameters.Length - 1);
+                conditionalBuffSelfEffect.Initialize(int.Parse(parameters[0]), allies);
                 createdEffect = conditionalBuffSelfEffect;
                 break;
 
@@ -63,34 +64,34 @@ public static class EffectFactory
                 break;
 
             case "ConditionalBuffRowEffect":
-                var condBuffRowEffect = ScriptableObject.CreateInstance<ConditionalBuffRowEffect>();
-                condBuffRowEffect.Initialize(int.Parse(parameters[0]), parameters[1]);
-                createdEffect = condBuffRowEffect;
+                var conditionalBuffRowEffect = ScriptableObject.CreateInstance<ConditionalBuffRowEffect>();
+                conditionalBuffRowEffect.Initialize(int.Parse(parameters[0]), parameters[1]);
+                createdEffect = conditionalBuffRowEffect;
                 break;
 
             // === KATEGORIA: DAMAGE ===
             case "PeriodicDamageEffect":
-                var periodicDmgEffect = ScriptableObject.CreateInstance<PeriodicDamageEffect>();
-                periodicDmgEffect.Initialize(int.Parse(parameters[0]), int.Parse(parameters[1]));
-                createdEffect = periodicDmgEffect;
+                var periodicDamageEffect = ScriptableObject.CreateInstance<PeriodicDamageEffect>();
+                periodicDamageEffect.Initialize(int.Parse(parameters[0]), int.Parse(parameters[1]));
+                createdEffect = periodicDamageEffect;
                 break;
 
             case "DamageTargetEnemyEffect":
-                var dmgTargetEffect = ScriptableObject.CreateInstance<DamageTargetEnemyEffect>();
-                dmgTargetEffect.Initialize(int.Parse(parameters[0]));
-                createdEffect = dmgTargetEffect;
+                var damageTargetEffect = ScriptableObject.CreateInstance<DamageTargetEnemyEffect>();
+                damageTargetEffect.Initialize(int.Parse(parameters[0]));
+                createdEffect = damageTargetEffect;
                 break;
 
             case "MutualDamageLinkEffect":
-                var mutualDmgEffect = ScriptableObject.CreateInstance<MutualDamageLinkEffect>();
-                mutualDmgEffect.Initialize(int.Parse(parameters[0]), parameters[1]);
-                createdEffect = mutualDmgEffect;
+                var mutualDamageEffect = ScriptableObject.CreateInstance<MutualDamageLinkEffect>();
+                mutualDamageEffect.Initialize(int.Parse(parameters[0]), parameters[1]);
+                createdEffect = mutualDamageEffect;
                 break;
 
             case "RowDamageEffect":
-                var rowDmgEffect = ScriptableObject.CreateInstance<RowDamageEffect>();
-                rowDmgEffect.Initialize(int.Parse(parameters[0]));
-                createdEffect = rowDmgEffect;
+                var rowDamageEffect = ScriptableObject.CreateInstance<RowDamageEffect>();
+                rowDamageEffect.Initialize(int.Parse(parameters[0]));
+                createdEffect = rowDamageEffect;
                 break;
 
             // === KATEGORIA: SPECIAL ===
@@ -101,9 +102,9 @@ public static class EffectFactory
                 break;
 
             case "MutualDestructionEffect":
-                var mutualDestrEffect = ScriptableObject.CreateInstance<MutualDestructionEffect>();
-                mutualDestrEffect.Initialize(parameters[0]);
-                createdEffect = mutualDestrEffect;
+                var mutualDestructionEffect = ScriptableObject.CreateInstance<MutualDestructionEffect>();
+                mutualDestructionEffect.Initialize(parameters[0]);
+                createdEffect = mutualDestructionEffect;
                 break;
 
             case "RandomPowerEffect":
@@ -129,24 +130,23 @@ public static class EffectFactory
                 break;
 
             case "RandomDmgBuffChoiceEffect":
-                var randomChoiceEffect = ScriptableObject.CreateInstance<RandomDmgBuffChoiceEffect>();
-                randomChoiceEffect.Initialize(int.Parse(parameters[0]), int.Parse(parameters[1]));
-                createdEffect = randomChoiceEffect;
+                var randomDmgBuffChoiceEffect = ScriptableObject.CreateInstance<RandomDmgBuffChoiceEffect>();
+                randomDmgBuffChoiceEffect.Initialize(int.Parse(parameters[0]), int.Parse(parameters[1]));
+                createdEffect = randomDmgBuffChoiceEffect;
                 break;
 
             // === KATEGORIA: SUMMON ===
             case "SummonCardEffect":
-                var summonEffect = ScriptableObject.CreateInstance<SummonCardEffect>();
-                summonEffect.Initialize(parameters[0], parameters[1]);
-                createdEffect = summonEffect;
+                var summonCardEffect = ScriptableObject.CreateInstance<SummonCardEffect>();
+                summonCardEffect.Initialize(parameters[0], parameters[1]);
+                createdEffect = summonCardEffect;
                 break;
 
             case "ConditionalSummonCardEffect":
-                var condSummonEffect = ScriptableObject.CreateInstance<ConditionalSummonCardEffect>();
-                condSummonEffect.Initialize(parameters[0], parameters[1]);
-                createdEffect = condSummonEffect;
+                var conditionalSummonEffect = ScriptableObject.CreateInstance<ConditionalSummonCardEffect>();
+                conditionalSummonEffect.Initialize(parameters[0], parameters[1]);
+                createdEffect = conditionalSummonEffect;
                 break;
-
 
             default:
                 Debug.LogWarning($"[EffectFactory] Nie rozpoznano nazwy efektu: {effectName}. Karta nie otrzyma³a efektu.");

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Tolkien
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Tolkien
+  artwork: {fileID: 0}
+  faction: 2
+  range: 2
+  power: 0
+  effect: {fileID: 7128880600320376185}
+  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
+    rz\u0119dzie gracza i przeciwnika"
+--- !u!114 &7128880600320376185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a65528a205485469a46903367c69d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RowDamageEffect
+  effectName: RowDamageEffect
+  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
+    rz\u0119dzie gracza i przeciwnika"
+  damageToDeal: 7
