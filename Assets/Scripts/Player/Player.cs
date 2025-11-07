@@ -28,7 +28,7 @@ public class Player
         totalPoints = 0;
         foreach (var c in cardsOnBoard)
         {
-            totalPoints += c.CurrentPower;
+            totalPoints += c.currentPower;
         }
     }
 

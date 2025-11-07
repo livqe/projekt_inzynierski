@@ -2,8 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+public enum GameState
+{
+    Normal,
+    WaitingForTarget
+}
+
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance { get; private set; }
+
     [Header("Players")]
     public Player player;
     public Player enemy;
@@ -21,6 +29,16 @@ public class GameController : MonoBehaviour
     public FactionAbility elfAbility;
     public FactionAbility dwarfAbility;
 
+    [Header("Game State")]
+    public GameState currentState = GameState.Normal;
+
+    [Header("Board State")]
+    public List<CardInstance> playerBoard = new List<CardInstance>();
+    public List<CardInstance> enemyBoard = new List<CardInstance>();
+
+    private CardInstance pendingCardSource;
+    private CardEffect pendingEffect;
+
     private bool playerHasPassed = false, enemyHasPassed = false;
 
     void Start()
@@ -30,37 +48,88 @@ public class GameController : MonoBehaviour
         enemy = new Player("AI", Faction.Krasnoludy);
 
         passButton.onClick.AddListener(OnPlayerPass);
-        UpdatePointsUI();
+        UpdateUI();
     }
 
-    public void PlayCard(CardData card)
+    private void Awake()
     {
-        Debug.Log($"Zagrano kartê: {card.cardName}");
-
-        var instance = new CardInstance(card, player);
-        player.AddCardToBoard(instance);
-        UpdatePointsUI();
-
-        if (card.effect != null)
+        if (Instance != null && Instance != this)
         {
-            card.effect.ActivateEffect(this, instance);
+            Destroy(gameObject);
+            return;
         }
+        Instance = this;
     }
 
-    public void AddPlayerPoint(int amount)
+
+    public void PlayCard(CardInstance card, bool isPlayerPlayed)
     {
-        player.totalPoints += amount;
-        UpdatePointsUI();
+        Debug.Log($"[Game Controller] Zagrano kartê: {card.data.cardName}.");
+
+        if (isPlayerPlayed)
+        {
+            playerBoard.Add(card);
+
+            //tutaj karty bêd¹ przenoszone na planszê (UI)
+        }
+        else
+        {
+            enemyBoard.Add(card);
+        }
+
+        if (card.data.effect != null)
+        {
+            Debug.Log($" -> Uruchomiono efekt: {card.data.effect.effectName}.");
+            card.data.effect.ActivateEffect(this, card);
+        }
+        else
+        {
+            Debug.Log($" -> Karta {card.data.cardName} nie posiada efektu.");
+        }
+
+        UpdateUI();
     }
 
-    public void AddEnemyPoints(int amount)
+    public void StartTargeting(CardInstance source, CardEffect effect)
     {
-        enemy.totalPoints += amount;
-        UpdatePointsUI();
+        currentState = GameState.WaitingForTarget;
+        pendingCardSource = source;
+        pendingEffect = effect;
+        Debug.Log("-- Tryb Celowania -- Kliknij cel");
+
+        //tutaj jakieœ opcje UI (np. podœwietlanie celów)
     }
 
-    void UpdatePointsUI()
+    public void CardClicked(CardInstance target)
     {
+        if (currentState != GameState.WaitingForTarget) return;
+
+        Debug.Log($"Wybrano cel: {target.data.cardName}.");
+
+        currentState = GameState.Normal;
+
+        if (pendingEffect is ITargetableEffect targetableEffect)
+        {
+            targetableEffect.ExecuteWithTarget(target);
+        }
+        else
+        {
+            Debug.Log("Efekt czeka³ na cel, ale nie obs³uguje celowania.");
+        }
+
+        pendingCardSource = null;
+        pendingEffect = null;
+        UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        Debug.Log("-- Odœwie¿anie planszy --");
+        foreach (var card in playerBoard)
+        {
+            Debug.Log($"[Stó³ Gracza] {card.data.cardName} (moc: {card.currentPower}, tarcz: {card.shield}");
+        }
+
         playerPointsText.text = player.totalPoints.ToString();
         enemyPointsText.text = enemy.totalPoints.ToString();
     }
