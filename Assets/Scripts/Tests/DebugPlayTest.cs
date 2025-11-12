@@ -4,20 +4,27 @@ using UnityEngine.InputSystem;
 public class DebugPlayTest : MonoBehaviour
 {
     public CardData testCard;
-    public CardOnBoard OrkOnScene;
+
+    [Header("Enemy Card")]
+    public CardData testEnemyCard;
+    public CardOnBoard enemyTargetVisual;
 
     private void Start()
     {
-        CardData enemy = ScriptableObject.CreateInstance<CardData>();
-        enemy.cardName = "Ork";
-        enemy.power = 10;
-        CardInstance enemyOrk = new CardInstance(enemy);
+        CardInstance enemy = new CardInstance(testEnemyCard, GameController.Instance.enemy);
 
-        GameController.Instance.enemyBoard.Add(enemyOrk);
-        if (enemyOrk != null )
+        enemy.isImunne = true;
+
+        GameController.Instance.enemyBoard.Add(enemy);
+
+        if (enemyTargetVisual != null )
         {
-            OrkOnScene.cardInstance = enemyOrk;
-            Debug.Log("--- Test: Ork czeka na przyjêcie ciosu (Moc: 10) ---");
+            enemyTargetVisual.cardInstance = enemy;
+            Debug.Log($"--- Test: Przeciwnik czeka na planszy (Moc: {enemy.currentPower}) ---");
+        }
+        else
+        {
+            Debug.Log("Nie przypisano 'enemyTargetVisual");
         }
     }
 
@@ -31,7 +38,7 @@ public class DebugPlayTest : MonoBehaviour
                 return;
             }
 
-            CardInstance newCard = new CardInstance(testCard);
+            CardInstance newCard = new CardInstance(testCard, GameController.Instance.player);
             GameController.Instance.PlayCard(newCard, true);
         }
     }

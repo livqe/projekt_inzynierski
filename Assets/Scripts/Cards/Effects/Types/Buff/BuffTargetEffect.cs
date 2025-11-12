@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Card/Effects/Buff/BuffTargetEffect")]
-public class BuffTargetEffect : CardEffect
+public class BuffTargetEffect : CardEffect, ITargetableEffect
 {
     [SerializeField] private int powerToAdd;
     [SerializeField] private int targetCount;
@@ -14,8 +14,14 @@ public class BuffTargetEffect : CardEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
-        Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} chce wzmocniæ {targetCount} sojusznika/ów o +{powerToAdd}.");
+        Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} ¿¹da wyboru {targetCount} sojusznika/ów, by ich wzmocniæ o +{powerToAdd}.");
 
-        //logika karty tutaj
+        game.StartTargeting(source, this);
+    }
+
+    public void ExecuteWithTarget(CardInstance target)
+    {
+        Debug.Log($"[Effect] Wzmacniam {target.data.cardName} o {powerToAdd}.");
+        target.AddPower(powerToAdd);
     }
 }

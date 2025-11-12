@@ -15,9 +15,10 @@ public class CardInstance
     public Faction Faction => data.faction;
     public string Name => data.cardName;
 
-    public CardInstance(CardData cardData)
+    public CardInstance(CardData cardData, Player owner)
     {
         this.data = cardData;
+        this.owner = owner;
         this.currentPower = cardData.power;
         this.shield = 0;
         this.isImunne = false;

@@ -7,6 +7,6 @@ public class ImmuneToDamageEffect : CardEffect
     {
         Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} jest odporny na obra¿enia.");
 
-        //logika karty tutaj
+        source.isImunne = true;
     }
 }
