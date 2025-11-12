@@ -15,10 +15,6 @@ public class GameController : MonoBehaviour
     [Header("Players")]
     public Player player;
     public Player enemy;
-    
-    [Header("Areas")]
-    public RectTransform playerArea;
-    public RectTransform enemyArea;
 
     [Header("UI")]
     public Text playerPointsText;
@@ -125,13 +121,41 @@ public class GameController : MonoBehaviour
     void UpdateUI()
     {
         Debug.Log("-- Odœwie¿anie planszy --");
-        foreach (var card in playerBoard)
+
+        int playerPoints = 0;
+        foreach (CardInstance card in playerBoard)
         {
-            Debug.Log($"[Stó³ Gracza] {card.data.cardName} (moc: {card.currentPower}, tarcz: {card.shield}");
+            playerPoints += card.currentPower;
         }
 
-        playerPointsText.text = player.totalPoints.ToString();
-        enemyPointsText.text = enemy.totalPoints.ToString();
+        int enemyPoints = 0;
+        foreach (CardInstance card in enemyBoard)
+        {
+            enemyPoints += card.currentPower;
+        }
+
+        if (playerPointsText != null)
+        {
+            playerPointsText.text = playerPoints.ToString();
+        }
+        else
+        {
+            Debug.Log("Nie przypisano 'playerPointsText");
+        }
+
+        if (enemyPointsText != null)
+        {
+            enemyPointsText.text = enemyPoints.ToString();
+        }
+        else
+        {
+            Debug.Log("Nie przypisano 'enemyPointsText");
+        }
+
+        foreach (var card in playerBoard)
+            {
+                Debug.Log($"[Stó³ Gracza] {card.data.cardName} (moc: {card.currentPower}, tarcza: {card.shield})");
+            }
     }
 
     void OnPlayerPass()

@@ -4,18 +4,27 @@ using UnityEngine.InputSystem;
 public class DebugPlayTest : MonoBehaviour
 {
     public CardData testCard;
+    public CardOnBoard OrkOnScene;
+
+    private void Start()
+    {
+        CardData enemy = ScriptableObject.CreateInstance<CardData>();
+        enemy.cardName = "Ork";
+        enemy.power = 10;
+        CardInstance enemyOrk = new CardInstance(enemy);
+
+        GameController.Instance.enemyBoard.Add(enemyOrk);
+        if (enemyOrk != null )
+        {
+            OrkOnScene.cardInstance = enemyOrk;
+            Debug.Log("--- Test: Ork czeka na przyjêcie ciosu (Moc: 10) ---");
+        }
+    }
 
     private void Update()
     {
-        if (Keyboard.current.gKey.wasPressedThisFrame)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            CardData enemy = ScriptableObject.CreateInstance<CardData>();
-            enemy.cardName = "Ork";
-            enemy.power = 10;
-            CardInstance enemyOrk = new CardInstance(enemy);
-            GameController.Instance.enemyBoard.Add(enemyOrk);
-            Debug.Log("Dodano wrogiego orka");
-
             if (testCard == null)
             {
                 Debug.Log("Przypisz kartê w inspektorze.");
@@ -24,12 +33,6 @@ public class DebugPlayTest : MonoBehaviour
 
             CardInstance newCard = new CardInstance(testCard);
             GameController.Instance.PlayCard(newCard, true);
-
-            if (GameController.Instance.currentState == GameState.WaitingForTarget)
-            {
-                Debug.Log("Symulacja klikania w orka");
-                GameController.Instance.CardClicked(enemyOrk);
-            }
         }
     }
 }

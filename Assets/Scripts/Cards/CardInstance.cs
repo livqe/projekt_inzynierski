@@ -4,6 +4,8 @@ using UnityEngine;
 public class CardInstance
 {
     public CardData data;
+
+    [System.NonSerialized]
     public Player owner;
     
     public int currentPower;
