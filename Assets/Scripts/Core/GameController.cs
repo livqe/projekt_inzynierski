@@ -19,7 +19,6 @@ public class GameController : MonoBehaviour
     [Header("UI")]
     public Text playerPointsText;
     public Text enemyPointsText;
-    public Button passButton;
 
     [Header("Faction Ability")]
     public FactionAbility elfAbility;
@@ -43,7 +42,6 @@ public class GameController : MonoBehaviour
         player = new Player("Gracz", Faction.Elfy);
         enemy = new Player("AI", Faction.Krasnoludy);
 
-        passButton.onClick.AddListener(OnPlayerPass);
         UpdateUI();
     }
 
@@ -158,35 +156,63 @@ public class GameController : MonoBehaviour
             }
     }
 
-    void OnPlayerPass()
+    public void EndPlayerTurn()
     {
-        playerHasPassed = true;
-        passButton.interactable = false;
-        Debug.Log("Gracz spasowa³");
-        EndRound();
-    }
-
-    //placeholder:
-    public void OnEnemyPass()
-    {
-        enemyHasPassed = true;
-        Debug.Log("Przeciwnik spasowa³");
-        EndRound();
-    }
-
-    void EndRound()
-    {
-        if (playerHasPassed && enemyHasPassed)
+        if (playerHasPassed)
         {
+            Debug.Log("Gracz spasowa³ w tej rundzie, nie mo¿e wykonywaæ ruchów.");
+            return;
+        }
+
+        Debug.Log("[GameController] Gracz koñczy turê.");
+        ProcessTurnEndEffect(playerBoard);
+
+        StartEnemyTurn();
+    }
+
+    public void PlayerPassRound()
+    {
+        Debug.Log("[GameController] Gracz spasowa³");
+        playerHasPassed = true;
+
+        ProcessTurnEndEffect(playerBoard);
+        CheckRoundEnd();
+
+        if (!enemyHasPassed) StartEnemyTurn();
+    }
+
+    public void StartEnemyTurn()
+    {
+        if (enemyHasPassed)
+        {
+            Debug.Log("Przeciwnik spasowa³, powrót do gracza.");
+            return;
+        }
+
+        Debug.Log("Tura przeciwnika.");
+
+        //logika AI tutaj
+
+        ProcessTurnEndEffect(enemyBoard);
+
+        Debug.Log("Przeciwnik koñczy turê.");
+    }
+
+    private void CheckRoundEnd()
+    {
+        if (playerHasPassed && enemyHasPassed) EndRound();
+    }
+
+    private void EndRound()
+    {
             //logika podsumowania rundy tutaj
-            Debug.Log("Koniec rundy");
+            Debug.Log("[GameController] Koniec tury");
 
             ActivateFactionAbility(player);
             ActivateFactionAbility(enemy);
 
             playerHasPassed = false;
             playerHasPassed = false;
-        }
 
     }
 
@@ -196,6 +222,21 @@ public class GameController : MonoBehaviour
             elfAbility.OnRoundEnd(this, player);
         else if (player.faction == Faction.Krasnoludy && dwarfAbility != null)
             dwarfAbility.OnRoundEnd(this, player);
+    }
+
+    private void ProcessTurnEndEffect(List<CardInstance> board)
+    {
+        Debug.Log("Przetwarzanie efektów koñca tury.");
+
+        foreach (CardInstance card in board)
+        {
+            if (card.data.effect != null && card.data.effect is IOnTurnEndEffect)
+            {
+                IOnTurnEndEffect turnEffect = (IOnTurnEndEffect)card.data.effect;
+                turnEffect.OnTurnEnd(this, card);
+            }
+        }
+        UpdateUI();
     }
 
     public bool PlayerLostLastRound(Player player) => player.lostLastRound;

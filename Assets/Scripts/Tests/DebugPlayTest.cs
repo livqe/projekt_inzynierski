@@ -12,9 +12,6 @@ public class DebugPlayTest : MonoBehaviour
     private void Start()
     {
         CardInstance enemy = new CardInstance(testEnemyCard, GameController.Instance.enemy);
-
-        enemy.isImunne = true;
-
         GameController.Instance.enemyBoard.Add(enemy);
 
         if (enemyTargetVisual != null )

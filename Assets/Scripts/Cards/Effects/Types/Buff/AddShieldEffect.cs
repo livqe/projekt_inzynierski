@@ -12,7 +12,7 @@ public class AddShieldEffect : CardEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
-        //Debug.Log($"Aktywacja efektu: {effectName}. Karta {source.data.cardName} otrzymuje {shieldToAdd} tarczy.");
+        Debug.Log($"Aktywacja efektu: {effectName}. Karta {source.data.cardName} otrzymuje {shieldToAdd} tarczy.");
 
         source.AddShield(shieldToAdd);
     }
