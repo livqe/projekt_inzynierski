@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 
 public class DebugPlayTest : MonoBehaviour
 {
-    public CardData testCard;
+    public CardData testCard1;
+    public CardData testCard2;
 
     [Header("Enemy Card")]
     public CardData testEnemyCard;
@@ -11,31 +12,35 @@ public class DebugPlayTest : MonoBehaviour
 
     private void Start()
     {
-        CardInstance enemy = new CardInstance(testEnemyCard, GameController.Instance.enemy);
-        GameController.Instance.enemyBoard.Add(enemy);
+        CardInstance card1 = new CardInstance(testCard1, GameController.Instance.player);
+        card1.currentPower = 1;
+        GameController.Instance.playerBoard.Add(card1);
 
         if (enemyTargetVisual != null )
         {
-            enemyTargetVisual.cardInstance = enemy;
-            Debug.Log($"--- Test: Przeciwnik czeka na planszy (Moc: {enemy.currentPower}) ---");
+            enemyTargetVisual.cardInstance = card1;
         }
-        else
+
+        CardInstance card2 = new CardInstance(testCard2, GameController.Instance.player);
+
+        if (card2.data.effect == null)
         {
-            Debug.Log("Nie przypisano 'enemyTargetVisual");
+            var effect = ScriptableObject.CreateInstance<BuffSelfOnAllyDeathEffect>();
+            effect.Initialize(3, "Ori");
+            card2.data.effect = effect;
         }
+
+        GameController.Instance.playerBoard.Add(card2);
+
+        Debug.Log("Dori i Ori na planszy");
+        GameController.Instance.UpdateUI();
     }
 
     private void Update()
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            if (testCard == null)
-            {
-                Debug.Log("Przypisz kartê w inspektorze.");
-                return;
-            }
-
-            CardInstance newCard = new CardInstance(testCard, GameController.Instance.player);
+            CardInstance newCard = new CardInstance(testEnemyCard, GameController.Instance.player);
             GameController.Instance.PlayCard(newCard, true);
         }
     }

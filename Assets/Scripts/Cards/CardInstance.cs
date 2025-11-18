@@ -72,6 +72,6 @@ public class CardInstance
         currentPower = 0;
         Debug.Log($"{data.cardName} umiera.");
 
-        //tutaj usuwanie karty z planszy
+        GameController.Instance.OnCardDeath(this);
     }
 }

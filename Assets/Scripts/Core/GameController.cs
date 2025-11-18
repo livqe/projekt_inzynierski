@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour
         UpdateUI();
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         Debug.Log("-- Odœwie¿anie planszy --");
 
@@ -168,6 +168,21 @@ public class GameController : MonoBehaviour
         ProcessTurnEndEffect(playerBoard);
 
         StartEnemyTurn();
+    }
+
+    private void ProcessTurnEndEffect(List<CardInstance> board)
+    {
+        Debug.Log("Przetwarzanie efektów koñca tury.");
+
+        foreach (CardInstance card in board)
+        {
+            if (card.data.effect != null && card.data.effect is IOnTurnEndEffect)
+            {
+                IOnTurnEndEffect turnEffect = (IOnTurnEndEffect)card.data.effect;
+                turnEffect.OnTurnEnd(this, card);
+            }
+        }
+        UpdateUI();
     }
 
     public void PlayerPassRound()
@@ -224,22 +239,37 @@ public class GameController : MonoBehaviour
             dwarfAbility.OnRoundEnd(this, player);
     }
 
-    private void ProcessTurnEndEffect(List<CardInstance> board)
-    {
-        Debug.Log("Przetwarzanie efektów koñca tury.");
-
-        foreach (CardInstance card in board)
-        {
-            if (card.data.effect != null && card.data.effect is IOnTurnEndEffect)
-            {
-                IOnTurnEndEffect turnEffect = (IOnTurnEndEffect)card.data.effect;
-                turnEffect.OnTurnEnd(this, card);
-            }
-        }
-        UpdateUI();
-    }
-
     public bool PlayerLostLastRound(Player player) => player.lostLastRound;
 
     public List<CardInstance> GetPlayerCards(Player player) => player.cardsOnBoard;
+
+    public void OnCardDeath(CardInstance deadCard)
+    {
+        Debug.Log($"[GameController] Przetwarzanie œmierci karty: {deadCard.data.cardName}.");
+
+        if (playerBoard.Contains(deadCard))
+        {
+            playerBoard.Remove(deadCard);
+        }
+        else if (enemyBoard.Contains(deadCard))
+        {
+            enemyBoard.Remove(deadCard);
+        }
+
+        //wizualne usuwanie karty z planszy tutaj
+
+        List<CardInstance> allCards = new List<CardInstance>();
+        allCards.AddRange(playerBoard);
+        allCards.AddRange(enemyBoard);
+
+        foreach (CardInstance card in allCards)
+        {
+            if (card.data.effect is IOnOtherCardDeathEffect deathEffect)
+            {
+                deathEffect.OnOtherCardDeath(this, card, deadCard);
+            }
+        }
+
+        UpdateUI();
+    }
 }

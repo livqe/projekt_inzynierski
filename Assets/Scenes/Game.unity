@@ -1043,8 +1043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0239b436a381c6046afbb6202e5f85f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugPlayTest
-  testCard: {fileID: 11400000, guid: 6e849704b7c4a634695acbf425da0fef, type: 2}
-  testEnemyCard: {fileID: 11400000, guid: 7e564476d7c71d341b5cd40fb96f83cd, type: 2}
+  testCard1: {fileID: 11400000, guid: f4dea7fc0fbf22c4e81f646869e152a7, type: 2}
+  testCard2: {fileID: 11400000, guid: 780340cd1fbfdfd43b9ef1e427651575, type: 2}
+  testEnemyCard: {fileID: 11400000, guid: 06a43030b077c38459b2fa0731edf68f, type: 2}
   enemyTargetVisual: {fileID: 1118569287}
 --- !u!4 &803271589
 Transform:

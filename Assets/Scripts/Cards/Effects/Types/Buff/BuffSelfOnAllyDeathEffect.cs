@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Card/Effects/Buff/BuffSelfOnAllyDeathEffect")]
-public class BuffSelfOnAllyDeathEffect : CardEffect
+public class BuffSelfOnAllyDeathEffect : CardEffect, IOnOtherCardDeathEffect
 {
     [SerializeField] private int powerToAdd;
     [SerializeField] private string allyName;
@@ -15,7 +15,14 @@ public class BuffSelfOnAllyDeathEffect : CardEffect
     public override void ActivateEffect(GameController game, CardInstance source)
     {
         Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} czeka na œmieræ {allyName}, aby otrzymaæ +{powerToAdd}.");
+    }
 
-        //logika karty tutaj
+    public void OnOtherCardDeath(GameController game, CardInstance source, CardInstance deadCard)
+    {
+        if (deadCard.data.cardName == allyName && deadCard.owner == source.owner)
+        {
+            Debug.Log($"[Effect] {allyName} poleg³, {source.data.cardName} otrzymuje +{powerToAdd} mocy.");
+            source.AddPower(powerToAdd);
+        }
     }
 }
