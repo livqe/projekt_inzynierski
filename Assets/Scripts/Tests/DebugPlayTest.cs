@@ -12,27 +12,23 @@ public class DebugPlayTest : MonoBehaviour
 
     private void Start()
     {
-        CardInstance card1 = new CardInstance(testCard1, GameController.Instance.player);
-        card1.currentPower = 1;
-        GameController.Instance.playerBoard.Add(card1);
+        CardInstance card1 = new CardInstance(testCard1, GameController.Instance.enemy);
+        GameController.Instance.enemyBoard.Add(card1);
 
-        if (enemyTargetVisual != null )
-        {
-            enemyTargetVisual.cardInstance = card1;
-        }
-
-        CardInstance card2 = new CardInstance(testCard2, GameController.Instance.player);
-
+        CardInstance card2 = new CardInstance(testCard2, GameController.Instance.enemy);
         if (card2.data.effect == null)
         {
-            var effect = ScriptableObject.CreateInstance<BuffSelfOnAllyDeathEffect>();
-            effect.Initialize(3, "Ori");
+            var effect = ScriptableObject.CreateInstance<ConditionalBuffRowEffect>();
+            effect.Initialize(2, "Galadriela");
             card2.data.effect = effect;
         }
+        GameController.Instance.enemyBoard.Add(card2);
 
-        GameController.Instance.playerBoard.Add(card2);
+        if (enemyTargetVisual != null)
+        {
+           enemyTargetVisual.cardInstance = card2;
+        }
 
-        Debug.Log("Dori i Ori na planszy");
         GameController.Instance.UpdateUI();
     }
 
@@ -41,6 +37,12 @@ public class DebugPlayTest : MonoBehaviour
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             CardInstance newCard = new CardInstance(testEnemyCard, GameController.Instance.player);
+            if (newCard.data.effect == null)
+            {
+                var effect = ScriptableObject.CreateInstance<RowDamageEffect>();
+                effect.Initialize(2);
+                newCard.data.effect = effect;
+            }
             GameController.Instance.PlayCard(newCard, true);
         }
     }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +16,8 @@ public class CardInstance
     public Faction Faction => data.faction;
     public string Name => data.cardName;
 
+    public bool survivor;
+
     public CardInstance(CardData cardData, Player owner)
     {
         this.data = cardData;
@@ -22,6 +25,15 @@ public class CardInstance
         this.currentPower = cardData.power;
         this.shield = 0;
         this.isImunne = false;
+
+        if (data.power == 0)
+        {
+            this.survivor = true;
+        }
+        else
+        {
+            this.survivor = false;
+        }
     }
 
     public void AddShield(int amount)
@@ -61,9 +73,17 @@ public class CardInstance
             Debug.Log($"{data.cardName} otrzymuje {amount} obra¿eñ. Pozosta³a moc: {currentPower}.");
         }
 
-        if (currentPower <=0)
+        if (currentPower < 0)
         {
             Die();
+        }
+        else if (currentPower == 0 && !survivor)
+        {
+            Die();
+        }
+        else if (currentPower == 0 && survivor)
+        {
+            Debug.Log($"{data.cardName} ma 0 mocy, ale pozostaje na planszy.");
         }
     }
 

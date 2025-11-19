@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Card/Effects/Summon/ConditionalSummonCardEffect")]
 public class ConditionalSummonCardEffect : CardEffect
@@ -14,8 +15,35 @@ public class ConditionalSummonCardEffect : CardEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
-        Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} przyzwie {cardToSummon}, jeœli {requiredAlly} jest na planszy.");
+        var cardBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
 
-        //logika karty tutaj
+        bool conditionMet = false;
+        foreach (var card in cardBoard)
+        {
+            if (card.data.cardName == requiredAlly && card.currentPower >= 0)
+            {
+                conditionMet = true;
+                break;
+            }
+        }
+
+        if (conditionMet)
+        {
+            Debug.Log($"Aktywacja efektu: {effectName}. {requiredAlly} jest na planszy, {source.data.cardName} przyzywa {cardToSummon}.");
+
+            Player owner = source.owner;
+            List<CardInstance> toSummon = new List<CardInstance>();
+
+            foreach (var card in owner.cardsInDeck)
+            {
+                if (card.data.cardName == cardToSummon) toSummon.Add(card);
+            }
+
+            foreach (var card in toSummon)
+            {
+                owner.cardsInDeck.Remove(card);
+                game.PlayCard(card, (owner == game.player));
+            }
+        }
     }
 }

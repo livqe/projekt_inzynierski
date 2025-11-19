@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour
         player = new Player("Gracz", Faction.Elfy);
         enemy = new Player("AI", Faction.Krasnoludy);
 
+        StartPlayerTurn();
         UpdateUI();
     }
 
@@ -55,6 +56,44 @@ public class GameController : MonoBehaviour
         Instance = this;
     }
 
+    public void StartPlayerTurn()
+    {
+        Debug.Log("Pocz¹tek tury gracza");
+        playerHasPassed = false;
+
+        CheckAutoPlayCards(player);
+    }
+
+    private void CheckAutoPlayCards(Player currentPlayer)
+    {
+        List<CardInstance> handCopy = new List<CardInstance>(currentPlayer.cardsInHand);
+
+        foreach (CardInstance card in handCopy)
+        {
+            if (card.data.effect is ChanceAutoPlayEffect autoPlay)
+            {
+                if (autoPlay.TryAutoPlay(true))
+                {
+                    currentPlayer.cardsInHand.Remove(card);
+                    PlayCard(card, true);
+                }
+            }
+        }
+
+        List<CardInstance> deckCopy = new List<CardInstance>(currentPlayer.cardsInDeck);
+
+        foreach (CardInstance card in deckCopy)
+        {
+            if (card.data.effect is ChanceAutoPlayEffect autoPlay)
+            {
+                if (autoPlay.TryAutoPlay(false))
+                {
+                    currentPlayer.cardsInDeck.Remove(card);
+                    PlayCard(card, true);
+                }
+            }
+        }
+    }
 
     public void PlayCard(CardInstance card, bool isPlayerPlayed)
     {
@@ -81,7 +120,46 @@ public class GameController : MonoBehaviour
             Debug.Log($" -> Karta {card.data.cardName} nie posiada efektu.");
         }
 
+        NotifyOtherCardsOnPlay(card);
+
         UpdateUI();
+    }
+
+    private void NotifyOtherCardsOnPlay(CardInstance newCard)
+    {
+        List<CardInstance> allCards = new List<CardInstance>();
+        allCards.AddRange(playerBoard);
+        allCards.AddRange(enemyBoard);
+
+        foreach (var card in allCards)
+        {
+            if (card == newCard) continue;
+
+            if (card.data.effect is IOnOtherCardPlayedEffect reactionEffect)
+            {
+                reactionEffect.OnOtherCardPlayed(this, card, newCard);
+            }
+        }
+    }
+
+    public void DrawCard(Player playre, int amount = 1)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            if (player.cardsInDeck.Count == 0)
+            {
+                Debug.Log($"[GameController] {player.playerName} nie ma ju¿ kart w talii.");
+                return;
+            }
+
+            CardInstance drawnCard = player.cardsInDeck[0];
+            player.cardsInDeck.RemoveAt(0);
+
+            player.cardsInHand.Add(drawnCard);
+            Debug.Log($"[GameController] {player.playerName} dobiera kartê: {drawnCard.data.cardName}");
+
+            //odœwie¿enie widoku rêki w UI tutaj
+        }
     }
 
     public void StartTargeting(CardInstance source, CardEffect effect)
@@ -210,6 +288,8 @@ public class GameController : MonoBehaviour
 
         ProcessTurnEndEffect(enemyBoard);
 
+        StartPlayerTurn();
+
         Debug.Log("Przeciwnik koñczy turê.");
     }
 
@@ -245,6 +325,11 @@ public class GameController : MonoBehaviour
 
     public void OnCardDeath(CardInstance deadCard)
     {
+        if (deadCard.data.effect is IOnDeathEffect selfDeathEffect)
+        {
+            selfDeathEffect.OnDeath(this, deadCard);
+        }
+
         Debug.Log($"[GameController] Przetwarzanie œmierci karty: {deadCard.data.cardName}.");
 
         if (playerBoard.Contains(deadCard))
@@ -271,5 +356,26 @@ public class GameController : MonoBehaviour
         }
 
         UpdateUI();
+    }
+
+    public void RowClicked(RangeType range, bool isPlayerRow)
+    {
+        if (currentState != GameState.WaitingForTarget) return;
+
+        if (pendingEffect is IRowTargetableEffect rowEffect)
+        {
+            Debug.Log($"Wybrano rz¹d: {range} (Gracz: {isPlayerRow}.");
+            currentState = GameState.Normal;
+
+            rowEffect.ExecuteWithRowTarget(range, isPlayerRow);
+
+            pendingCardSource = null;
+            pendingEffect = null;
+            UpdateUI();
+        }
+        else
+        {
+            Debug.Log("Klikniêto rz¹d, ale efekt oczekuje czegoœ innego.");
+        }
     }
 }

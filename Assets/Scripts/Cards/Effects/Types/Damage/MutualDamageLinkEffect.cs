@@ -14,8 +14,17 @@ public class MutualDamageLinkEffect : CardEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
-        Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} zadaje -{damageToDeal} po³¹czonej karcie {linkedCard}.");
+        var cardBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
 
-        //logika karty tutaj
+        foreach (var card in cardBoard)
+        {
+            if (card.data.cardName == linkedCard && card.currentPower >= 0)
+            {
+                Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} zadaje -{damageToDeal} po³¹czonej karcie {linkedCard}.");
+                card.TakeDamage(damageToDeal);
+                game.UpdateUI();
+                return;
+            }
+        }
     }
 }

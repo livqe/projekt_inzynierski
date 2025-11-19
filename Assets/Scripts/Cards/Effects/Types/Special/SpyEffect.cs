@@ -12,8 +12,22 @@ public class SpyEffect : CardEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
-        Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} szpieguje przeciwnika, dobierasz {cardsToDraw} kart.");
+        Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} szpieguje przeciwnika.");
 
-        //logika karty tutaj
+        if (game.playerBoard.Contains(source))
+        {
+            game.playerBoard.Remove(source);
+            game.enemyBoard.Add(source);
+        }
+        else if (game.enemyBoard.Contains(source))
+        {
+            game.enemyBoard.Remove(source);
+            game.playerBoard.Add(source);
+        }
+
+        Debug.Log($"[Effect] Gracz {source.owner.playerName} dobiera {cardsToDraw} kart.");
+        game.DrawCard(source.owner, cardsToDraw);
+
+        game.UpdateUI();
     }
 }

@@ -1,7 +1,8 @@
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Card/Effects/Buff/BuffAllyOnSelfDeathEffect")]
-public class BuffAllyOnSelfDeathEffect : CardEffect
+public class BuffAllyOnSelfDeathEffect : CardEffect, IOnDeathEffect
 {
     [SerializeField] private int powerToAdd;
     [SerializeField] private string allyToBuff;
@@ -12,10 +13,21 @@ public class BuffAllyOnSelfDeathEffect : CardEffect
         this.allyToBuff = ally;
     }
 
-    public override void ActivateEffect(GameController game, CardInstance source)
-    {
-        Debug.Log($"Aktywacja efektu: {effectName}. Gdy {source.data.cardName} zginie, {allyToBuff} otrzyma {powerToAdd} mocy.");
+    public override void ActivateEffect(GameController game, CardInstance source) {}
 
-        //logika karty tutaj
+    public void OnDeath(GameController game, CardInstance source)
+    {
+        Debug.Log($"Aktywowano efekt: {effectName}. {source.data.cardName} ginie i dodaje {allyToBuff} +{powerToAdd} mocy.");
+        var cardBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
+
+        foreach (var card in cardBoard)
+        {
+            if (card.data.cardName == allyToBuff && card.currentPower >= 0)
+            {
+                card.AddPower(powerToAdd);
+                game.UpdateUI();
+                break;
+            }
+        }
     }
 }

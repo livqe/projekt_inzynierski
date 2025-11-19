@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Collections.Generic;
 
 [System.Serializable]
@@ -7,6 +6,8 @@ public class Player
     public string playerName;
     public Faction faction;
     public List<CardInstance> cardsOnBoard = new List<CardInstance>();
+    public List<CardInstance> cardsInHand = new List<CardInstance>();
+    public List<CardInstance> cardsInDeck = new List<CardInstance>();
     public int totalPoints;
 
     public bool lostLastRound = false;
