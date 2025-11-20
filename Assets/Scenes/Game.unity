@@ -1351,9 +1351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0239b436a381c6046afbb6202e5f85f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugPlayTest
-  testCard1: {fileID: 11400000, guid: eec1b5ce53a668b499121f19072559d4, type: 2}
-  testCard2: {fileID: 11400000, guid: e34b9bd08e42de248836d81971d810eb, type: 2}
-  testEnemyCard: {fileID: 11400000, guid: 788f9a0626294634eb5dcdcdb7721053, type: 2}
+  testCard: {fileID: 11400000, guid: 06a43030b077c38459b2fa0731edf68f, type: 2}
+  testEnemyCard: {fileID: 11400000, guid: 50d63c99a41f38e4b9931e2bece4330c, type: 2}
   enemyTargetVisual: {fileID: 1118569287}
 --- !u!4 &803271589
 Transform:
@@ -1364,7 +1363,7 @@ Transform:
   m_GameObject: {fileID: 803271587}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01, y: -1.8, z: 0}
+  m_LocalPosition: {x: -0.01, y: -1.13, z: 0}
   m_LocalScale: {x: 0.3, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1566,7 +1565,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.03, y: 2.6}
+  m_AnchoredPosition: {x: 0.03, y: 1.12}
   m_SizeDelta: {x: 6.7193, y: 5.9591}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1118569285

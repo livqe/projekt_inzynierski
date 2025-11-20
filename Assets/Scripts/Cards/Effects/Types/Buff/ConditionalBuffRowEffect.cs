@@ -14,6 +14,23 @@ public class ConditionalBuffRowEffect : CardEffect, IOnOtherCardPlayedEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
+        BuffTheRow(game, source);
+    }
+
+    public void OnOtherCardPlayed(GameController game, CardInstance source, CardInstance playedCard)
+    {
+        if (source.effectTriggered) return;
+
+        if (playedCard.owner == source.owner && playedCard.data.cardName == allyName)
+        {
+            BuffTheRow(game, source);
+        }
+    }
+
+    private void BuffTheRow(GameController game, CardInstance source)
+    {
+        if (source.effectTriggered) return;
+
         var cardBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
 
         bool conditionMet = false;
@@ -26,37 +43,21 @@ public class ConditionalBuffRowEffect : CardEffect, IOnOtherCardPlayedEffect
             }
         }
 
-        if(conditionMet)
+        if (conditionMet)
         {
             Debug.Log($"Aktywacja efektu: {effectName}. {allyName} na stole, {source.data.cardName} wzmacnia rz¹d o +{powerToAdd}.");
-            
-            BuffTheRow(source, cardBoard);
-            
-            game.UpdateUI();
-        }
-    }
 
-    public void OnOtherCardPlayed(GameController game, CardInstance source, CardInstance playedCard)
-    {
-        if (playedCard.owner == source.owner && playedCard.data.cardName == allyName)
-        {
-            Debug.Log($"Aktywacja efektu: {effectName}. {allyName} na stole, {source.data.cardName} wzmacnia rz¹d o +{powerToAdd}.");
-            
-            var cardBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
-            BuffTheRow(source, cardBoard);
-
-            game.UpdateUI();
-        }
-    }
-
-    private void BuffTheRow(CardInstance source, System.Collections.Generic.List<CardInstance> board)
-    {
-        foreach (var card in board)
-        {
-            if (card.data.range == source.data.range && card != source && card.currentPower >= 0)
+            foreach (var card in cardBoard)
             {
-                card.AddPower(powerToAdd);
+                if (card.data.range == source.data.range && card != source && card.currentPower >= 0)
+                {
+                    card.AddPower(powerToAdd);
+                }
             }
+
+            source.effectTriggered = true;
+            game.UpdateUI();
         }
+        
     }
 }

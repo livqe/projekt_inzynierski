@@ -1,4 +1,10 @@
+using System.Collections.Generic;
+
 public interface ITargetableEffect
 {
-    void ExecuteWithTarget(CardInstance target);
+    int GetTargetCount();
+
+    TargetAlignment GetTargetAlignment();
+
+    void ExecuteWithTarget(List<CardInstance> targets);
 }

@@ -1,4 +1,4 @@
 public interface IRowTargetableEffect
 {
-    void ExecuteWithRowTarget(RangeType range, bool isPlayerRow);
+    void ExecuteWithRowTarget(CardInstance source, RangeType range, bool isPlayerRow);
 }

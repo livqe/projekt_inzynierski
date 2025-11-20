@@ -12,11 +12,10 @@ public class CardInstance
     public int currentPower;
     public int shield;
     public bool isImunne;
-
     public Faction Faction => data.faction;
     public string Name => data.cardName;
-
     public bool survivor;
+    public bool effectTriggered = false;
 
     public CardInstance(CardData cardData, Player owner)
     {
@@ -34,6 +33,8 @@ public class CardInstance
         {
             this.survivor = false;
         }
+
+        this.effectTriggered = false;
     }
 
     public void AddShield(int amount)

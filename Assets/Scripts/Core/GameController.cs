@@ -8,6 +8,13 @@ public enum GameState
     WaitingForTarget
 }
 
+public enum TargetAlignment
+{
+    Any,
+    Friendly,
+    Enemy
+}
+
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
@@ -32,7 +39,8 @@ public class GameController : MonoBehaviour
     public List<CardInstance> enemyBoard = new List<CardInstance>();
 
     private CardInstance pendingCardSource;
-    private CardEffect pendingEffect;
+    private ITargetableEffect pendingEffect;
+    private List<CardInstance> selectedTargets = new List<CardInstance>();
 
     private bool playerHasPassed = false, enemyHasPassed = false;
 
@@ -162,12 +170,14 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void StartTargeting(CardInstance source, CardEffect effect)
+    public void StartTargeting(CardInstance source, ITargetableEffect effect)
     {
         currentState = GameState.WaitingForTarget;
         pendingCardSource = source;
         pendingEffect = effect;
-        Debug.Log("-- Tryb Celowania -- Kliknij cel");
+        selectedTargets.Clear();
+
+        Debug.Log($"-- Tryb Celowania -- Kliknij {effect.GetTargetCount()} cel(e). Typ: {effect.GetTargetAlignment()}.");
 
         //tutaj jakieœ opcje UI (np. podœwietlanie celów)
     }
@@ -176,22 +186,68 @@ public class GameController : MonoBehaviour
     {
         if (currentState != GameState.WaitingForTarget) return;
 
+        if (target == pendingCardSource)
+        {
+            Debug.LogWarning("Nie celuj w kartê u¿ywaj¹c¹ efektu.");
+            return;
+        }
+
         Debug.Log($"Wybrano cel: {target.data.cardName}.");
 
-        currentState = GameState.Normal;
+        TargetAlignment align = pendingEffect.GetTargetAlignment();
+        bool isMyCard = (target.owner == pendingCardSource.owner);
 
-        if (pendingEffect is ITargetableEffect targetableEffect)
+        if (align == TargetAlignment.Friendly && !isMyCard)
         {
-            targetableEffect.ExecuteWithTarget(target);
+            Debug.LogWarning("Wybra³eœ wrog¹ kartê zamiast sojusznika.");
+            return;
+        }
+        if (align == TargetAlignment.Enemy && isMyCard)
+        {
+            Debug.LogWarning("Wybra³eœ swoj¹ kartê zamiast wrogiej.");
+            return;
+        }
+
+        if (selectedTargets.Contains(target))
+        {
+            Debug.Log("Wybra³eœ ju¿ t¹ kartê.");
+            return;
+        }
+
+        selectedTargets.Add(target);
+
+        if (selectedTargets.Count >= pendingEffect.GetTargetCount())
+        {
+            currentState = GameState.Normal;
+
+            pendingEffect.ExecuteWithTarget(new List<CardInstance>(selectedTargets));
+            
+            pendingCardSource = null;
+            pendingEffect = null;
+            selectedTargets.Clear();
+            UpdateUI();
+        }
+    }
+
+    public void RowClicked(RangeType range, bool isPlayerRow)
+    {
+        if (currentState != GameState.WaitingForTarget) return;
+
+        if (pendingEffect is IRowTargetableEffect rowEffect)
+        {
+            Debug.Log($"[GameController] Wybrano rz¹d: {range}.");
+            currentState = GameState.Normal;
+
+            rowEffect.ExecuteWithRowTarget(pendingCardSource, range, isPlayerRow);
+
+            pendingCardSource = null;
+            pendingEffect = null;
+            UpdateUI();
         }
         else
         {
-            Debug.Log("Efekt czeka³ na cel, ale nie obs³uguje celowania.");
+            Debug.Log("Klikniêto rz¹d, ale efekt oczekuje czegoœ innego.");
         }
-
-        pendingCardSource = null;
-        pendingEffect = null;
-        UpdateUI();
     }
 
     public void UpdateUI()
@@ -229,9 +285,13 @@ public class GameController : MonoBehaviour
         }
 
         foreach (var card in playerBoard)
-            {
-                Debug.Log($"[Stó³ Gracza] {card.data.cardName} (moc: {card.currentPower}, tarcza: {card.shield})");
-            }
+        {
+            Debug.Log($"[Stó³ Gracza] {card.data.cardName} (moc: {card.currentPower}, tarcza: {card.shield})");
+        }
+        foreach (var card in enemyBoard)
+        {
+            Debug.Log($"[Stó³ Przeciwnika] {card.data.cardName} (moc: {card.currentPower}, tarcza: {card.shield})");
+        }
     }
 
     public void EndPlayerTurn()
@@ -356,26 +416,5 @@ public class GameController : MonoBehaviour
         }
 
         UpdateUI();
-    }
-
-    public void RowClicked(RangeType range, bool isPlayerRow)
-    {
-        if (currentState != GameState.WaitingForTarget) return;
-
-        if (pendingEffect is IRowTargetableEffect rowEffect)
-        {
-            Debug.Log($"Wybrano rz¹d: {range} (Gracz: {isPlayerRow}.");
-            currentState = GameState.Normal;
-
-            rowEffect.ExecuteWithRowTarget(range, isPlayerRow);
-
-            pendingCardSource = null;
-            pendingEffect = null;
-            UpdateUI();
-        }
-        else
-        {
-            Debug.Log("Klikniêto rz¹d, ale efekt oczekuje czegoœ innego.");
-        }
     }
 }

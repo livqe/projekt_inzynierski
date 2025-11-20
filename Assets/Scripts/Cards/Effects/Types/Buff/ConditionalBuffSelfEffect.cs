@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
+
 [CreateAssetMenu(menuName = "Card/Effects/Buff/ConditionalBuffSelfEffect")]
 public class ConditionalBuffSelfEffect : CardEffect, IOnOtherCardPlayedEffect
 {
@@ -16,6 +17,23 @@ public class ConditionalBuffSelfEffect : CardEffect, IOnOtherCardPlayedEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
+        CheckCondition(game, source);
+    }
+
+    public void OnOtherCardPlayed(GameController game, CardInstance source, CardInstance playedCard)
+    {
+        if (source.effectTriggered) return;
+
+        if (alliesNames.Contains(playedCard.data.cardName) && playedCard.owner == source.owner)
+        {
+            CheckCondition(game, source);
+        }
+    }
+
+    private void CheckCondition(GameController game, CardInstance source)
+    {
+        if (source.effectTriggered) return;
+
         var cardBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
 
         bool allPresent = true;
@@ -42,6 +60,9 @@ public class ConditionalBuffSelfEffect : CardEffect, IOnOtherCardPlayedEffect
             string alliesList = string.Join(", ", alliesNames);
             Debug.Log($"Aktywacja efektu: {effectName}. {alliesList} na planszy, {source.data.cardName} otrzymuje +{powerToAdd}.");
             source.AddPower(powerToAdd);
+
+            source.effectTriggered = true;
+
             game.UpdateUI();
         }
     }
