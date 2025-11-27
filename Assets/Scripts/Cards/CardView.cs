@@ -6,14 +6,15 @@ public class CardView : MonoBehaviour
 {
     [Header("UI Elements")]
     public Image artworkImage;
-    public TMP_Text powerText;
+    public TextMeshProUGUI powerText;
 
-    //³adowanie kart tutaj
-    public void LoadCardData(CardData data)
+    [HideInInspector] public CardInstance cardInstance;
+
+    public void LoadCardData(CardInstance card)
     {
-        powerText.text = data.power.ToString();
+        cardInstance = card;
 
-        if (data.artwork != null)
-            artworkImage.sprite = data.artwork;
+        if (card.data.artwork != null) artworkImage.sprite = card.data.artwork;
+        powerText.text = card.data.power.ToString();
     }
 }

@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Celeborn
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Celeborn
-  artwork: {fileID: -5591092983581609750, guid: 59fddde4c2bb8d140ba0df7f5bd00965, type: 3}
+  artwork: {fileID: 0}
   faction: 0
   range: 1
   power: 3
-  effect: {fileID: 1072185172285533034}
+  effect: {fileID: 8734170719521474228}
   effectDescription: "\"Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
     Galadriela jest na planszy\""
---- !u!114 &1072185172285533034
+--- !u!114 &8734170719521474228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,7 +33,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalBuffRowEffect
   effectName: ConditionalBuffRowEffect
-  effectDescription: "\"Dodaje +2 do mocy ka\uFFFDdej karcie w rz\uFFFDdzie, je\uFFFDli
+  effectDescription: "\"Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
     Galadriela jest na planszy\""
   powerToAdd: 2
   allyName: Galadriela

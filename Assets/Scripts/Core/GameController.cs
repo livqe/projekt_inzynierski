@@ -26,6 +26,10 @@ public class GameController : MonoBehaviour
     [Header("UI")]
     public Text playerPointsText;
     public Text enemyPointsText;
+    public HandManager handManager;
+
+    [Header("Prefabs")]
+    public GameObject cardSpritePrefab;
 
     [Header("Faction Ability")]
     public FactionAbility elfAbility;
@@ -38,8 +42,11 @@ public class GameController : MonoBehaviour
     public List<CardInstance> playerBoard = new List<CardInstance>();
     public List<CardInstance> enemyBoard = new List<CardInstance>();
 
+    [Header("Debug / Test Deck")]
+    public List<CardData> startingDeckAssets;
+
     private CardInstance pendingCardSource;
-    private ITargetableEffect pendingEffect;
+    private CardEffect pendingEffect;
     private List<CardInstance> selectedTargets = new List<CardInstance>();
 
     private bool playerHasPassed = false, enemyHasPassed = false;
@@ -49,6 +56,22 @@ public class GameController : MonoBehaviour
         //tu trzeba podmieniæ na wybór frakcji w menu
         player = new Player("Gracz", Faction.Elfy);
         enemy = new Player("AI", Faction.Krasnoludy);
+
+        foreach (CardData data in startingDeckAssets)
+        {
+            if (data != null)
+            {
+                CardInstance newCard = new CardInstance(data, player);
+                player.cardsInDeck.Add(newCard);
+            }
+        }
+
+        //tasowanie talii?
+
+        Debug.Log($"W talii gracza: {player.cardsInDeck.Count} kart");
+
+        DrawCard(player, 5);
+        DrawCard(enemy, 5);
 
         StartPlayerTurn();
         UpdateUI();
@@ -103,19 +126,19 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void PlayCard(CardInstance card, bool isPlayerPlayed)
+    public void PlayCard(CardInstance card, bool isPlayerPlayed, RangeType? targetRow = null, int insertIndex = -1)
     {
         Debug.Log($"[Game Controller] Zagrano kartê: {card.data.cardName}.");
 
-        if (isPlayerPlayed)
-        {
-            playerBoard.Add(card);
+        List<CardInstance> targetBoard = isPlayerPlayed ? playerBoard : enemyBoard;
 
-            //tutaj karty bêd¹ przenoszone na planszê (UI)
+        if (insertIndex >= 0 && insertIndex <= targetBoard.Count)
+        {
+            targetBoard.Insert(insertIndex, card);
         }
         else
         {
-            enemyBoard.Add(card);
+            targetBoard.Add(card);
         }
 
         if (card.data.effect != null)
@@ -129,6 +152,8 @@ public class GameController : MonoBehaviour
         }
 
         NotifyOtherCardsOnPlay(card);
+
+        SpawnCardOnBoardVisual(card, isPlayerPlayed, targetRow, insertIndex);
 
         UpdateUI();
     }
@@ -150,34 +175,46 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void DrawCard(Player playre, int amount = 1)
+    public void DrawCard(Player drawingPlayer, int amount = 1)
     {
         for (int i = 0; i < amount; i++)
         {
-            if (player.cardsInDeck.Count == 0)
+            if (drawingPlayer.cardsInDeck.Count == 0)
             {
                 Debug.Log($"[GameController] {player.playerName} nie ma ju¿ kart w talii.");
                 return;
             }
 
-            CardInstance drawnCard = player.cardsInDeck[0];
-            player.cardsInDeck.RemoveAt(0);
+            CardInstance drawnCard = drawingPlayer.cardsInDeck[0];
+            drawingPlayer.cardsInDeck.RemoveAt(0);
+            drawingPlayer.cardsInHand.Add(drawnCard);
 
-            player.cardsInHand.Add(drawnCard);
-            Debug.Log($"[GameController] {player.playerName} dobiera kartê: {drawnCard.data.cardName}");
+            Debug.Log($"[GameController] {drawingPlayer.playerName} dobiera kartê: {drawnCard.data.cardName}");
 
-            //odœwie¿enie widoku rêki w UI tutaj
+            if (drawingPlayer == player && handManager != null)
+            {
+                handManager.AddCardToHandVisual(drawnCard);
+            }
         }
+        UpdateUI();
     }
 
-    public void StartTargeting(CardInstance source, ITargetableEffect effect)
+    public void StartTargeting(CardInstance source, CardEffect effect)
     {
         currentState = GameState.WaitingForTarget;
         pendingCardSource = source;
         pendingEffect = effect;
         selectedTargets.Clear();
 
-        Debug.Log($"-- Tryb Celowania -- Kliknij {effect.GetTargetCount()} cel(e). Typ: {effect.GetTargetAlignment()}.");
+        if (effect is ITargetableEffect cardTargetEffect)
+        {
+            Debug.Log($"-- Tryb Celowania -- Kliknij {cardTargetEffect.GetTargetCount()} cel(e). Typ: {cardTargetEffect.GetTargetAlignment()}.");
+        }
+        else if (effect is IRowTargetableEffect rowTargetableEffect)
+        {
+            Debug.Log($"-- Tryb Celowania -- Kliknij rz¹d.");
+
+        }
 
         //tutaj jakieœ opcje UI (np. podœwietlanie celów)
     }
@@ -186,46 +223,53 @@ public class GameController : MonoBehaviour
     {
         if (currentState != GameState.WaitingForTarget) return;
 
-        if (target == pendingCardSource)
+        if (pendingEffect is ITargetableEffect targetEffect)
         {
-            Debug.LogWarning("Nie celuj w kartê u¿ywaj¹c¹ efektu.");
-            return;
+            if (target == pendingCardSource)
+            {
+                Debug.LogWarning("Nie celuj w kartê u¿ywaj¹c¹ efektu.");
+                return;
+            }
+
+            Debug.Log($"Wybrano cel: {target.data.cardName}.");
+
+            TargetAlignment align = targetEffect.GetTargetAlignment();
+            bool isMyCard = (target.owner == pendingCardSource.owner);
+
+            if (align == TargetAlignment.Friendly && !isMyCard)
+            {
+                Debug.LogWarning("Wybra³eœ wrog¹ kartê zamiast sojusznika.");
+                return;
+            }
+            if (align == TargetAlignment.Enemy && isMyCard)
+            {
+                Debug.LogWarning("Wybra³eœ swoj¹ kartê zamiast wrogiej.");
+                return;
+            }
+
+            if (selectedTargets.Contains(target))
+            {
+                Debug.Log("Wybra³eœ ju¿ t¹ kartê.");
+                return;
+            }
+
+            selectedTargets.Add(target);
+
+            if (selectedTargets.Count >= targetEffect.GetTargetCount())
+            {
+                currentState = GameState.Normal;
+
+                targetEffect.ExecuteWithTarget(new List<CardInstance>(selectedTargets));
+
+                pendingCardSource = null;
+                pendingEffect = null;
+                selectedTargets.Clear();
+                UpdateUI();
+            }
         }
-
-        Debug.Log($"Wybrano cel: {target.data.cardName}.");
-
-        TargetAlignment align = pendingEffect.GetTargetAlignment();
-        bool isMyCard = (target.owner == pendingCardSource.owner);
-
-        if (align == TargetAlignment.Friendly && !isMyCard)
+        else
         {
-            Debug.LogWarning("Wybra³eœ wrog¹ kartê zamiast sojusznika.");
-            return;
-        }
-        if (align == TargetAlignment.Enemy && isMyCard)
-        {
-            Debug.LogWarning("Wybra³eœ swoj¹ kartê zamiast wrogiej.");
-            return;
-        }
-
-        if (selectedTargets.Contains(target))
-        {
-            Debug.Log("Wybra³eœ ju¿ t¹ kartê.");
-            return;
-        }
-
-        selectedTargets.Add(target);
-
-        if (selectedTargets.Count >= pendingEffect.GetTargetCount())
-        {
-            currentState = GameState.Normal;
-
-            pendingEffect.ExecuteWithTarget(new List<CardInstance>(selectedTargets));
-            
-            pendingCardSource = null;
-            pendingEffect = null;
-            selectedTargets.Clear();
-            UpdateUI();
+            Debug.Log("Klikniêto kartê, ale gra czeka na wybór rz¹du.");
         }
     }
 
@@ -291,6 +335,54 @@ public class GameController : MonoBehaviour
         foreach (var card in enemyBoard)
         {
             Debug.Log($"[Stó³ Przeciwnika] {card.data.cardName} (moc: {card.currentPower}, tarcza: {card.shield})");
+        }
+    }
+
+    public void SpawnCardOnBoardVisual(CardInstance card, bool isPlayerPlayed, RangeType? specificRow, int insertIndex)
+    {
+        if (cardSpritePrefab == null) return;
+
+        string zoneName = "";
+        RangeType finalRow = card.data.range;
+
+        if (specificRow.HasValue)
+        {
+            finalRow = specificRow.Value;
+        }
+        else if (card.data.range == RangeType.Dowolny)
+        {
+            finalRow = (Random.value > 0.5f) ? RangeType.Bliski : RangeType.Daleki;
+        }
+
+        if (isPlayerPlayed)
+            zoneName = (finalRow == RangeType.Daleki) ? "PlayerRangeRow" : "PlayerMeleeRow";
+        else
+            zoneName = (finalRow == RangeType.Daleki) ? "EnemyRangeRow" : "EnemyMeleeRow";
+
+        GameObject zoneObj = GameObject.Find(zoneName);
+        if (zoneObj != null)
+        {
+            GameObject newCardObj = Instantiate(cardSpritePrefab, zoneObj.transform);
+
+            if (insertIndex >= 0)
+            {
+                newCardObj.transform.SetSiblingIndex(insertIndex);
+            }
+
+            newCardObj.GetComponent<SpriteRenderer>().sprite = card.data.artwork;
+
+            if (newCardObj.TryGetComponent<CardOnBoard>(out var cardOnBoard))
+            {
+                cardOnBoard.cardInstance = card;
+            }
+
+            newCardObj.transform.localPosition = Vector3.zero;
+
+            var visual = newCardObj.GetComponent<CardBoardVisual>();
+            if (visual != null)
+            {
+                visual.UpdateVisuals(card);
+            }
         }
     }
 

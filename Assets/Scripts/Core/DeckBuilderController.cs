@@ -19,7 +19,9 @@ public class DeckBuilderController : MonoBehaviour
         {
             var cardObj = Instantiate(cardPrefab, cardParent);
             var view = cardObj.GetComponent<CardView>();
-            view.LoadCardData(data);
+            var tempDisplayInstance = new CardInstance(data, null);
+            
+            view.LoadCardData(tempDisplayInstance);
         }
     }
 

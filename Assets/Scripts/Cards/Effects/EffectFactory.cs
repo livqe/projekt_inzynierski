@@ -27,7 +27,8 @@ public static class EffectFactory
 
             case "BuffTargetEffect":
                 var buffTargetEffect = ScriptableObject.CreateInstance<BuffTargetEffect>();
-                buffTargetEffect.Initialize(int.Parse(parameters[0]), int.Parse(parameters[1]));
+                int buffCount = parameters.Length > 1 ? int.Parse(parameters[1]) : 1;
+                buffTargetEffect.Initialize(int.Parse(parameters[0]), buffCount);
                 createdEffect = buffTargetEffect;
                 break;
 
@@ -59,7 +60,8 @@ public static class EffectFactory
 
             case "BuffRandomAllyEffect":
                 var buffRandomEffect = ScriptableObject.CreateInstance<BuffRandomAllyEffect>();
-                buffRandomEffect.Initialize(int.Parse(parameters[0]));
+                int bRCount = parameters.Length > 1 ? int.Parse(parameters[1]) : 1;
+                buffRandomEffect.Initialize(int.Parse(parameters[0]), bRCount);
                 createdEffect = buffRandomEffect;
                 break;
 
@@ -78,7 +80,8 @@ public static class EffectFactory
 
             case "DamageTargetEnemyEffect":
                 var damageTargetEffect = ScriptableObject.CreateInstance<DamageTargetEnemyEffect>();
-                damageTargetEffect.Initialize(int.Parse(parameters[0]));
+                int dmgCount = parameters.Length > 1 ? int.Parse(parameters[1]) : 1;
+                damageTargetEffect.Initialize(int.Parse(parameters[0]), dmgCount);
                 createdEffect = damageTargetEffect;
                 break;
 
