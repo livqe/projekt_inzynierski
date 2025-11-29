@@ -6,5 +6,6 @@ public abstract class FactionAbility : ScriptableObject
     public string abilityName;
     [TextArea] public string description;
 
-    public abstract void OnRoundEnd(GameController game, Player owner);
+    public virtual void OnTurnEnd(GameController game, Player owner) { }
+    public virtual void OnRoundEnd(GameController game, Player owner) { }
 }

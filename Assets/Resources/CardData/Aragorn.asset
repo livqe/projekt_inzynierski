@@ -18,7 +18,7 @@ MonoBehaviour:
   range: 0
   power: 6
   effect: {fileID: 2676157941103480746}
-  effectDescription: Dodaje +2 do mocy losowej przyjaznej karcie na planszy
+  effectDescription: Dodaje +2 do mocy losowej przyjaznej karcie na planszy.
 --- !u!114 &2676157941103480746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,3 +34,4 @@ MonoBehaviour:
   effectName: BuffRandomAllyEffect
   effectDescription: Dodaje +2 do mocy losowej przyjaznej karcie na planszy
   powerToAdd: 2
+  targetCount: 1

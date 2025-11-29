@@ -1,11 +1,15 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public enum GameState
 {
     Normal,
-    WaitingForTarget
+    WaitingForTarget,
+    Mulligan
 }
 
 public enum TargetAlignment
@@ -23,10 +27,31 @@ public class GameController : MonoBehaviour
     public Player player;
     public Player enemy;
 
-    [Header("UI")]
-    public Text playerPointsText;
-    public Text enemyPointsText;
+    [Header("UI Managers")]
     public HandManager handManager;
+    public MulliganController mulliganController;
+
+    [Header("UI")]
+    public TextMeshProUGUI playerPointsText;
+    public TextMeshProUGUI enemyPointsText;
+    public TextMeshProUGUI roundResultText;
+    public GameObject roundResultPanel;
+    public GameObject gameResultPanel;
+    public TextMeshProUGUI gameResultText;
+    public TextMeshProUGUI gameFinalPointsText;
+
+    [Header("Game Config")]
+    public int cardsToDrawOnStart = 10;
+    public int roundsToWin = 2;
+    public string mainMenuSceneName = "Menu";
+
+    [Header("Board State")]
+    public List<CardInstance> playerBoard = new List<CardInstance>();
+    public List<CardInstance> enemyBoard = new List<CardInstance>();
+
+    private int playerWins = 0;
+    private int enemyWins = 0;
+    private bool isGameEnded = false;
 
     [Header("Prefabs")]
     public GameObject cardSpritePrefab;
@@ -35,21 +60,27 @@ public class GameController : MonoBehaviour
     public FactionAbility elfAbility;
     public FactionAbility dwarfAbility;
 
-    [Header("Game State")]
     public GameState currentState = GameState.Normal;
-
-    [Header("Board State")]
-    public List<CardInstance> playerBoard = new List<CardInstance>();
-    public List<CardInstance> enemyBoard = new List<CardInstance>();
-
-    [Header("Debug / Test Deck")]
-    public List<CardData> startingDeckAssets;
-
     private CardInstance pendingCardSource;
     private CardEffect pendingEffect;
     private List<CardInstance> selectedTargets = new List<CardInstance>();
 
-    private bool playerHasPassed = false, enemyHasPassed = false;
+    private bool playerHasPassed = false;
+    private bool enemyHasPassed = false;
+
+    [Header("Debug / Test Deck")]
+    public List<CardData> startingDeckAssets;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     void Start()
     {
@@ -57,6 +88,33 @@ public class GameController : MonoBehaviour
         player = new Player("Gracz", Faction.Elfy);
         enemy = new Player("AI", Faction.Krasnoludy);
 
+        if (roundResultPanel != null) roundResultPanel.SetActive(false);
+        if (gameResultPanel != null) gameResultPanel.SetActive(false); 
+
+        //faza wymiany kart na start tutaj
+
+        StartGame();
+    }
+
+    private void Update()
+    {
+        if (isGameEnded)
+        {
+            bool clicked = false;
+
+            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) clicked = true;
+            else if (Input.GetMouseButtonDown(0)) clicked = true;
+
+            if (clicked)
+            {
+                Debug.Log("Powrót do menu...");
+                SceneManager.LoadScene(mainMenuSceneName);
+            }
+        }
+    }
+
+    private void StartGame()
+    {
         foreach (CardData data in startingDeckAssets)
         {
             if (data != null)
@@ -66,39 +124,62 @@ public class GameController : MonoBehaviour
             }
         }
 
-        //tasowanie talii?
+        foreach (CardData data in startingDeckAssets)
+        {
+            if (data != null)
+            {
+                CardInstance newCard = new CardInstance(data, enemy);
+                enemy.cardsInDeck.Add(newCard);
+            }
+        }
 
-        Debug.Log($"W talii gracza: {player.cardsInDeck.Count} kart");
+        HandManager tempHandManager = handManager;
+        handManager = null;
+        DrawCard(player, cardsToDrawOnStart);
+        DrawCard(enemy, cardsToDrawOnStart);
+        handManager = tempHandManager;
 
-        DrawCard(player, 5);
-        DrawCard(enemy, 5);
-
-        StartPlayerTurn();
-        UpdateUI();
+        StartMulliganPhase();
     }
 
-    private void Awake()
+    private void StartMulliganPhase()
     {
-        if (Instance != null && Instance != this)
+        Debug.Log("--- WYMIANA KART ---");
+        currentState = GameState.Mulligan;
+
+        if (mulliganController != null)
+            mulliganController.StartMulligan(player);
+        else
         {
-            Destroy(gameObject);
-            return;
+            Debug.LogError("Brak MulliganController");
+            OnMulliganFinished();
         }
-        Instance = this;
+    }
+
+    public void OnMulliganFinished()
+    {
+        currentState = GameState.Normal;
+
+        if (handManager != null)
+        {
+            foreach (var card in player.cardsInHand)
+                handManager.AddCardToHandVisual(card);
+        }
+
+        Debug.Log("--- START GRY ---");
+        StartPlayerTurn();
+        UpdateUI();
     }
 
     public void StartPlayerTurn()
     {
         Debug.Log("Pocz¹tek tury gracza");
-        playerHasPassed = false;
-
         CheckAutoPlayCards(player);
     }
 
     private void CheckAutoPlayCards(Player currentPlayer)
     {
         List<CardInstance> handCopy = new List<CardInstance>(currentPlayer.cardsInHand);
-
         foreach (CardInstance card in handCopy)
         {
             if (card.data.effect is ChanceAutoPlayEffect autoPlay)
@@ -112,7 +193,6 @@ public class GameController : MonoBehaviour
         }
 
         List<CardInstance> deckCopy = new List<CardInstance>(currentPlayer.cardsInDeck);
-
         foreach (CardInstance card in deckCopy)
         {
             if (card.data.effect is ChanceAutoPlayEffect autoPlay)
@@ -146,33 +226,238 @@ public class GameController : MonoBehaviour
             Debug.Log($" -> Uruchomiono efekt: {card.data.effect.effectName}.");
             card.data.effect.ActivateEffect(this, card);
         }
-        else
-        {
-            Debug.Log($" -> Karta {card.data.cardName} nie posiada efektu.");
-        }
 
         NotifyOtherCardsOnPlay(card);
-
         SpawnCardOnBoardVisual(card, isPlayerPlayed, targetRow, insertIndex);
+        UpdateUI();
+    }
+
+    public void EndPlayerTurn()
+    {
+        if (playerHasPassed)
+        {
+            Debug.Log("Gracz spasowa³ w tej rundzie, nie mo¿e wykonywaæ ruchów.");
+            return;
+        }
+
+        Debug.Log("[GameController] Gracz koñczy turê.");
+        ProcessTurnEndEffect(playerBoard);
+        StartEnemyTurn();
+    }
+
+    public void PlayerPassRound()
+    {
+        Debug.Log("[GameController] Gracz spasowa³");
+        playerHasPassed = true;
+
+        ProcessTurnEndEffect(playerBoard);
+        CheckRoundEnd();
+
+        if (!enemyHasPassed) StartEnemyTurn();
+    }
+
+    public void StartEnemyTurn()
+    {
+        if (enemyHasPassed)
+        {
+            Debug.Log("Przeciwnik spasowa³, powrót do gracza.");
+            if (!playerHasPassed) StartPlayerTurn();
+            return;
+        }
+
+        Debug.Log("Tura przeciwnika.");
+
+        //logika AI tutaj
+        enemyHasPassed = true;
+        Debug.Log("Przeciwnik pasuje rundê.");
+
+        ProcessTurnEndEffect(enemyBoard);
+        CheckRoundEnd();
+
+        if (!playerHasPassed) StartPlayerTurn();
+    }
+
+    private void CheckRoundEnd()
+    {
+        if (playerHasPassed && enemyHasPassed)
+        {
+            StartCoroutine(EndRoundSequence());
+        }
+    }
+
+    private IEnumerator EndRoundSequence()
+    {
+        Debug.Log("[GameController] Koniec rundy");
+
+        int playerScore = CalculateScore(playerBoard);
+        int enemyScore = CalculateScore(enemyBoard);
+        string resultMsg = "";
+
+        if (playerScore > enemyScore)
+        {
+            playerWins++;
+            player.lostLastRound = false;
+            enemy.lostLastRound = true;
+            resultMsg = "Wygra³eœ rundê!";
+        }
+        else if (enemyScore > playerScore)
+        {
+            enemyWins++;
+            player.lostLastRound = true;
+            enemy.lostLastRound = false;
+            resultMsg = "Przegra³eœ rundê!";
+        }
+        else
+        {
+            playerWins++;
+            enemyWins++;
+            player.lostLastRound= false;
+            enemy.lostLastRound = false;
+            resultMsg = "Remis";
+        }
+
+        ActivateFactionAbility(player);
+        ActivateFactionAbility(enemy);
+
+        Debug.Log($"Wynik: Gracz {playerWins} : {enemyWins} Przeciwnik");
+
+        if (roundResultText != null) roundResultText.text = resultMsg;
+        if (roundResultPanel != null) roundResultPanel.SetActive(true);
+
+        yield return new WaitForSeconds(4.0f);
+
+        if (roundResultPanel != null) roundResultPanel.SetActive(false);
+
+        if (playerWins >= roundsToWin || enemyWins >= roundsToWin)
+        {
+            EndGame();
+        }
+        else
+        {
+            CleanUpBoard();
+            StartNextRound();
+        }
+    }
+
+    private void CleanUpBoard()
+    {
+        Debug.Log("Czyszczenie sto³u...");
+
+        BoardRow[] rows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
+        
+        foreach (var row in rows)
+        {
+            foreach (Transform child in row.transform)
+            {
+                if (child.name.Contains("Ghost")) continue;
+                Destroy(child.gameObject);
+            }
+        }
+
+        //mo¿e cmentarz tutaj
+        playerBoard.Clear();
+        enemyBoard.Clear();
 
         UpdateUI();
     }
 
-    private void NotifyOtherCardsOnPlay(CardInstance newCard)
+    private void StartNextRound()
+    {
+        Debug.Log("Start nowej rundy");
+
+        playerHasPassed = false;
+        enemyHasPassed = false;
+        currentState = GameState.Normal;
+
+        if (PlayerLostLastRound(player))
+        {
+            StartEnemyTurn();
+        }
+        else
+        {
+            StartPlayerTurn();
+        }
+    }
+
+    private void EndGame()
+    {
+        Debug.Log("--- KONIEC GRY ---");
+        isGameEnded = true;
+
+        string finalMsg = "";
+        if (playerWins >= roundsToWin && enemyWins >= roundsToWin)
+            finalMsg = "REMIS";
+        else if (playerWins >= roundsToWin)
+            finalMsg = "ZWYCIÊSTWO!";
+        else
+            finalMsg = "PORA¯KA...";
+
+        if (gameResultText != null) gameResultText.text = finalMsg;
+        if (gameFinalPointsText != null) gameFinalPointsText.text = $"{playerWins} : {enemyWins}";
+        if (gameResultPanel != null) gameResultPanel.SetActive(true);
+
+        currentState = GameState.WaitingForTarget;
+    }
+
+    private int CalculateScore(List<CardInstance> board)
+    {
+        int score = 0;
+        foreach (var card in board) score += card.currentPower;
+        return score;
+    }
+
+    private void ActivateFactionAbility(Player p)
+    {
+        FactionAbility ability = (p.faction == Faction.Elfy) ? elfAbility : dwarfAbility;
+        if(ability != null) ability.OnRoundEnd(this, p);
+    }
+
+    public void OnCardDeath(CardInstance deadCard)
+    {
+        if (deadCard.data.effect is IOnDeathEffect selfDeathEffect)
+        {
+            selfDeathEffect.OnDeath(this, deadCard);
+        }
+
+        Debug.Log($"[GameController] Przetwarzanie œmierci karty: {deadCard.data.cardName}.");
+
+        if (playerBoard.Contains(deadCard))
+        {
+            playerBoard.Remove(deadCard);
+        }
+        else if (enemyBoard.Contains(deadCard))
+        {
+            enemyBoard.Remove(deadCard);
+        }
+
+        //wizualne usuwanie karty z planszy tutaj
+
+        NotifyOtherCardsOnDeath(deadCard);
+        UpdateUI();
+    }
+
+    private void NotifyOtherCardsOnDeath(CardInstance deadCard)
     {
         List<CardInstance> allCards = new List<CardInstance>();
         allCards.AddRange(playerBoard);
         allCards.AddRange(enemyBoard);
 
-        foreach (var card in allCards)
+        foreach (CardInstance card in allCards)
         {
-            if (card == newCard) continue;
-
-            if (card.data.effect is IOnOtherCardPlayedEffect reactionEffect)
+            if (card.data.effect is IOnOtherCardDeathEffect deathEffect)
             {
-                reactionEffect.OnOtherCardPlayed(this, card, newCard);
+                deathEffect.OnOtherCardDeath(this, card, deadCard);
             }
         }
+    }
+
+    public void UpdateUI()
+    {
+        int playerPoints = CalculateScore(playerBoard);
+        int enemyPoints = CalculateScore(enemyBoard);
+
+        if (playerPointsText != null) playerPointsText.text = playerPoints.ToString();
+        if (enemyPointsText != null) enemyPointsText.text = enemyPoints.ToString();
     }
 
     public void DrawCard(Player drawingPlayer, int amount = 1)
@@ -189,14 +474,61 @@ public class GameController : MonoBehaviour
             drawingPlayer.cardsInDeck.RemoveAt(0);
             drawingPlayer.cardsInHand.Add(drawnCard);
 
-            Debug.Log($"[GameController] {drawingPlayer.playerName} dobiera kartê: {drawnCard.data.cardName}");
-
             if (drawingPlayer == player && handManager != null)
-            {
                 handManager.AddCardToHandVisual(drawnCard);
-            }
         }
         UpdateUI();
+    }
+
+    private void NotifyOtherCardsOnPlay(CardInstance newCard)
+    {
+        List<CardInstance> allCards = new List<CardInstance>();
+        allCards.AddRange(playerBoard);
+        allCards.AddRange(enemyBoard);
+
+        foreach (var card in allCards)
+        {
+            if (card == newCard) continue;
+            if (card.data.effect is IOnOtherCardPlayedEffect reactionEffect)
+                reactionEffect.OnOtherCardPlayed(this, card, newCard);
+        }
+    }
+
+    public void SpawnCardOnBoardVisual(CardInstance card, bool isPlayerPlayed, RangeType? specificRow, int insertIndex)
+    {
+        if (cardSpritePrefab == null) return;
+
+        string zoneName = "";
+        RangeType finalRow = card.data.range;
+
+        if (specificRow.HasValue)
+        {
+            finalRow = specificRow.Value;
+        }
+        else if (card.data.range == RangeType.Dowolny)
+        {
+            finalRow = (Random.value > 0.5f) ? RangeType.Bliski : RangeType.Daleki;
+        }
+
+        if (isPlayerPlayed)
+            zoneName = (finalRow == RangeType.Daleki) ? "PlayerRangeRow" : "PlayerMeleeRow";
+        else
+            zoneName = (finalRow == RangeType.Daleki) ? "EnemyRangeRow" : "EnemyMeleeRow";
+
+        GameObject zoneObj = GameObject.Find(zoneName);
+        if (zoneObj != null)
+        {
+            GameObject newCardObj = Instantiate(cardSpritePrefab, zoneObj.transform);
+            if (insertIndex >= 0) newCardObj.transform.SetSiblingIndex(insertIndex);
+
+            newCardObj.GetComponent<SpriteRenderer>().sprite = card.data.artwork;
+            if (newCardObj.TryGetComponent<CardOnBoard>(out var cardOnBoard)) cardOnBoard.cardInstance = card;
+
+            var visual = newCardObj.GetComponent<CardBoardVisual>();
+            if (visual != null) visual.UpdateVisuals(card);
+
+            newCardObj.transform.localPosition = Vector3.zero;
+        }
     }
 
     public void StartTargeting(CardInstance source, CardEffect effect)
@@ -280,10 +612,9 @@ public class GameController : MonoBehaviour
         if (pendingEffect is IRowTargetableEffect rowEffect)
         {
             Debug.Log($"[GameController] Wybrano rz¹d: {range}.");
+
             currentState = GameState.Normal;
-
             rowEffect.ExecuteWithRowTarget(pendingCardSource, range, isPlayerRow);
-
             pendingCardSource = null;
             pendingEffect = null;
             UpdateUI();
@@ -294,116 +625,8 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void UpdateUI()
-    {
-        Debug.Log("-- Odœwie¿anie planszy --");
-
-        int playerPoints = 0;
-        foreach (CardInstance card in playerBoard)
-        {
-            playerPoints += card.currentPower;
-        }
-
-        int enemyPoints = 0;
-        foreach (CardInstance card in enemyBoard)
-        {
-            enemyPoints += card.currentPower;
-        }
-
-        if (playerPointsText != null)
-        {
-            playerPointsText.text = playerPoints.ToString();
-        }
-        else
-        {
-            Debug.Log("Nie przypisano 'playerPointsText");
-        }
-
-        if (enemyPointsText != null)
-        {
-            enemyPointsText.text = enemyPoints.ToString();
-        }
-        else
-        {
-            Debug.Log("Nie przypisano 'enemyPointsText");
-        }
-
-        foreach (var card in playerBoard)
-        {
-            Debug.Log($"[Stó³ Gracza] {card.data.cardName} (moc: {card.currentPower}, tarcza: {card.shield})");
-        }
-        foreach (var card in enemyBoard)
-        {
-            Debug.Log($"[Stó³ Przeciwnika] {card.data.cardName} (moc: {card.currentPower}, tarcza: {card.shield})");
-        }
-    }
-
-    public void SpawnCardOnBoardVisual(CardInstance card, bool isPlayerPlayed, RangeType? specificRow, int insertIndex)
-    {
-        if (cardSpritePrefab == null) return;
-
-        string zoneName = "";
-        RangeType finalRow = card.data.range;
-
-        if (specificRow.HasValue)
-        {
-            finalRow = specificRow.Value;
-        }
-        else if (card.data.range == RangeType.Dowolny)
-        {
-            finalRow = (Random.value > 0.5f) ? RangeType.Bliski : RangeType.Daleki;
-        }
-
-        if (isPlayerPlayed)
-            zoneName = (finalRow == RangeType.Daleki) ? "PlayerRangeRow" : "PlayerMeleeRow";
-        else
-            zoneName = (finalRow == RangeType.Daleki) ? "EnemyRangeRow" : "EnemyMeleeRow";
-
-        GameObject zoneObj = GameObject.Find(zoneName);
-        if (zoneObj != null)
-        {
-            GameObject newCardObj = Instantiate(cardSpritePrefab, zoneObj.transform);
-
-            if (insertIndex >= 0)
-            {
-                newCardObj.transform.SetSiblingIndex(insertIndex);
-            }
-
-            newCardObj.GetComponent<SpriteRenderer>().sprite = card.data.artwork;
-
-            if (newCardObj.TryGetComponent<CardOnBoard>(out var cardOnBoard))
-            {
-                cardOnBoard.cardInstance = card;
-            }
-
-            newCardObj.transform.localPosition = Vector3.zero;
-
-            var visual = newCardObj.GetComponent<CardBoardVisual>();
-            if (visual != null)
-            {
-                visual.UpdateVisuals(card);
-            }
-        }
-    }
-
-    public void EndPlayerTurn()
-    {
-        if (playerHasPassed)
-        {
-            Debug.Log("Gracz spasowa³ w tej rundzie, nie mo¿e wykonywaæ ruchów.");
-            return;
-        }
-
-        Debug.Log("[GameController] Gracz koñczy turê.");
-        ProcessTurnEndEffect(playerBoard);
-
-        StartEnemyTurn();
-    }
-
     private void ProcessTurnEndEffect(List<CardInstance> board)
     {
-        Debug.Log("Przetwarzanie efektów koñca tury.");
-
         foreach (CardInstance card in board)
         {
             if (card.data.effect != null && card.data.effect is IOnTurnEndEffect)
@@ -412,101 +635,19 @@ public class GameController : MonoBehaviour
                 turnEffect.OnTurnEnd(this, card);
             }
         }
-        UpdateUI();
-    }
 
-    public void PlayerPassRound()
-    {
-        Debug.Log("[GameController] Gracz spasowa³");
-        playerHasPassed = true;
+        Player boardOwner = (board == playerBoard) ? player : enemy;
+        FactionAbility ability = (boardOwner.faction == Faction.Elfy) ? elfAbility : dwarfAbility;
 
-        ProcessTurnEndEffect(playerBoard);
-        CheckRoundEnd();
-
-        if (!enemyHasPassed) StartEnemyTurn();
-    }
-
-    public void StartEnemyTurn()
-    {
-        if (enemyHasPassed)
+        if (ability != null)
         {
-            Debug.Log("Przeciwnik spasowa³, powrót do gracza.");
-            return;
+            ability.OnTurnEnd(this, boardOwner);
         }
 
-        Debug.Log("Tura przeciwnika.");
-
-        //logika AI tutaj
-
-        ProcessTurnEndEffect(enemyBoard);
-
-        StartPlayerTurn();
-
-        Debug.Log("Przeciwnik koñczy turê.");
-    }
-
-    private void CheckRoundEnd()
-    {
-        if (playerHasPassed && enemyHasPassed) EndRound();
-    }
-
-    private void EndRound()
-    {
-            //logika podsumowania rundy tutaj
-            Debug.Log("[GameController] Koniec tury");
-
-            ActivateFactionAbility(player);
-            ActivateFactionAbility(enemy);
-
-            playerHasPassed = false;
-            playerHasPassed = false;
-
-    }
-
-    private void ActivateFactionAbility(Player player)
-    {
-        if(player.faction == Faction.Elfy && elfAbility != null)
-            elfAbility.OnRoundEnd(this, player);
-        else if (player.faction == Faction.Krasnoludy && dwarfAbility != null)
-            dwarfAbility.OnRoundEnd(this, player);
+        UpdateUI();
     }
 
     public bool PlayerLostLastRound(Player player) => player.lostLastRound;
 
     public List<CardInstance> GetPlayerCards(Player player) => player.cardsOnBoard;
-
-    public void OnCardDeath(CardInstance deadCard)
-    {
-        if (deadCard.data.effect is IOnDeathEffect selfDeathEffect)
-        {
-            selfDeathEffect.OnDeath(this, deadCard);
-        }
-
-        Debug.Log($"[GameController] Przetwarzanie œmierci karty: {deadCard.data.cardName}.");
-
-        if (playerBoard.Contains(deadCard))
-        {
-            playerBoard.Remove(deadCard);
-        }
-        else if (enemyBoard.Contains(deadCard))
-        {
-            enemyBoard.Remove(deadCard);
-        }
-
-        //wizualne usuwanie karty z planszy tutaj
-
-        List<CardInstance> allCards = new List<CardInstance>();
-        allCards.AddRange(playerBoard);
-        allCards.AddRange(enemyBoard);
-
-        foreach (CardInstance card in allCards)
-        {
-            if (card.data.effect is IOnOtherCardDeathEffect deathEffect)
-            {
-                deathEffect.OnOtherCardDeath(this, card, deadCard);
-            }
-        }
-
-        UpdateUI();
-    }
 }

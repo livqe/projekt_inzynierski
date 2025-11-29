@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d3a294b9c868f24e92c47809b49806f, type: 3}
-  m_Name: LaskaEldarow
-  m_EditorClassIdentifier: Assembly-CSharp::LaskaEldarow
+  m_Name: ElvesFactionAbility
+  m_EditorClassIdentifier: Assembly-CSharp::ElvesFactionAbility
   abilityName: "\u0141aska Eldar\xF3w"
-  description: "Na koniec ka\u017Cdej rundy jedna losowa jednostka elfia odzyskuje
+  description: "Na koniec ka\u017Cdej tury jedna losowa jednostka elfia odzyskuje
     1 punkt mocy."

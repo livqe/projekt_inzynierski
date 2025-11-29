@@ -34,4 +34,4 @@ MonoBehaviour:
   range: 2
   power: 1
   effect: {fileID: -7642566921738429773}
-  effectDescription: Dodaje +5 do mocy wybranej innej karcie na planszy
+  effectDescription: Dodaje +5 do mocy wybranej innej karcie na planszy.
