@@ -17,9 +17,9 @@ MonoBehaviour:
   faction: 1
   range: 0
   power: 4
-  effect: {fileID: 6878272092158433166}
+  effect: {fileID: 8174003535204175896}
   effectDescription: "\"Je\u015Bli Ori zostanie wyeliminowany, to Dori zyskuje +3\""
---- !u!114 &6878272092158433166
+--- !u!114 &8174003535204175896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

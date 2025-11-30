@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7642566921738429773
+--- !u!114 &-1284225585565147145
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,5 +33,5 @@ MonoBehaviour:
   faction: 0
   range: 2
   power: 1
-  effect: {fileID: -7642566921738429773}
-  effectDescription: Dodaje +5 do mocy wybranej innej karcie na planszy.
+  effect: {fileID: -1284225585565147145}
+  effectDescription: Dodaje +5 do mocy wybranej innej karcie na planszy

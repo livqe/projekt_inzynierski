@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Maglor
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Maglor
-  artwork: {fileID: 0}
+  artwork: {fileID: -4127695616314431865, guid: cf879b0982d5b03449343c30217f7454, type: 3}
   faction: 0
   range: 2
   power: 0
-  effect: {fileID: 5569178926369591531}
+  effect: {fileID: 7190487055613319073}
   effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie"
---- !u!114 &5569178926369591531
+--- !u!114 &7190487055613319073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

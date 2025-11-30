@@ -1,6 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6565012511267079831
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Gandalf
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Gandalf
+  artwork: {fileID: 8061094940259854706, guid: 06c86c61b0d42894087f2841ce6cc788, type: 3}
+  faction: 2
+  range: 2
+  power: 12
+  effect: {fileID: 8758329474621965659}
+  effectDescription: "\"Istnieje 5% szans, \u017Ce karta zostanie zagrana z talii,
+    je\u015Bli si\u0119 w niej znajduje. Istnieje 10% szans, \u017Ce karta zostanie
+    zagrana, je\u015Bli znajduje si\u0119 w r\u0119ce gracza.\""
+--- !u!114 &8758329474621965659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18,24 +39,3 @@ MonoBehaviour:
     zagrana, je\u015Bli znajduje si\u0119 w r\u0119ce gracza.\""
   deckPercent: 5
   handPercent: 10
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
-  m_Name: Gandalf
-  m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: Gandalf
-  artwork: {fileID: 0}
-  faction: 2
-  range: 2
-  power: 12
-  effect: {fileID: -6565012511267079831}
-  effectDescription: "\"Istnieje 5% szans, \u017Ce karta zostanie zagrana z talii,
-    je\u015Bli si\u0119 w niej znajduje. Istnieje 10% szans, \u017Ce karta zostanie
-    zagrana, je\u015Bli znajduje si\u0119 w r\u0119ce gracza.\""

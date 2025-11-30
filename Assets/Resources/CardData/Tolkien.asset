@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Tolkien
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Tolkien
-  artwork: {fileID: 0}
+  artwork: {fileID: 1934323766780816918, guid: 1e9dfd22625003648a004eddf860f679, type: 3}
   faction: 2
   range: 2
   power: 0
-  effect: {fileID: 7128880600320376185}
+  effect: {fileID: 4856689004184660129}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
     rz\u0119dzie gracza i przeciwnika"
---- !u!114 &7128880600320376185
+--- !u!114 &4856689004184660129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

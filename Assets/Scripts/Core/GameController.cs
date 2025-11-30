@@ -68,6 +68,8 @@ public class GameController : MonoBehaviour
     private bool playerHasPassed = false;
     private bool enemyHasPassed = false;
 
+    private bool hasPlayedCardThisTurn = false;
+
     [Header("Debug / Test Deck")]
     public List<CardData> startingDeckAssets;
 
@@ -91,8 +93,6 @@ public class GameController : MonoBehaviour
         if (roundResultPanel != null) roundResultPanel.SetActive(false);
         if (gameResultPanel != null) gameResultPanel.SetActive(false); 
 
-        //faza wymiany kart na start tutaj
-
         StartGame();
     }
 
@@ -100,16 +100,14 @@ public class GameController : MonoBehaviour
     {
         if (isGameEnded)
         {
-            bool clicked = false;
-
-            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame) clicked = true;
-            else if (Input.GetMouseButtonDown(0)) clicked = true;
-
-            if (clicked)
-            {
-                Debug.Log("Powrót do menu...");
+            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
                 SceneManager.LoadScene(mainMenuSceneName);
-            }
+        }
+
+        if (currentState == GameState.WaitingForTarget)
+        {
+            if (Keyboard.current.escapeKey.wasPressedThisFrame)
+                CancelPlay();
         }
     }
 
@@ -119,24 +117,17 @@ public class GameController : MonoBehaviour
         {
             if (data != null)
             {
-                CardInstance newCard = new CardInstance(data, player);
-                player.cardsInDeck.Add(newCard);
-            }
-        }
-
-        foreach (CardData data in startingDeckAssets)
-        {
-            if (data != null)
-            {
-                CardInstance newCard = new CardInstance(data, enemy);
-                enemy.cardsInDeck.Add(newCard);
+                player.cardsInDeck.Add(new CardInstance(data, player));
+                enemy.cardsInDeck.Add(new CardInstance(data, enemy));
             }
         }
 
         HandManager tempHandManager = handManager;
         handManager = null;
+
         DrawCard(player, cardsToDrawOnStart);
         DrawCard(enemy, cardsToDrawOnStart);
+
         handManager = tempHandManager;
 
         StartMulliganPhase();
@@ -174,7 +165,30 @@ public class GameController : MonoBehaviour
     public void StartPlayerTurn()
     {
         Debug.Log("Pocz¹tek tury gracza");
+
+        hasPlayedCardThisTurn = false;
+
+        if (player.cardsInHand.Count == 0)
+            Debug.Log("Brak kart w rêce. Musisz spasowaæ.");
+
         CheckAutoPlayCards(player);
+    }
+
+    public void StartEnemyTurn()
+    {
+        if (enemyHasPassed)
+        {
+            Debug.Log("Przeciwnik spasowa³, powrót do gracza.");
+            if (!playerHasPassed) StartPlayerTurn();
+            return;
+        }
+
+        Debug.Log("Tura przeciwnika.");
+
+        if (AIController.Instance != null)
+            AIController.Instance.MakeDecision();
+        else
+            Debug.LogError("Brak AIController na scenie!");
     }
 
     private void CheckAutoPlayCards(Player currentPlayer)
@@ -208,6 +222,14 @@ public class GameController : MonoBehaviour
 
     public void PlayCard(CardInstance card, bool isPlayerPlayed, RangeType? targetRow = null, int insertIndex = -1)
     {
+        if (isPlayerPlayed && hasPlayedCardThisTurn)
+        {
+            Debug.LogWarning("Ju¿ zagra³eœ kartê w tej turze.");
+
+            if (handManager != null) handManager.AddCardToHandVisual(card);
+            return;
+        }
+
         Debug.Log($"[Game Controller] Zagrano kartê: {card.data.cardName}.");
 
         List<CardInstance> targetBoard = isPlayerPlayed ? playerBoard : enemyBoard;
@@ -221,6 +243,10 @@ public class GameController : MonoBehaviour
             targetBoard.Add(card);
         }
 
+        if (isPlayerPlayed) hasPlayedCardThisTurn = true;
+
+        SpawnCardOnBoardVisual(card, isPlayerPlayed, targetRow, insertIndex);
+
         if (card.data.effect != null)
         {
             Debug.Log($" -> Uruchomiono efekt: {card.data.effect.effectName}.");
@@ -228,7 +254,40 @@ public class GameController : MonoBehaviour
         }
 
         NotifyOtherCardsOnPlay(card);
-        SpawnCardOnBoardVisual(card, isPlayerPlayed, targetRow, insertIndex);
+        UpdateUI();
+    }
+
+    public void CancelPlay()
+    {
+        if (pendingCardSource == null) return;
+
+        Debug.Log("Anulowanie zagrania karty.");
+
+        CardInstance cardToReturn = pendingCardSource;
+
+        if (playerBoard.Contains(cardToReturn)) playerBoard.Remove(cardToReturn);
+        else if (enemyBoard.Contains(cardToReturn)) enemyBoard.Remove(cardToReturn);
+
+        CardBoardVisual[] visuals = FindObjectsByType<CardBoardVisual>(FindObjectsSortMode.None);
+        foreach (var v in visuals)
+        {
+            var cob = v.GetComponent<CardOnBoard>();
+            if (cob != null && cob.cardInstance == cardToReturn)
+            {
+                Destroy(v.gameObject);
+                break;
+            }
+        }
+
+        player.cardsInHand.Add(cardToReturn);
+        if (handManager != null) handManager.AddCardToHandVisual(cardToReturn);
+
+        hasPlayedCardThisTurn = false;
+        currentState = GameState.Normal;
+        pendingCardSource = null;
+        pendingEffect = null;
+        selectedTargets.Clear();
+
         UpdateUI();
     }
 
@@ -240,9 +299,25 @@ public class GameController : MonoBehaviour
             return;
         }
 
+        if (player.cardsInHand.Count == 0 && !hasPlayedCardThisTurn)
+        {
+            Debug.Log("Brak kart. Pasowanie rundy.");
+            PlayerPassRound();
+            return;
+        }
+
         Debug.Log("[GameController] Gracz koñczy turê.");
         ProcessTurnEndEffect(playerBoard);
         StartEnemyTurn();
+    }
+
+    public void EndEnemyTurn()
+    {
+        Debug.Log("[GameController] AI koñczy turê.");
+        ProcessTurnEndEffect(enemyBoard);
+
+        if (!playerHasPassed) StartPlayerTurn();
+        else StartEnemyTurn();
     }
 
     public void PlayerPassRound()
@@ -256,20 +331,10 @@ public class GameController : MonoBehaviour
         if (!enemyHasPassed) StartEnemyTurn();
     }
 
-    public void StartEnemyTurn()
+    public void EnemyPassRound()
     {
-        if (enemyHasPassed)
-        {
-            Debug.Log("Przeciwnik spasowa³, powrót do gracza.");
-            if (!playerHasPassed) StartPlayerTurn();
-            return;
-        }
-
-        Debug.Log("Tura przeciwnika.");
-
-        //logika AI tutaj
+        Debug.Log("[GameController] AI pasuje rundê.");
         enemyHasPassed = true;
-        Debug.Log("Przeciwnik pasuje rundê.");
 
         ProcessTurnEndEffect(enemyBoard);
         CheckRoundEnd();
@@ -458,6 +523,21 @@ public class GameController : MonoBehaviour
 
         if (playerPointsText != null) playerPointsText.text = playerPoints.ToString();
         if (enemyPointsText != null) enemyPointsText.text = enemyPoints.ToString();
+
+        BoardRow[] rows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
+        foreach (var row in rows)
+        {
+            foreach (Transform child in row.transform)
+            {
+                if (child.name.Contains("Ghost")) continue;
+
+                CardOnBoard dataHolder = child.GetComponent<CardOnBoard>();
+                CardBoardVisual visual = child.GetComponent<CardBoardVisual>();
+
+                if (dataHolder != null && visual != null && dataHolder.cardInstance != null)
+                    visual.UpdateVisuals(dataHolder.cardInstance);
+            }
+        }
     }
 
     public void DrawCard(Player drawingPlayer, int amount = 1)
@@ -531,6 +611,24 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void MoveCardToOtherSide(CardInstance card)
+    {
+        CardBoardVisual[] visuals = FindObjectsByType<CardBoardVisual>(FindObjectsSortMode.None);
+        foreach (var v in visuals)
+        {
+            var cob = v.GetComponent<CardOnBoard>();
+            if (cob != null && cob.cardInstance == card)
+            {
+                Destroy(v.gameObject);
+                break;
+            }
+        }
+
+        bool isNowPlayerSide = playerBoard.Contains(card);
+
+        SpawnCardOnBoardVisual(card, isNowPlayerSide, card.data.range, -1);
+    }
+
     public void StartTargeting(CardInstance source, CardEffect effect)
     {
         currentState = GameState.WaitingForTarget;
@@ -563,19 +661,27 @@ public class GameController : MonoBehaviour
                 return;
             }
 
-            Debug.Log($"Wybrano cel: {target.data.cardName}.");
+            bool targetIsOnMyBoard = playerBoard.Contains(target);
+            bool sourceIsOnMyBoard = playerBoard.Contains(pendingCardSource);
+
+            bool isFriendlySide = (targetIsOnMyBoard == sourceIsOnMyBoard);
 
             TargetAlignment align = targetEffect.GetTargetAlignment();
-            bool isMyCard = (target.owner == pendingCardSource.owner);
 
-            if (align == TargetAlignment.Friendly && !isMyCard)
+            if (align == TargetAlignment.Friendly && !isFriendlySide)
             {
                 Debug.LogWarning("Wybra³eœ wrog¹ kartê zamiast sojusznika.");
                 return;
             }
-            if (align == TargetAlignment.Enemy && isMyCard)
+            if (align == TargetAlignment.Enemy && isFriendlySide)
             {
                 Debug.LogWarning("Wybra³eœ swoj¹ kartê zamiast wrogiej.");
+                return;
+            }
+
+            if (target.isImunne && align == TargetAlignment.Enemy)
+            {
+                Debug.LogWarning("Ta karta jest odporna!");
                 return;
             }
 
@@ -586,11 +692,11 @@ public class GameController : MonoBehaviour
             }
 
             selectedTargets.Add(target);
+            Debug.Log($"Wybrano cel: {target.data.cardName}.");
 
             if (selectedTargets.Count >= targetEffect.GetTargetCount())
             {
                 currentState = GameState.Normal;
-
                 targetEffect.ExecuteWithTarget(new List<CardInstance>(selectedTargets));
 
                 pendingCardSource = null;
@@ -648,6 +754,12 @@ public class GameController : MonoBehaviour
     }
 
     public bool PlayerLostLastRound(Player player) => player.lostLastRound;
+
+    public bool HasPlayerPassed() => playerHasPassed;
+
+    public CardEffect GetPendingEffect() => pendingEffect;
+
+    public CardInstance GetPendingSource() => pendingCardSource;
 
     public List<CardInstance> GetPlayerCards(Player player) => player.cardsOnBoard;
 }

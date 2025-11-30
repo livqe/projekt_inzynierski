@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4298304058207522060}
   - component: {fileID: 3280354683423608108}
   m_Layer: 0
-  m_Name: GhostCard
+  m_Name: PrefabGhostCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

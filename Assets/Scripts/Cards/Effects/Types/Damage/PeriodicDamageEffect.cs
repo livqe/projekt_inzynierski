@@ -7,25 +7,23 @@ public class PeriodicDamageEffect : CardEffect, IOnTurnEndEffect
     [SerializeField] private int damageToDeal;
     [SerializeField] private int turnFrequency;
 
-    private int turnCounter = 0;
-
     public void Initialize(int damageAmount, int frequency)
     {
         this.damageToDeal = damageAmount;
         this.turnFrequency = frequency;
-        this.turnCounter = 1;
     }
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
         Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} zostaje zagrany, aktywuje siê co {turnFrequency} tur.");
+        source.effectTurnCounter = 1;
     }
 
     public void OnTurnEnd(GameController game, CardInstance source)
     {
-        if (source.currentPower <= 0) return;
+        if (source.currentPower <= 0 && !source.survivor) return;
 
-        if (turnCounter >= turnFrequency)
+        if (source.effectTurnCounter >= turnFrequency)
         {
             Debug.Log($"[Effect] {source.data.cardName} atakuje");
 
@@ -45,12 +43,12 @@ public class PeriodicDamageEffect : CardEffect, IOnTurnEndEffect
                 Debug.Log("[Effect] Brak celów dla efektu okresowego.");
             }
 
-            turnCounter = 0;
+            source.effectTurnCounter = 0;
         }
         else
         {
-            turnCounter++;
-            Debug.Log($"[Effect] {source.data.cardName} ³aduje atak: {turnCounter}/{turnFrequency}");
+            source.effectTurnCounter++;
+            Debug.Log($"[Effect] {source.data.cardName} ³aduje atak: {source.effectTurnCounter}/{turnFrequency}");
         }
     }
 
@@ -59,7 +57,7 @@ public class PeriodicDamageEffect : CardEffect, IOnTurnEndEffect
         List<CardInstance> validTargets = new List<CardInstance>();
         foreach (var card in board)
         {
-            if (card.currentPower > 0) validTargets.Add(card);
+            if (card.currentPower > 0 && !card.isImunne) validTargets.Add(card);
         }
 
         if (validTargets.Count == 0) return null;

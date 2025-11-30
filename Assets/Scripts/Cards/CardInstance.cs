@@ -16,6 +16,7 @@ public class CardInstance
     public string Name => data.cardName;
     public bool survivor;
     public bool effectTriggered = false;
+    public int effectTurnCounter = 0;
 
     public CardInstance(CardData cardData, Player owner)
     {
@@ -24,6 +25,7 @@ public class CardInstance
         this.currentPower = cardData.power;
         this.shield = 0;
         this.isImunne = false;
+        this.effectTurnCounter = 0;
 
         if (data.power == 0)
         {

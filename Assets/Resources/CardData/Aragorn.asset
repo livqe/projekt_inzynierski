@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7703960181458236336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b5e33974bfeef244bf44a28a6c4a4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuffRandomAllyEffect
+  effectName: BuffRandomAllyEffect
+  effectDescription: Dodaje +2 do mocy losowej przyjaznej karcie na planszy
+  powerToAdd: 2
+  targetCount: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,21 +33,5 @@ MonoBehaviour:
   faction: 2
   range: 0
   power: 6
-  effect: {fileID: 2676157941103480746}
-  effectDescription: Dodaje +2 do mocy losowej przyjaznej karcie na planszy.
---- !u!114 &2676157941103480746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b5e33974bfeef244bf44a28a6c4a4c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuffRandomAllyEffect
-  effectName: BuffRandomAllyEffect
+  effect: {fileID: -7703960181458236336}
   effectDescription: Dodaje +2 do mocy losowej przyjaznej karcie na planszy
-  powerToAdd: 2
-  targetCount: 1

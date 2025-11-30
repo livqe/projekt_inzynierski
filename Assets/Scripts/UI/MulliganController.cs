@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 using System.Collections.Generic;
 
 public class MulliganController : MonoBehaviour
@@ -28,7 +29,6 @@ public class MulliganController : MonoBehaviour
 
     void Start()
     {
-        if (mulliganPanel != null) mulliganPanel.SetActive(false);
         if (previewPanel != null) previewPanel.SetActive(false);
 
         if (finishButton != null) 
@@ -41,6 +41,12 @@ public class MulliganController : MonoBehaviour
         replacementsUsed = 0;
 
         if (mulliganPanel != null) mulliganPanel.SetActive(true);
+        if (finishButton != null)
+        {
+            finishButton.interactable = true;
+            Text btnText = finishButton.GetComponentInChildren<Text>();
+            if (btnText != null) btnText.text = "Gotowe";
+        }
 
         UpdateReplacementsText();
         GenerateCardsGrid();
@@ -142,6 +148,12 @@ public class MulliganController : MonoBehaviour
         trigger.triggers.Add(entryExit);
 
         ShowPreview(newCard);
+
+        if (replacementsUsed >= maxReplacements)
+        {
+            Debug.Log("Wykorzystano limit. Zamykam mulligan...");
+            StartCoroutine(AutoFinishSequence());
+        }
     }
 
     private void ShowPreview(CardInstance card)
@@ -168,5 +180,19 @@ public class MulliganController : MonoBehaviour
         if (previewPanel != null) previewPanel.SetActive(false);
 
         GameController.Instance.OnMulliganFinished();
+    }
+
+    private IEnumerator AutoFinishSequence()
+    {
+        if (finishButton != null)
+        {
+            finishButton.interactable = false;
+            Text btnText = finishButton.GetComponentInChildren<Text>();
+            if (btnText != null) btnText.text = "...";
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        FinishMulligan();
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1756039408168988694
+--- !u!114 &-3864561429063308932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,6 +34,6 @@ MonoBehaviour:
   faction: 0
   range: 1
   power: 6
-  effect: {fileID: -1756039408168988694}
+  effect: {fileID: -3864561429063308932}
   effectDescription: "Co tur\u0119 zadaje obra\u017Cenia w wysoko\u015Bci -1 losowej
     wrogiej karcie na planszy"

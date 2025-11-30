@@ -1,0 +1,58 @@
+﻿Nazwa;Frakcja;Moc;Zasięg;Opis efektu;Nazwa efektu;Parametry efektu
+Thorin Dębowa Tarcza;Krasnoludy;10;Bliski;"Zyskuje tarczę o wartości 5 punktów, która chroni go przed obrażeniami.";AddShieldEffect;5
+Fili;Krasnoludy;7;Bliski;"Jeśli Kili i Fili są na planszy, a Kili otrzyma obrażenia równe jego aktualnej mocy (zostaje wyeliminowany z planszy), to Fili również zostaje wyeliminowany z planszy.";DeathLinkEffect;Kili
+Balin;Krasnoludy;4;Bliski;Co drugą turę zyskuje +1 do mocy.;BuffSelfEffect;1|2
+Dwalin;Krasnoludy;6;Bliski;Co dwie tury zadaje wrogiej karcie na planszy obrażenia o wartości -3.;PeriodicDamageEffect;3|2
+Gloin;Krasnoludy;5;Bliski;Zadaje wybranej wrogiej karcie na planszy obrażenia o wartości -5.;DamageTargetEnemyEffect;5
+Gimli;Krasnoludy;5;Bliski;"Jeśli Legolas i Gimli są razem na planszy, to obie karty zostają wyeliminowane (moc obu kart przyjmuje wartość 0).";MutualDestructionEffect;Legolas
+Dori;Krasnoludy;4;Bliski;"Jeśli Ori zostanie wyeliminowany, to Dori zyskuje +3.";BuffSelfOnAllyDeathEffect;3|Ori
+Nori;Krasnoludy;5;Bliski;"Jeśli Dori i Ori są na planszy, to Nori zyskuje +3.";ConditionalBuffSelfEffect;3|Dori|Ori
+Bofur;Krasnoludy;6;Bliski;Zadaje obrażenia o wartości -3 wybranej wrogiej karcie na planszy.;DamageTargetEnemyEffect;3
+Bombur;Krasnoludy;3;Bliski;Dodaje +2 mocy dla 2 innych wybranych kart na planszy.;BuffTargetEffect;2|2
+Kozły Bojowe;Krasnoludy;4;Bliski;Zadaje obrażenia o wysokości -2 wybranej karcie wroga na planszy.;DamageTargetEnemyEffect;2
+Durin;Krasnoludy;12;Bliski;Jest odporny na obrażenia.;ImmuneToDamageEffect;
+Gwardzista;Krasnoludy;2;Bliski;;;
+Ori;Krasnoludy;1;Daleki;Dodaje +1 mocy wszystkim kartom w rzędzie.;BuffRowEffect;1
+Bifur;Krasnoludy;8;Daleki;Zadaje obrażenia o wysokości -4 wybranej karcie wroga na planszy.;DamageTargetEnemyEffect;4
+Miotacz Toporów;Krasnoludy;1;Daleki;;;
+Katapulta;Krasnoludy;3;Daleki;;;
+Thrór;Krasnoludy;0;Daleki;Wzywa wszystkich gwardzistów z talii.;SummonCardEffect;Gwardzista|All
+Kili;Krasnoludy;7;Dowolny;"Zadaje Tauriel obrażenia w wysokości -5, jeśli Tauriel jest na planszy i otrzymuje -4 obrażeń.";MutualDamageLinkEffect;5|Tauriel
+Oin;Krasnoludy;1;Dowolny;Dodaje +6 mocy dla innej wybranej karty na planszy.;BuffTargetEffect;6|1
+Thrain;Krasnoludy;0;Dowolny;Jego moc zmienia się co turę losowo w przedziale 0-11.;RandomPowerEffect;0|11
+Dain Żelazna Stopa;Krasnoludy;6;Dowolny;Wzywa rydwan z talii.;SummonCardEffect;Rydwan|1
+Rydwan;Krasnoludy;4;Dowolny;;;
+Thranduil;Elfy;10;Bliski;Zadaje obrażenia w wysokości -4 wybranej wrogiej karcie na planszy.;DamageTargetEnemyEffect;4
+Oropher;Elfy;3;Bliski;Wzywa wszsystkich wartowników z talii.;SummonCardEffect;Wartownik|All
+Miecznik;Elfy;1;Bliski;;;
+Wartownik;Elfy;2;Bliski;;;
+Łoś;Elfy;5;Bliski;Zadaje obrażenia w wysokości -2 wybranej wrogiej karcie na planszy.;DamageTargetEnemyEffect;2
+Gil-Galad;Elfy;5;Daleki;Zadaje obrażenia w wysokości -3 wybranej wrogiej karcie na planszy.;DamageTargetEnemyEffect;3
+Galadriela;Elfy;12;Daleki;;;
+Fingolfin;Elfy;3;Daleki;Zadaje obrażenia w wysokości -2 wybranej wrogiej karcie na planszy.;DamageTargetEnemyEffect;2
+Tauriel;Elfy;8;Daleki;"Zadaje Kiliemu obrażenia w wysokości -4, jeśli Kili jest na planszy i otrzymuje -5 obrażeń.";MutualDamageLinkEffect;4|Kili
+Łucznik;Elfy;2;Daleki;;;
+Celeborn;Elfy;3;Daleki;"Dodaje +2 do mocy każdej karcie w rzędzie, jeśli Galadriela jest na planszy.";ConditionalBuffRowEffect;2|Galadriela
+Celebrimbor;Elfy;7;Daleki;Jest odporny na obrażenia.;ImmuneToDamageEffect;
+Haldir;Elfy;3;Daleki;Na koniec każdej tury otrzymuje +1 do mocy.;BuffSelfEffect;1|1
+Fëanor;Elfy;6;Daleki;Co turę zadaje obrażenia w wysokości -1 losowej wrogiej karcie na planszy.;PeriodicDamageEffect;1|1
+Elladan;Elfy;4;Daleki;"Otrzymuje +2 do mocy, jeśli Arwena jest na planszy.";ConditionalBuffSelfEffect;2|Arwena
+Elrohir;Elfy;3;Daleki;"Otrzymuje +3 do mocy, jeśli Arwena jest na planszy.";ConditionalBuffSelfEffect;3|Arwena
+Elrond;Elfy;10;Dowolny;Zadaje obrażenia w wysokości -4 wybranej wrogiej karcie na planszy.;DamageTargetEnemyEffect;4
+Lindir;Elfy;4;Dowolny;"Otrzymuje +3 do mocy, jeśli Elrond jest na planszy.";ConditionalBuffSelfEffect;3|Elrond
+Legolas;Elfy;9;Dowolny;"Jeśli Legolas i Gimli są razem na planszy, to obie karty zostają wyeliminowane (moc obu kart przyjmuje wartość 0).";MutualDestructionEffect;Gimli
+Arwena;Elfy;1;Dowolny;Dodaje +5 do mocy wybranej innej karcie na planszy.;BuffTargetEffect;5|1
+Glorfindel;Elfy;1;Dowolny;"Dodaje +4 do mocy Elrondowi, jeśli zostanie wyeliminowany z planszy.";BuffAllyOnSelfDeathEffect;4|Elrond
+Maglor;Elfy;0;Dowolny;Dodaje +2 do mocy wszystkim kartom w rzędzie.;BuffRowEffect;2
+Aragorn;Neutralne;6;Bliski;Dodaje +2 do mocy losowej przyjaznej karcie na planszy.;BuffRandomAllyEffect;2|1
+Bard;Neutralne;3;Bliski;Dodaje +2 do mocy wszystkim kartom w rzędzie.;BuffRowEffect;2
+Beorn;Neutralne;9;Bliski;Zadaje obrażenia w wysokości - 5 wybranej wrogiej karcie na planszy.;DamageTargetEnemyEffect;5
+Bilbo Baggins;Neutralne;2;Bliski;"Karta zostaje dodana na pole wroga, ale wzamian dobierasz nową kartę z talii.";SpyEffect;1
+Ćma;Neutralne;0;Daleki;"Wzywa wszystkie orły z talii, jeśli Gandalf jest na planszy.";ConditionalSummonCardEffect;Orły|Gandalf
+Orły;Neutralne;3;Daleki;;;
+Gandalf;Neutralne;12;Dowolny;"Istnieje 5% szans, że karta zostanie zagrana z talii, jeśli się w niej znajduje. Istnieje 10% szans, że karta zostanie zagrana, jeśli znajduje się w ręce gracza.";ChanceAutoPlayEffect;5|10
+Radagast;Neutralne;10;Dowolny;Zadaje obrażenia w wysokości -3 lub dodaje +3 do mocy losowej przyjaznej karcie na planszy.;RandomDmgBuffChoiceEffect;3|3
+Tom Bombadil;Neutralne;13;Dowolny;Dodaje +7 do mocy losowej przyjaznej karcie na planszy.;BuffRandomAllyEffect;7|1
+Tolkien;Neutralne;0;Dowolny;Zadaje obrażenia w wysokości -7 kartom w wybranym rzędzie gracza i przeciwnika.;RowDamageEffect;7
+Promotorzy;Neutralne;?;Dowolny;"Mają 0,1% szans na wylosowanie z talii. Po zagraniu na planszę automatycznie ""zdajesz egzamin"" - wygrywasz grę.";InstantWin;"0,1"
+Patelnia Sama;Neutralne;2;Dowolny;Dodaje +4 do mocy dwóm innym losowym kartom.;BuffRandomAllyEffect;4|2

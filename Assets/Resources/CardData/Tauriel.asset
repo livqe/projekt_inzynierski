@@ -17,10 +17,10 @@ MonoBehaviour:
   faction: 0
   range: 1
   power: 8
-  effect: {fileID: 7664759527060231077}
+  effect: {fileID: 2383931874194215093}
   effectDescription: "\"Zadaje Kiliemu obra\u017Cenia w wysoko\u015Bci -4, je\u015Bli
     Kili jest na planszy i otrzymuje -5 obra\u017Ce\u0144\""
---- !u!114 &7664759527060231077
+--- !u!114 &2383931874194215093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

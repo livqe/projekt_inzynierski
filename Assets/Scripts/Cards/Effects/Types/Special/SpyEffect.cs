@@ -25,9 +25,10 @@ public class SpyEffect : CardEffect
             game.playerBoard.Add(source);
         }
 
+        game.MoveCardToOtherSide(source);
+
         Debug.Log($"[Effect] Gracz {source.owner.playerName} dobiera {cardsToDraw} kart.");
         game.DrawCard(source.owner, cardsToDraw);
-
         game.UpdateUI();
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5601439421197015780
+--- !u!114 &-7570537361372968100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30,9 +30,9 @@ MonoBehaviour:
   m_Name: Elrohir
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Elrohir
-  artwork: {fileID: 0}
+  artwork: {fileID: 4490688858398741791, guid: 610ceba61f7271e4aaf8b4ea329a6fa8, type: 3}
   faction: 0
   range: 1
   power: 3
-  effect: {fileID: -5601439421197015780}
-  effectDescription: "\"Otrzymuje +3 do mocy, je\u015Bli Arwena jest na planszy\""
+  effect: {fileID: -7570537361372968100}
+  effectDescription: "Otrzymuje +3 do mocy, je\u015Bli Arwena jest na planszy."

@@ -17,10 +17,10 @@ MonoBehaviour:
   faction: 1
   range: 1
   power: 8
-  effect: {fileID: 7662273435774554114}
+  effect: {fileID: 2028567383146038833}
   effectDescription: "Zadaje obra\u017Cenia o wysoko\u015Bci -4 wybranej karcie wroga
     na planszy"
---- !u!114 &7662273435774554114
+--- !u!114 &2028567383146038833
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -36,3 +36,4 @@ MonoBehaviour:
   effectDescription: "Zadaje obra\u017Cenia o wysoko\u015Bci -4 wybranej karcie wroga
     na planszy"
   damageToDeal: 4
+  targetCount: 1

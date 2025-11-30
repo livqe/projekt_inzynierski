@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 [CreateAssetMenu(menuName = "Card/Effects/Buff/BuffTargetEffect")]
 public class BuffTargetEffect : CardEffect, ITargetableEffect
@@ -18,9 +19,17 @@ public class BuffTargetEffect : CardEffect, ITargetableEffect
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
-        Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} ¿¹da wyboru {targetCount} sojusznika/ów, by ich wzmocniæ o +{powerToAdd}.");
+        List<CardInstance> myBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
 
-        game.StartTargeting(source, this);
+        bool anyValidTargets = myBoard.Any(c => c.currentPower >= 0 && c != source);
+
+        if (anyValidTargets)
+        {
+            Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} ¿¹da wyboru {targetCount} sojusznika/ów, by ich wzmocniæ o +{powerToAdd}.");
+            game.StartTargeting(source, this);
+        }
+        else
+            Debug.Log("[Effect] Brak sojuszników do wzmocnienia.");
     }
 
     public void ExecuteWithTarget(List<CardInstance> targets)

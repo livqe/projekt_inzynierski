@@ -9,12 +9,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4290860744143093904}
-  - component: {fileID: 510705614735575657}
   - component: {fileID: 6367338505886752861}
+  - component: {fileID: 8043919841969073943}
   - component: {fileID: 716173088088713636}
-  - component: {fileID: 500111668548739507}
+  - component: {fileID: 167023379986826772}
+  - component: {fileID: 2852457393907030908}
+  - component: {fileID: 5211163890167049912}
+  - component: {fileID: -2500836235486456536}
+  - component: {fileID: -7415318579510756821}
   m_Layer: 0
-  m_Name: PlaceholderCardMulligan
+  m_Name: PrefabCardHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,10 +41,83 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000020981, y: 0.000055552}
-  m_SizeDelta: {x: 248, y: 374}
+  m_AnchoredPosition: {x: -35.197407, y: -20.0671}
+  m_SizeDelta: {x: 80, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &510705614735575657
+--- !u!114 &6367338505886752861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3564417591958109769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f78622205e89ca44fb1578f089af8b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardView
+  artworkImage: {fileID: 5211163890167049912}
+  powerText: {fileID: 5193356905663088010}
+  cardInstance:
+    data: {fileID: 0}
+    currentPower: 0
+    shield: 0
+    isImunne: 0
+    survivor: 0
+    effectTriggered: 0
+--- !u!114 &8043919841969073943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3564417591958109769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acbb43c958492c746b042620681301fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragAndPlay
+--- !u!225 &716173088088713636
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3564417591958109769}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &167023379986826772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3564417591958109769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
+  m_IgnoreLayout: 0
+  m_MinWidth: 100
+  m_MinHeight: 150
+  m_PreferredWidth: 100
+  m_PreferredHeight: 150
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!222 &2852457393907030908
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3564417591958109769}
+  m_CullTransparentMesh: 1
+--- !u!114 &5211163890167049912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,7 +147,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6367338505886752861
+--- !u!114 &-2500836235486456536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,38 +156,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3564417591958109769}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f78622205e89ca44fb1578f089af8b4c, type: 3}
+  m_Script: {fileID: 11500000, guid: acd48441eb676164bad628bbb7ad9776, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardView
-  artworkImage: {fileID: 510705614735575657}
-  powerText: {fileID: 5193356905663088010}
-  cardInstance:
-    data: {fileID: 0}
-    currentPower: 0
-    shield: 0
-    isImunne: 0
-    survivor: 0
-    effectTriggered: 0
---- !u!225 &716173088088713636
-CanvasGroup:
+  m_EditorClassIdentifier: Assembly-CSharp::CardHoverEffect
+--- !u!114 &-7415318579510756821
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3564417591958109769}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!222 &500111668548739507
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3564417591958109769}
-  m_CullTransparentMesh: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1ec572e838fcb4c9f1178cd1bd3a21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardInteraction
 --- !u!1 &3779709870290938053
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,8 +203,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4290860744143093904}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.056, y: 0.84534764}
-  m_AnchorMax: {x: 0.24100001, y: 0.96000004}
+  m_AnchorMin: {x: 0.06898426, y: 0.84685254}
+  m_AnchorMax: {x: 0.23227668, y: 0.9537583}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
@@ -170,13 +230,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: '10
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f4a31fb99c447894289a662b0c64d4a2, type: 2}
   m_sharedMaterial: {fileID: -3682114706634859462, guid: f4a31fb99c447894289a662b0c64d4a2, type: 2}
@@ -203,12 +265,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 9.2
   m_fontSizeBase: 9
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 20
-  m_fontSizeMax: 30
+  m_fontSizeMin: 4
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

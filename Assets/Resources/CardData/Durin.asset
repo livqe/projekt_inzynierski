@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7940005321387390216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483091f4a74e24940ac4bbfce65dfb12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImmuneToDamageEffect
+  effectName: ImmuneToDamageEffect
+  effectDescription: "Jest odporny na obra\u017Cenia"
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,23 +27,9 @@ MonoBehaviour:
   m_Name: Durin
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Durin
-  artwork: {fileID: 0}
+  artwork: {fileID: 2330444425804740276, guid: 2b8a15dbb43c83b429dd9943db9e8bef, type: 3}
   faction: 1
   range: 0
   power: 12
-  effect: {fileID: 8388896605733186835}
-  effectDescription: "Jest odporny na obra\u017Cenia"
---- !u!114 &8388896605733186835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 483091f4a74e24940ac4bbfce65dfb12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ImmuneToDamageEffect
-  effectName: ImmuneToDamageEffect
+  effect: {fileID: -7940005321387390216}
   effectDescription: "Jest odporny na obra\u017Cenia"

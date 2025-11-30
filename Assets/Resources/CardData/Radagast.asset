@@ -1,6 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-575562390903996295
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Radagast
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Radagast
+  artwork: {fileID: -3340587256500765795, guid: f930db44a9f6b514dabd660280cc33e9, type: 3}
+  faction: 2
+  range: 2
+  power: 10
+  effect: {fileID: 8765050132454837472}
+  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -3 lub dodaje +3 do
+    mocy losowej przyjaznej karcie na planszy"
+--- !u!114 &8765050132454837472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17,23 +37,3 @@ MonoBehaviour:
     mocy losowej przyjaznej karcie na planszy"
   damageToDeal: 3
   powerToAdd: 3
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
-  m_Name: Radagast
-  m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: Radagast
-  artwork: {fileID: 0}
-  faction: 2
-  range: 2
-  power: 10
-  effect: {fileID: -575562390903996295}
-  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -3 lub dodaje +3 do
-    mocy losowej przyjaznej karcie na planszy"

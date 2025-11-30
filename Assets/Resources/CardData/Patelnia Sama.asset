@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Patelnia Sama
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Patelnia Sama
+  artwork: {fileID: 1082181767108315037, guid: d6d07f58eaf5cf540999529e19b9654c, type: 3}
+  faction: 2
+  range: 2
+  power: 2
+  effect: {fileID: 438347318110450315}
+  effectDescription: "Dodaje +4 do mocy dw\xF3m innym losowym kartom."
+--- !u!114 &438347318110450315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b5e33974bfeef244bf44a28a6c4a4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuffRandomAllyEffect
+  effectName: BuffRandomAllyEffect
+  effectDescription: "Dodaje +4 do mocy dw\xF3m innym losowym kartom."
+  powerToAdd: 4
+  targetCount: 2

@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Tom Bombadil
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Tom Bombadil
-  artwork: {fileID: 0}
+  artwork: {fileID: -4437012829736749435, guid: d9e4b6c3a234bff4490c03588fdb063e, type: 3}
   faction: 2
   range: 2
   power: 13
-  effect: {fileID: 3334440938987373897}
+  effect: {fileID: 4195938312089402512}
   effectDescription: Dodaje +7 do mocy losowej przyjaznej karcie na planszy
---- !u!114 &3334440938987373897
+--- !u!114 &4195938312089402512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,3 +34,4 @@ MonoBehaviour:
   effectName: BuffRandomAllyEffect
   effectDescription: Dodaje +7 do mocy losowej przyjaznej karcie na planszy
   powerToAdd: 7
+  targetCount: 1

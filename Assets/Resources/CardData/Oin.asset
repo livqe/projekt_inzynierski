@@ -17,9 +17,9 @@ MonoBehaviour:
   faction: 1
   range: 2
   power: 1
-  effect: {fileID: 2167893200929136002}
+  effect: {fileID: 6217952853355095755}
   effectDescription: Dodaje +6 mocy dla innej wybranej karty na planszy
---- !u!114 &2167893200929136002
+--- !u!114 &6217952853355095755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

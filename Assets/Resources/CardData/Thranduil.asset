@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Thranduil
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Thranduil
-  artwork: {fileID: 0}
+  artwork: {fileID: 2306101322610445265, guid: 4ad021f4421fab74c9b2b2e1b55b72ce, type: 3}
   faction: 0
   range: 0
   power: 10
-  effect: {fileID: 8864800040933118864}
+  effect: {fileID: 4516994253032303027}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -4 wybranej wrogiej
     karcie na planszy"
---- !u!114 &8864800040933118864
+--- !u!114 &4516994253032303027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -36,3 +36,4 @@ MonoBehaviour:
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -4 wybranej wrogiej
     karcie na planszy"
   damageToDeal: 4
+  targetCount: 1

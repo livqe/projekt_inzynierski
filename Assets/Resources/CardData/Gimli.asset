@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4396741727051764558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3626640f68fbfcf46807889ee34b7f7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutualDestructionEffect
+  effectName: MutualDestructionEffect
+  effectDescription: "\"Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
+    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)\""
+  linkedEnemy: Legolas
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,22 +33,6 @@ MonoBehaviour:
   faction: 1
   range: 0
   power: 5
-  effect: {fileID: 1050108362864339628}
+  effect: {fileID: -4396741727051764558}
   effectDescription: "\"Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
     karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)\""
---- !u!114 &1050108362864339628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3626640f68fbfcf46807889ee34b7f7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MutualDestructionEffect
-  effectName: MutualDestructionEffect
-  effectDescription: "\"Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
-    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)\""
-  linkedEnemy: Legolas

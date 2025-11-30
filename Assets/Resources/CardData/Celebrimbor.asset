@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8254064581814819907
+--- !u!114 &-6360152212527589159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -31,5 +31,5 @@ MonoBehaviour:
   faction: 0
   range: 1
   power: 7
-  effect: {fileID: -8254064581814819907}
+  effect: {fileID: -6360152212527589159}
   effectDescription: "Jest odporny na obra\u017Cenia"
