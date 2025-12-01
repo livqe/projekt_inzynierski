@@ -16,22 +16,26 @@ public class PeriodicDamageEffect : CardEffect, IOnTurnEndEffect
     public override void ActivateEffect(GameController game, CardInstance source)
     {
         Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} zostaje zagrany, aktywuje siê co {turnFrequency} tur.");
-        source.effectTurnCounter = 1;
+        source.effectTurnCounter = 0;
     }
 
     public void OnTurnEnd(GameController game, CardInstance source)
     {
-        if (source.currentPower <= 0 && !source.survivor) return;
+        if (source.currentPower < 0) return;
+        if (source.currentPower == 0 && !source.survivor) return;
+
+        source.effectTurnCounter++;
+        Debug.Log($"[Effect] {source.data.cardName} ³aduje atak: {source.effectTurnCounter}/{turnFrequency}");
 
         if (source.effectTurnCounter >= turnFrequency)
         {
             Debug.Log($"[Effect] {source.data.cardName} atakuje");
 
             List<CardInstance> targetBoard = (source.owner == game.player) ? game.enemyBoard : game.playerBoard;
+            CardInstance randomTarget = GetRandomTarget(targetBoard);
 
             if (targetBoard.Count > 0)
             {
-                CardInstance randomTarget = GetRandomTarget(targetBoard);
                 if (randomTarget != null)
                 {
                     Debug.Log($"[Effect] {source.data.cardName} trafia {randomTarget.data.cardName} i zadaje -{damageToDeal} obra¿eñ.");
@@ -43,12 +47,7 @@ public class PeriodicDamageEffect : CardEffect, IOnTurnEndEffect
                 Debug.Log("[Effect] Brak celów dla efektu okresowego.");
             }
 
-            source.effectTurnCounter = 0;
-        }
-        else
-        {
-            source.effectTurnCounter++;
-            Debug.Log($"[Effect] {source.data.cardName} ³aduje atak: {source.effectTurnCounter}/{turnFrequency}");
+            source.effectTurnCounter -= turnFrequency;
         }
     }
 

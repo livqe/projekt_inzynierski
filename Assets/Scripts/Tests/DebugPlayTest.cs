@@ -29,7 +29,7 @@ public class DebugPlayTest : MonoBehaviour
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             CardInstance newCard = new CardInstance(testCard, GameController.Instance.player);
-            GameController.Instance.PlayCard(newCard, true);
+            GameController.Instance.PlayCard(newCard, true, true);
         }
 
         if (Keyboard.current.eKey.wasPressedThisFrame)

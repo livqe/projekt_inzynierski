@@ -59,7 +59,7 @@ public class SummonCardEffect : CardEffect
                 Debug.Log($"[Effect] Przyzywanie {card.data.cardName} z talii.");
 
                 owner.cardsInDeck.Remove(card);
-                game.PlayCard(card, (owner == game.player));
+                game.PlayCard(card, (owner == game.player), false);
             }
         }
         else

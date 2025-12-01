@@ -16,6 +16,8 @@ public class PassButtonController : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (GameController.Instance.currentState == GameState.WaitingForTarget) return;
+
         isHeld = true;
         timer = 0f;
         hasPassedRound = false;
@@ -24,6 +26,9 @@ public class PassButtonController : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (GameController.Instance.currentState == GameState.WaitingForTarget) return;
+        if (!isHeld) return;
+
         isHeld = false;
 
         if (fillImage != null) fillImage.fillAmount = 0;
@@ -50,6 +55,8 @@ public class PassButtonController : MonoBehaviour, IPointerDownHandler, IPointer
                 GameController.Instance.PlayerPassRound();
                 hasPassedRound = true;
                 isHeld = false;
+
+                if (fillImage != null) fillImage.fillAmount = 0;
             }
         }
     }

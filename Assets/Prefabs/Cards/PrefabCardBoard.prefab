@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 4276947503889592453}
   - component: {fileID: 6287376841226592349}
   - component: {fileID: -1478293387830854752}
+  - component: {fileID: 3202176627510852171}
   m_Layer: 0
   m_Name: PrefabCardBoard
   m_TagString: Untagged
@@ -239,6 +240,7 @@ MonoBehaviour:
     isImunne: 0
     survivor: 0
     effectTriggered: 0
+    effectTurnCounter: 0
 --- !u!114 &6641231789319791890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +348,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 6577543639012232799, guid: 0485dc9920fda0044ade0541d25b8e3f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -354,7 +356,7 @@ SpriteRenderer:
   m_Size: {x: 4.96, y: 7.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &-1478293387830854752
@@ -371,3 +373,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpriteScaler
   targetWidth: 1.2
   keepAspectRatio: 1
+--- !u!114 &3202176627510852171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5757615023230627088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344a4673a1677074490fdad227d7fb26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardBoardInteraction

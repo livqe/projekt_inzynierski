@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Promotorzy
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Promotorzy
-  artwork: {fileID: 0}
+  artwork: {fileID: -306484618207140940, guid: 702f79ee030df01479bbd1ccc6868306, type: 3}
   faction: 2
   range: 2
   power: 0
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: 6c83a7759fb409245a5765f2993d4b41, type: 2}
   effectDescription: "\"Maj\u0105 0,1% szans na wylosowanie z talii. Po zagraniu
     na plansz\u0119 automatycznie \"\"zdajesz egzamin\"\" - wygrywasz gr\u0119.\""

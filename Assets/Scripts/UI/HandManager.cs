@@ -6,7 +6,7 @@ public class HandManager : MonoBehaviour
     public GameObject cardUIPrefab;
     public Transform handContainer;
 
-    public void AddCardToHandVisual(CardInstance card)
+    public void AddCardToHandVisual(CardInstance card, int index = -1)
     {
         if (cardUIPrefab == null || handContainer == null)
         {
@@ -16,6 +16,9 @@ public class HandManager : MonoBehaviour
 
         GameObject newCardObj = Instantiate(cardUIPrefab, handContainer);
 
+        if (index >= 0)
+            newCardObj.transform.SetSiblingIndex(index);
+
         var cardView = newCardObj.GetComponent<CardView>();
         if (cardView != null )
         {
@@ -24,6 +27,19 @@ public class HandManager : MonoBehaviour
         else
         {
             Debug.Log("Prefab karty UI nie ma komponentu CardView.");
+        }
+    }
+
+    public void RemoveCardVisual(CardInstance card)
+    {
+        foreach (Transform child in handContainer)
+        {
+            var view = child.GetComponent<CardView>();
+            if (view != null && view.cardInstance == card)
+            {
+                Destroy(child.gameObject);
+                return;
+            }
         }
     }
 }

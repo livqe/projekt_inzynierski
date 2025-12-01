@@ -65,13 +65,24 @@ public class GameController : MonoBehaviour
     private CardEffect pendingEffect;
     private List<CardInstance> selectedTargets = new List<CardInstance>();
 
+    private int pendingCardHandIndex = -1;
+
     private bool playerHasPassed = false;
     private bool enemyHasPassed = false;
+    public bool isPlayerTurn = false;
 
     private bool hasPlayedCardThisTurn = false;
 
     [Header("Debug / Test Deck")]
     public List<CardData> startingDeckAssets;
+
+    public bool isDragging = false;
+    private float interactionalBlockTimer = 0f;
+
+    [Header("Secret Card")]
+    public CardData promoterCard;
+    [Range(0f, 1f)] public float promoterChance = 0.05f;
+    [Range(0f, 1f)] public float promoterDrawChance = 0.001f;
 
     private void Awake()
     {
@@ -98,6 +109,8 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+        if (interactionalBlockTimer > 0) interactionalBlockTimer -= Time.deltaTime;
+
         if (isGameEnded)
         {
             if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
@@ -122,6 +135,24 @@ public class GameController : MonoBehaviour
             }
         }
 
+        if (promoterCard != null)
+        {
+            if (Random.value <= promoterChance)
+            {
+                Debug.Log("Robi siê powa¿nie. Promotorzy do³¹czyli do talii gracza.");
+                player.cardsInDeck.Add(new CardInstance(promoterCard, player));
+            }
+
+            if (Random.value <= promoterChance)
+            {
+                Debug.Log("Robi siê powa¿nie. Promotorzy do³¹czyli do talii przeciwnika.");
+                enemy.cardsInDeck.Add(new CardInstance(promoterCard, enemy));
+            }
+        }
+
+        ShuffleDeck(player.cardsInDeck);
+        ShuffleDeck(enemy.cardsInDeck);
+
         HandManager tempHandManager = handManager;
         handManager = null;
 
@@ -131,6 +162,17 @@ public class GameController : MonoBehaviour
         handManager = tempHandManager;
 
         StartMulliganPhase();
+    }
+
+    private void ShuffleDeck(List<CardInstance> deck)
+    {
+        for (int i = 0; i < deck.Count; i++)
+        {
+            CardInstance temp = deck[i];
+            int randomIndex = Random.Range(i, deck.Count);
+            deck[i] = deck[randomIndex];
+            deck[randomIndex] = temp;
+        }
     }
 
     private void StartMulliganPhase()
@@ -164,12 +206,19 @@ public class GameController : MonoBehaviour
 
     public void StartPlayerTurn()
     {
+        isPlayerTurn = true;
+
         Debug.Log("Pocz¹tek tury gracza");
 
         hasPlayedCardThisTurn = false;
 
         if (player.cardsInHand.Count == 0)
+        {
             Debug.Log("Brak kart w rêce. Musisz spasowaæ.");
+            CheckAutoPlayCards(player);
+            PlayerPassRound();
+            return;
+        }
 
         CheckAutoPlayCards(player);
     }
@@ -189,6 +238,8 @@ public class GameController : MonoBehaviour
             AIController.Instance.MakeDecision();
         else
             Debug.LogError("Brak AIController na scenie!");
+
+        CheckAutoPlayCards(enemy);
     }
 
     private void CheckAutoPlayCards(Player currentPlayer)
@@ -200,8 +251,11 @@ public class GameController : MonoBehaviour
             {
                 if (autoPlay.TryAutoPlay(true))
                 {
-                    currentPlayer.cardsInHand.Remove(card);
-                    PlayCard(card, true);
+                    if (currentPlayer.cardsInHand.Contains(card))
+                    {
+                        currentPlayer.cardsInHand.Remove(card);
+                        PlayCard(card, (card.owner == player), false);
+                    }
                 }
             }
         }
@@ -213,22 +267,46 @@ public class GameController : MonoBehaviour
             {
                 if (autoPlay.TryAutoPlay(false))
                 {
-                    currentPlayer.cardsInDeck.Remove(card);
-                    PlayCard(card, true);
+                    if (currentPlayer.cardsInDeck.Contains(card))
+                    {
+                        currentPlayer.cardsInDeck.Remove(card);
+                        PlayCard(card, (card.owner == player), false);
+                    }
                 }
             }
         }
     }
 
-    public void PlayCard(CardInstance card, bool isPlayerPlayed, RangeType? targetRow = null, int insertIndex = -1)
+    public void PlayCard(CardInstance card, bool isPlayerPlayed, bool countsAsAction, RangeType? targetRow = null, int insertIndex = -1)
     {
-        if (isPlayerPlayed && hasPlayedCardThisTurn)
+        if (isPlayerPlayed && countsAsAction)
         {
-            Debug.LogWarning("Ju¿ zagra³eœ kartê w tej turze.");
+            if (hasPlayedCardThisTurn)
+            {
+                Debug.LogWarning("Ju¿ zagra³eœ kartê w tej turze.");
 
-            if (handManager != null) handManager.AddCardToHandVisual(card);
-            return;
+                if (handManager != null) handManager.AddCardToHandVisual(card);
+                return;
+            }
+
+            if (player.cardsInHand.Contains(card))
+            {
+                pendingCardHandIndex = player.cardsInHand.IndexOf(card);
+                player.cardsInHand.Remove(card);
+            }
+
+            hasPlayedCardThisTurn = true;
         }
+
+        if (isPlayerPlayed && player.cardsInHand.Contains(card))
+        {
+            player.cardsInHand.Remove(card);
+
+            if (handManager != null)
+                handManager.RemoveCardVisual(card);
+        }
+
+        if (isPlayerPlayed & countsAsAction) hasPlayedCardThisTurn = true;
 
         Debug.Log($"[Game Controller] Zagrano kartê: {card.data.cardName}.");
 
@@ -243,8 +321,6 @@ public class GameController : MonoBehaviour
             targetBoard.Add(card);
         }
 
-        if (isPlayerPlayed) hasPlayedCardThisTurn = true;
-
         SpawnCardOnBoardVisual(card, isPlayerPlayed, targetRow, insertIndex);
 
         if (card.data.effect != null)
@@ -255,6 +331,11 @@ public class GameController : MonoBehaviour
 
         NotifyOtherCardsOnPlay(card);
         UpdateUI();
+
+        if (isPlayerPlayed && currentState == GameState.Normal)
+        {
+            CheckForAutoPass();
+        }
     }
 
     public void CancelPlay()
@@ -279,23 +360,48 @@ public class GameController : MonoBehaviour
             }
         }
 
-        player.cardsInHand.Add(cardToReturn);
-        if (handManager != null) handManager.AddCardToHandVisual(cardToReturn);
+        if (pendingCardHandIndex >= 0 && pendingCardHandIndex <= player.cardsInHand.Count)
+            player.cardsInHand.Insert(pendingCardHandIndex, cardToReturn);
+        else
+            player.cardsInHand.Add(cardToReturn);
+
+        if (handManager != null) handManager.AddCardToHandVisual(cardToReturn, pendingCardHandIndex);
 
         hasPlayedCardThisTurn = false;
         currentState = GameState.Normal;
         pendingCardSource = null;
         pendingEffect = null;
         selectedTargets.Clear();
+        pendingCardHandIndex = -1;
 
         UpdateUI();
     }
 
+    public void BlockInteractionFor(float duration)
+    {
+        interactionalBlockTimer = duration;
+    }
+
+    public bool CanInteract()
+    {
+        if (interactionalBlockTimer > 0) return false;
+        if (isDragging) return false;
+        return true;
+    }
+
     public void EndPlayerTurn()
     {
+        isPlayerTurn = false;
+
         if (playerHasPassed)
         {
             Debug.Log("Gracz spasowa³ w tej rundzie, nie mo¿e wykonywaæ ruchów.");
+            return;
+        }
+
+        if (player.cardsInHand.Count > 0 && !hasPlayedCardThisTurn)
+        {
+            Debug.Log("Nie mo¿esz spasowaæ bez zagrania karty.");
             return;
         }
 
@@ -322,6 +428,8 @@ public class GameController : MonoBehaviour
 
     public void PlayerPassRound()
     {
+        isPlayerTurn = false;
+
         Debug.Log("[GameController] Gracz spasowa³");
         playerHasPassed = true;
 
@@ -340,6 +448,15 @@ public class GameController : MonoBehaviour
         CheckRoundEnd();
 
         if (!playerHasPassed) StartPlayerTurn();
+    }
+
+    public void CheckForAutoPass()
+    {
+        if (player.cardsInHand.Count == 0)
+        {
+            Debug.Log("Rêka pusta. Automatyczny pas rundy.");
+            PlayerPassRound();
+        }
     }
 
     private void CheckRoundEnd()
@@ -432,7 +549,11 @@ public class GameController : MonoBehaviour
 
         playerHasPassed = false;
         enemyHasPassed = false;
+
         currentState = GameState.Normal;
+        pendingCardSource = null;
+        pendingEffect = null;
+        selectedTargets.Clear();
 
         if (PlayerLostLastRound(player))
         {
@@ -486,16 +607,18 @@ public class GameController : MonoBehaviour
 
         Debug.Log($"[GameController] Przetwarzanie œmierci karty: {deadCard.data.cardName}.");
 
-        if (playerBoard.Contains(deadCard))
-        {
-            playerBoard.Remove(deadCard);
-        }
-        else if (enemyBoard.Contains(deadCard))
-        {
-            enemyBoard.Remove(deadCard);
-        }
+        if (playerBoard.Contains(deadCard)) playerBoard.Remove(deadCard);
+        else if (enemyBoard.Contains(deadCard)) enemyBoard.Remove(deadCard);
 
-        //wizualne usuwanie karty z planszy tutaj
+        CardOnBoard[] allVisuals = FindObjectsByType<CardOnBoard>(FindObjectsSortMode.None);
+        foreach (var visual in allVisuals)
+        {
+            if (visual.cardInstance == deadCard)
+            {
+                Destroy(visual.gameObject);
+                break;
+            }
+        }
 
         NotifyOtherCardsOnDeath(deadCard);
         UpdateUI();
@@ -550,12 +673,46 @@ public class GameController : MonoBehaviour
                 return;
             }
 
-            CardInstance drawnCard = drawingPlayer.cardsInDeck[0];
-            drawingPlayer.cardsInDeck.RemoveAt(0);
-            drawingPlayer.cardsInHand.Add(drawnCard);
+            CardInstance cardToDraw = null;
 
-            if (drawingPlayer == player && handManager != null)
-                handManager.AddCardToHandVisual(drawnCard);
+            CardInstance promoterInDeck = drawingPlayer.cardsInDeck.Find(c => c.data == promoterCard);
+
+            if (promoterInDeck != null)
+            {
+                if (Random.value <= promoterDrawChance)
+                    cardToDraw = promoterInDeck;
+            }
+
+            if (cardToDraw == null)
+            {
+                CardInstance topCard = drawingPlayer.cardsInDeck[0];
+
+                if (topCard.data == promoterCard)
+                {
+                    if (drawingPlayer.cardsInDeck.Count > 1)
+                    {
+                        cardToDraw = drawingPlayer.cardsInDeck[1];
+                    }
+                    else
+                    {
+                        cardToDraw = topCard;
+                    }
+                }
+                else
+                    cardToDraw = topCard;
+            }
+
+            if (cardToDraw != null)
+            {
+
+                drawingPlayer.cardsInDeck.Remove(cardToDraw);
+                drawingPlayer.cardsInHand.Add(cardToDraw);
+
+                Debug.Log($"Gracz {drawingPlayer.playerName} dobiera: {cardToDraw.data.cardName}");
+
+                if (drawingPlayer == player && handManager != null)
+                    handManager.AddCardToHandVisual(cardToDraw);
+            }
         }
         UpdateUI();
     }
@@ -703,6 +860,8 @@ public class GameController : MonoBehaviour
                 pendingEffect = null;
                 selectedTargets.Clear();
                 UpdateUI();
+
+                CheckForAutoPass();
             }
         }
         else
@@ -724,6 +883,8 @@ public class GameController : MonoBehaviour
             pendingCardSource = null;
             pendingEffect = null;
             UpdateUI();
+
+            CheckForAutoPass();
         }
         else
         {
@@ -762,4 +923,29 @@ public class GameController : MonoBehaviour
     public CardInstance GetPendingSource() => pendingCardSource;
 
     public List<CardInstance> GetPlayerCards(Player player) => player.cardsOnBoard;
+
+    public void ForceWinGame(Player winner)
+    {
+        Debug.Log($"NATYCHMIASTOWE ZWYCIÊSTWO {winner.playerName}!");
+        isGameEnded = true;
+
+        string finalMsg = "";
+
+        if (winner == player)
+        {
+            playerWins = roundsToWin;
+            finalMsg = "EGZAMIN ZDANY!";
+        }
+        else
+        {
+            enemyWins = roundsToWin;
+            finalMsg = "OBLANY EGZAMIN...";
+        }
+
+        if (gameResultText != null) gameResultText.text = finalMsg;
+        if (gameResultPanel != null) gameResultPanel.SetActive(true);
+        if (gameFinalPointsText != null) gameFinalPointsText.text = $"{playerWins} : {enemyWins}";
+
+        currentState = GameState.WaitingForTarget;
+    }
 }

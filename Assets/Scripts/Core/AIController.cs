@@ -64,7 +64,7 @@ public class AIController : MonoBehaviour
             targetRow = (Random.value > 0.5f) ? RangeType.Bliski : RangeType.Daleki;
         }
 
-        GameController.Instance.PlayCard(cardToPlay, false, targetRow);
+        GameController.Instance.PlayCard(cardToPlay, false, true, targetRow);
 
         if (GameController.Instance.currentState == GameState.WaitingForTarget)
             StartCoroutine(PerformAITargeting());

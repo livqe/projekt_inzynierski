@@ -56,10 +56,15 @@ public class ConditionalSummonCardEffect : CardEffect, IOnOtherCardPlayedEffect
                 if (card.data.cardName == cardToSummon) toSummon.Add(card);
             }
 
+            foreach (var card in owner.cardsInHand)
+            {
+                if (card.data.cardName == cardToSummon) toSummon.Add(card);
+            }
+
             foreach (var card in toSummon)
             {
-                owner.cardsInDeck.Remove(card);
-                game.PlayCard(card, (owner == game.player));
+                if (owner.cardsInDeck.Contains(card)) owner.cardsInDeck.Remove(card);
+                game.PlayCard(card, (owner == game.player), false);
             }
 
             source.effectTriggered = true;

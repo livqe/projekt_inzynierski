@@ -13,6 +13,8 @@ public class CardHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (GameController.Instance.currentState == GameState.WaitingForTarget) return;
+
         if (isHovered) return;
         isHovered = true;
 
