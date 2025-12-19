@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: babb7ae97c831cc48a33c1fb679e3255
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7571937311506952738
+    second: wygrana_poprawione_0
+  - first:
+      213: -2993682039115033529
+    second: wygrana_poprawione_1
+  - first:
+      213: 4081793294783502667
+    second: wygrana_poprawione_2
+  - first:
+      213: -5410560753407481561
+    second: wygrana_poprawione_3
+  - first:
+      213: 329577055445321344
+    second: wygrana_poprawione_4
+  - first:
+      213: -6443639832428543972
+    second: wygrana_poprawione_5
+  - first:
+      213: -587527271850078626
+    second: wygrana_poprawione_6
+  - first:
+      213: 8590446150925886958
+    second: wygrana_poprawione_7
+  - first:
+      213: 2667785044664572900
+    second: wygrana_poprawione_8
+  - first:
+      213: -6226000399632330116
+    second: wygrana_poprawione_9
+  - first:
+      213: 781571089446246974
+    second: wygrana_poprawione_10
+  - first:
+      213: -4427838131273957890
+    second: wygrana_poprawione_11
+  - first:
+      213: -520154654193347401
+    second: wygrana_poprawione_12
+  - first:
+      213: 4185460692133808041
+    second: wygrana_poprawione_13
+  - first:
+      213: -4953638266411778335
+    second: wygrana_poprawione_14
+  - first:
+      213: 6518528492683967410
+    second: wygrana_poprawione_15
+  - first:
+      213: 8053662973476118418
+    second: wygrana_poprawione_16
+  - first:
+      213: -3531402740224394126
+    second: wygrana_poprawione_17
+  - first:
+      213: -1765911810515827234
+    second: wygrana_poprawione_18
+  - first:
+      213: 4318014530164445351
+    second: wygrana_poprawione_19
+  - first:
+      213: 5933990499381269175
+    second: wygrana_poprawione_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: wygrana_poprawione_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 45
+        width: 78
+        height: 153
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edd0a1e02231be690800000000000000
+      internalID: -7571937311506952738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_1
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 166
+        width: 1434
+        height: 776
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 744d410fb0e4476d0800000000000000
+      internalID: -2993682039115033529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_2
+      rect:
+        serializedVersion: 2
+        x: 1386
+        y: 132
+        width: 29
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b495426106175a830800000000000000
+      internalID: 4081793294783502667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_3
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 51
+        width: 122
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7292a7149a3d9e4b0800000000000000
+      internalID: -5410560753407481561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_4
+      rect:
+        serializedVersion: 2
+        x: 235
+        y: 50
+        width: 62
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08600f3f594e29400800000000000000
+      internalID: 329577055445321344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_5
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 52
+        width: 66
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c100a8756b79396a0800000000000000
+      internalID: -6443639832428543972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_6
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 45
+        width: 130
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5e85812f0fa8d7f0800000000000000
+      internalID: -587527271850078626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_7
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 51
+        width: 56
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee52f089245673770800000000000000
+      internalID: 8590446150925886958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_8
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 46
+        width: 61
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ebd4541d50e50520800000000000000
+      internalID: 2667785044664572900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_9
+      rect:
+        serializedVersion: 2
+        x: 731
+        y: 52
+        width: 66
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7299709f9dc899a0800000000000000
+      internalID: -6226000399632330116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_10
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 49
+        width: 61
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3a9821d3c2b8da00800000000000000
+      internalID: 781571089446246974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_11
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 52
+        width: 66
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efd7c76eda82d82c0800000000000000
+      internalID: -4427838131273957890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_12
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 48
+        width: 50
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b41a80191a08c8f0800000000000000
+      internalID: -520154654193347401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_13
+      rect:
+        serializedVersion: 2
+        x: 1017
+        y: 51
+        width: 62
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a70fffe25eb51a30800000000000000
+      internalID: 4185460692133808041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_14
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 46
+        width: 61
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ee7eb00e34214bb0800000000000000
+      internalID: -4953638266411778335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_15
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 56
+        width: 59
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bbb0b0a027767a50800000000000000
+      internalID: 6518528492683967410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_16
+      rect:
+        serializedVersion: 2
+        x: 1265
+        y: 79
+        width: 12
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29f92c2edcb54cf60800000000000000
+      internalID: 8053662973476118418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_17
+      rect:
+        serializedVersion: 2
+        x: 1269
+        y: 6
+        width: 63
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27c751efaefedfec0800000000000000
+      internalID: -3531402740224394126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_18
+      rect:
+        serializedVersion: 2
+        x: 1328
+        y: 42
+        width: 89
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed5898580983e77e0800000000000000
+      internalID: -1765911810515827234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_19
+      rect:
+        serializedVersion: 2
+        x: 1423
+        y: 56
+        width: 59
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a05d6d565baceb30800000000000000
+      internalID: 4318014530164445351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wygrana_poprawione_20
+      rect:
+        serializedVersion: 2
+        x: 1486
+        y: 46
+        width: 61
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b2d9286be4c95250800000000000000
+      internalID: 5933990499381269175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      wygrana_poprawione_0: -7571937311506952738
+      wygrana_poprawione_1: -2993682039115033529
+      wygrana_poprawione_10: 781571089446246974
+      wygrana_poprawione_11: -4427838131273957890
+      wygrana_poprawione_12: -520154654193347401
+      wygrana_poprawione_13: 4185460692133808041
+      wygrana_poprawione_14: -4953638266411778335
+      wygrana_poprawione_15: 6518528492683967410
+      wygrana_poprawione_16: 8053662973476118418
+      wygrana_poprawione_17: -3531402740224394126
+      wygrana_poprawione_18: -1765911810515827234
+      wygrana_poprawione_19: 4318014530164445351
+      wygrana_poprawione_2: 4081793294783502667
+      wygrana_poprawione_20: 5933990499381269175
+      wygrana_poprawione_3: -5410560753407481561
+      wygrana_poprawione_4: 329577055445321344
+      wygrana_poprawione_5: -6443639832428543972
+      wygrana_poprawione_6: -587527271850078626
+      wygrana_poprawione_7: 8590446150925886958
+      wygrana_poprawione_8: 2667785044664572900
+      wygrana_poprawione_9: -6226000399632330116
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

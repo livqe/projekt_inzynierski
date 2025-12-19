@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -84,6 +85,22 @@ public class GameController : MonoBehaviour
     [Range(0f, 1f)] public float promoterChance = 0.05f;
     [Range(0f, 1f)] public float promoterDrawChance = 0.001f;
 
+    [Header("End Game Animation")]
+    [SerializeField] private float animationDuration = 0.35f;
+    [SerializeField] private Vector3 startScale = new Vector3(0.9f, 0.9f, 0.9f);
+
+    private CanvasGroup resultCanvasGroup;
+
+    [SerializeField] private Image gameResultImage;
+    [SerializeField] private Sprite winSprite;
+    [SerializeField] private Sprite loseSprite;
+    [SerializeField] private Sprite drawSprite;
+
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip winSound;
+    [SerializeField] private AudioClip loseSound;
+    [SerializeField] private AudioClip drawSound;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -93,13 +110,27 @@ public class GameController : MonoBehaviour
         }
 
         Instance = this;
+
+        // ---- DODANE: inicjalizacja panelu koñca gry ----
+        if (gameResultPanel != null)
+        {
+            resultCanvasGroup = gameResultPanel.GetComponent<CanvasGroup>();
+            if (resultCanvasGroup == null)
+                resultCanvasGroup = gameResultPanel.AddComponent<CanvasGroup>();
+
+            resultCanvasGroup.alpha = 0f;
+            gameResultPanel.transform.localScale = startScale;
+            gameResultPanel.SetActive(false);
+        }
     }
+
 
     void Start()
     {
+
         if (GameSetup.selectedDeck != null)
         {
-            Debug.Log($"Wszystywanie talii gracza: {GameSetup.selectedDeck.deckName}.");
+            Debug.Log($"Wczytywanie talii gracza: {GameSetup.selectedDeck.deckName}.");
 
             player = new Player("Gracz", GameSetup.selectedDeck.faction);
 
@@ -602,25 +633,81 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private IEnumerator AnimateEndGamePanel()
+    {
+        float time = 0f;
+
+        resultCanvasGroup.alpha = 0f;
+        gameResultPanel.transform.localScale = startScale;
+
+        while (time < animationDuration)
+        {
+            time += Time.deltaTime;
+            float t = time / animationDuration;
+
+            // easing (lekko miêkkie wejœcie)
+            float eased = Mathf.SmoothStep(0f, 1f, t);
+
+            resultCanvasGroup.alpha = eased;
+            gameResultPanel.transform.localScale = Vector3.Lerp(startScale, Vector3.one, eased);
+
+            yield return null;
+        }
+
+        resultCanvasGroup.alpha = 1f;
+        gameResultPanel.transform.localScale = Vector3.one;
+    }
+
     private void EndGame()
     {
         Debug.Log("--- KONIEC GRY ---");
         isGameEnded = true;
 
         string finalMsg = "";
-        if (playerWins >= roundsToWin && enemyWins >= roundsToWin)
-            finalMsg = "REMIS";
-        else if (playerWins >= roundsToWin)
-            finalMsg = "ZWYCIÊSTWO!";
-        else
-            finalMsg = "PORA¯KA...";
+        Sprite resultSprite = null;
+        AudioClip resultSound = null;
 
-        if (gameResultText != null) gameResultText.text = finalMsg;
-        if (gameFinalPointsText != null) gameFinalPointsText.text = $"{playerWins} : {enemyWins}";
-        if (gameResultPanel != null) gameResultPanel.SetActive(true);
+        if (playerWins >= roundsToWin && enemyWins >= roundsToWin)
+        {
+            finalMsg = "REMIS";
+            resultSprite = drawSprite;
+            resultSound = drawSound;
+        }
+        else if (playerWins >= roundsToWin)
+        {
+            finalMsg = "ZWYCIÊSTWO!";
+            resultSprite = winSprite;
+            resultSound = winSound;
+        }
+        else
+        {
+            finalMsg = "PORA¯KA...";
+            resultSprite = loseSprite;
+            resultSound = loseSound;
+        }
+
+        if (gameResultText != null)
+            gameResultText.text = finalMsg;
+
+        if (gameFinalPointsText != null)
+            gameFinalPointsText.text = $"{playerWins} : {enemyWins}";
+
+        if (gameResultImage != null && resultSprite != null)
+            gameResultImage.sprite = resultSprite;
+
+        if (gameResultPanel != null)
+        {
+            gameResultPanel.SetActive(true);
+            StopAllCoroutines();
+            StartCoroutine(AnimateEndGamePanel());
+        }
+
+        if (audioSource != null && resultSound != null)
+            audioSource.PlayOneShot(resultSound);
 
         currentState = GameState.WaitingForTarget;
     }
+
 
     private int CalculateScore(List<CardInstance> board)
     {
@@ -903,7 +990,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Klikniêto kartê, ale gra czeka na wybór rz¹du.");
+            Debug.Log("Klikniêto kartê, ale gra czeka na wybór rzêdu.");
         }
     }
 
@@ -914,7 +1001,7 @@ public class GameController : MonoBehaviour
         if (pendingEffect is IRowTargetableEffect rowEffect)
         {
             Debug.Log($"[GameController] Wybrano rz¹d: {range}.");
-            
+
             rowEffect.ExecuteWithRowTarget(pendingCardSource, range, isPlayerRow);
         }
         else
