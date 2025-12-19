@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4396741727051764558
+--- !u!114 &-9054660413387498293
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MutualDestructionEffect
   effectName: MutualDestructionEffect
-  effectDescription: "\"Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
-    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)\""
+  effectDescription: "Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
+    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)."
   linkedEnemy: Legolas
 --- !u!114 &11400000
 MonoBehaviour:
@@ -33,6 +33,8 @@ MonoBehaviour:
   faction: 1
   range: 0
   power: 5
-  effect: {fileID: -4396741727051764558}
-  effectDescription: "\"Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
-    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)\""
+  powerDisplayOverride: 
+  effect: {fileID: -9054660413387498293}
+  effectDescription: "Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
+    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)."
+  maxCopies: 1

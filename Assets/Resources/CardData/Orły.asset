@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: "Or\u0142y"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "Or\u0142y"
-  artwork: {fileID: 0}
+  artwork: {fileID: -4541812441944174230, guid: ae060885a9cb90a4da1e0daf95a3a0b1, type: 3}
   faction: 2
   range: 1
   power: 3
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 3

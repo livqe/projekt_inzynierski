@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Katapulta
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Katapulta
-  artwork: {fileID: 0}
+  artwork: {fileID: 5097490839952064159, guid: 4197682c62ffe8a47ac5d47ded9c8870, type: 3}
   faction: 1
   range: 1
   power: 3
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 1

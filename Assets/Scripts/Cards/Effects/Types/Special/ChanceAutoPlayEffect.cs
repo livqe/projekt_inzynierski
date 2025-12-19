@@ -17,7 +17,7 @@ public class ChanceAutoPlayEffect : CardEffect
         Debug.Log($"Aktywacja efektu: {effectName}. {source.data.cardName} ma {deckPercent}% na zagranie z talii i {handPercent}% z rêki.");
     }
 
-    public bool TryAutoPlay(bool isInHand)
+    public bool TryAutoPlay(GameController game, CardInstance card, bool isInHand)
     {
         int chance = isInHand ? handPercent : deckPercent;
         int roll = Random.Range(0, 100);
@@ -25,6 +25,18 @@ public class ChanceAutoPlayEffect : CardEffect
         if (roll < chance)
         {
             Debug.Log($"[Effect] Wylosowano {roll} ({chance}%), Gandalf wchodzi.");
+
+            if (isInHand)
+            {
+                game.handManager.RemoveCardVisual(card);
+                card.owner.cardsInHand.Remove(card);
+            }
+            else
+            {
+                card.owner.cardsInDeck.Remove(card);
+            }
+
+            game.PlayCard(card, (card.owner == game.player), false);
             return true;
         }
         

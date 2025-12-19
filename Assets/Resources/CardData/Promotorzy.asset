@@ -13,10 +13,27 @@ MonoBehaviour:
   m_Name: Promotorzy
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Promotorzy
-  artwork: {fileID: -306484618207140940, guid: 702f79ee030df01479bbd1ccc6868306, type: 3}
+  artwork: {fileID: -7816022769329507410, guid: 702f79ee030df01479bbd1ccc6868306, type: 3}
   faction: 2
   range: 2
   power: 0
-  effect: {fileID: 11400000, guid: 6c83a7759fb409245a5765f2993d4b41, type: 2}
-  effectDescription: "\"Maj\u0105 0,1% szans na wylosowanie z talii. Po zagraniu
-    na plansz\u0119 automatycznie \"\"zdajesz egzamin\"\" - wygrywasz gr\u0119.\""
+  powerDisplayOverride: "\u221E"
+  effect: {fileID: 4378644957281385538}
+  effectDescription: "Maj\u0105 0,1% szans na wylosowanie z talii. Po zagraniu na
+    plansz\u0119 automatycznie zdajesz egzamin - wygrywasz gr\u0119."
+  maxCopies: 1
+--- !u!114 &4378644957281385538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15935f2788336114e909a4a51f5ca505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InstantWinEffect
+  effectName: InstantWinEffect
+  effectDescription: "Maj\u0105 0,1% szans na wylosowanie z talii. Po zagraniu na
+    plansz\u0119 automatycznie zdajesz egzamin - wygrywasz gr\u0119."

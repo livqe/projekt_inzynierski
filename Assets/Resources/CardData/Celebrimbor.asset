@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6360152212527589159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 483091f4a74e24940ac4bbfce65dfb12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ImmuneToDamageEffect
-  effectName: ImmuneToDamageEffect
-  effectDescription: "Jest odporny na obra\u017Cenia"
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27,9 +13,25 @@ MonoBehaviour:
   m_Name: Celebrimbor
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Celebrimbor
-  artwork: {fileID: 0}
+  artwork: {fileID: 1846867218640400288, guid: 6ec632f7e9245f0488909a48f792e75f, type: 3}
   faction: 0
   range: 1
   power: 7
-  effect: {fileID: -6360152212527589159}
-  effectDescription: "Jest odporny na obra\u017Cenia"
+  powerDisplayOverride: 
+  effect: {fileID: 4859855780315588521}
+  effectDescription: "Jest odporny na obra\u017Cenia."
+  maxCopies: 1
+--- !u!114 &4859855780315588521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483091f4a74e24940ac4bbfce65dfb12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ImmuneToDamageEffect
+  effectName: ImmuneToDamageEffect
+  effectDescription: "Jest odporny na obra\u017Cenia."

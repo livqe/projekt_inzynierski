@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6086691302465263887
+--- !u!114 &-896111816664983448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MutualDamageLinkEffect
   effectName: MutualDamageLinkEffect
-  effectDescription: "\"Zadaje Tauriel obra\u017Cenia w wysoko\u015Bci -5, je\u015Bli
-    Tauriel jest na planszy i otrzymuje -4 obra\u017Ce\u0144\""
+  effectDescription: "Zadaje Tauriel obra\u017Cenia w wysoko\u015Bci -5, je\u015Bli
+    Tauriel jest na planszy i otrzymuje -4 obra\u017Ce\u0144."
   damageToDeal: 5
   linkedCard: Tauriel
 --- !u!114 &11400000
@@ -34,6 +34,8 @@ MonoBehaviour:
   faction: 1
   range: 2
   power: 7
-  effect: {fileID: -6086691302465263887}
-  effectDescription: "\"Zadaje Tauriel obra\u017Cenia w wysoko\u015Bci -5, je\u015Bli
-    Tauriel jest na planszy i otrzymuje -4 obra\u017Ce\u0144\""
+  powerDisplayOverride: 
+  effect: {fileID: -896111816664983448}
+  effectDescription: "Zadaje Tauriel obra\u017Cenia w wysoko\u015Bci -5, je\u015Bli
+    Tauriel jest na planszy i otrzymuje -4 obra\u017Ce\u0144."
+  maxCopies: 1

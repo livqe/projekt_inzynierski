@@ -5,6 +5,9 @@ public class ConditionalBuffRowEffect : CardEffect, IOnOtherCardPlayedEffect
 {
     [SerializeField] private int powerToAdd;
     [SerializeField] private string allyName;
+    
+    [Header("Visual Effects")]
+    public GameObject vfxPrefab;
 
     public void Initialize(int powerAmount, string ally)
     {
@@ -32,8 +35,8 @@ public class ConditionalBuffRowEffect : CardEffect, IOnOtherCardPlayedEffect
         if (source.effectTriggered) return;
 
         var cardBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
-
         bool conditionMet = false;
+
         foreach (var card in cardBoard)
         {
             if (card.data.cardName == allyName && card.currentPower >= 0)
@@ -47,9 +50,20 @@ public class ConditionalBuffRowEffect : CardEffect, IOnOtherCardPlayedEffect
         {
             Debug.Log($"Aktywacja efektu: {effectName}. {allyName} na stole, {source.data.cardName} wzmacnia rz¹d o +{powerToAdd}.");
 
-            foreach (var card in cardBoard)
+            CardOnBoard sourceVisual = FindVisualForCard(source);
+            if (sourceVisual == null) return;
+
+            BoardRow rowObject = sourceVisual.GetComponentInParent<BoardRow>();
+            if (rowObject == null) return;
+
+            if (vfxPrefab != null) Instantiate(vfxPrefab, rowObject.transform.position, Quaternion.identity);
+
+            CardOnBoard[] neighbors = rowObject.GetComponentsInChildren<CardOnBoard>();
+            foreach (var visualCard in neighbors)
             {
-                if (card.data.range == source.data.range && card != source && card.currentPower >= 0)
+                CardInstance card = visualCard.cardInstance;
+
+                if (card != null && card != source && card.currentPower >= 0)
                 {
                     card.AddPower(powerToAdd);
                 }
@@ -57,7 +71,16 @@ public class ConditionalBuffRowEffect : CardEffect, IOnOtherCardPlayedEffect
 
             source.effectTriggered = true;
             game.UpdateUI();
+        } 
+    }
+
+    private CardOnBoard FindVisualForCard(CardInstance cardData)
+    {
+        CardOnBoard[] allVisuals = FindObjectsByType<CardOnBoard>(FindObjectsSortMode.None);
+        foreach (var visual in allVisuals)
+        {
+            if (visual.cardInstance == cardData) return visual;
         }
-        
+        return null;
     }
 }

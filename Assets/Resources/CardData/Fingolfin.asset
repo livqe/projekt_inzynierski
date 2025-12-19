@@ -1,26 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
-  m_Name: Fingolfin
-  m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: Fingolfin
-  artwork: {fileID: 0}
-  faction: 0
-  range: 1
-  power: 3
-  effect: {fileID: 3513451792193345458}
-  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -2 wybranej wrogiej
-    karcie na planszy"
---- !u!114 &3513451792193345458
+--- !u!114 &-5537512335145584759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,6 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageTargetEnemyEffect
   effectName: DamageTargetEnemyEffect
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -2 wybranej wrogiej
-    karcie na planszy"
+    karcie na planszy."
   damageToDeal: 2
   targetCount: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Fingolfin
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Fingolfin
+  artwork: {fileID: -6992134220702527794, guid: 3f7917f00cf01e843a56f96fd9f2c3e0, type: 3}
+  faction: 0
+  range: 1
+  power: 3
+  powerDisplayOverride: 
+  effect: {fileID: -5537512335145584759}
+  effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -2 wybranej wrogiej
+    karcie na planszy."
+  maxCopies: 1

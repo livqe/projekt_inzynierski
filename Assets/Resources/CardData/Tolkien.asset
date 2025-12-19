@@ -17,10 +17,12 @@ MonoBehaviour:
   faction: 2
   range: 2
   power: 0
-  effect: {fileID: 4856689004184660129}
+  powerDisplayOverride: '-'
+  effect: {fileID: 130842966774832570}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
-    rz\u0119dzie gracza i przeciwnika"
---- !u!114 &4856689004184660129
+    rz\u0119dzie gracza i przeciwnika."
+  maxCopies: 1
+--- !u!114 &130842966774832570
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,5 +36,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RowDamageEffect
   effectName: RowDamageEffect
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
-    rz\u0119dzie gracza i przeciwnika"
+    rz\u0119dzie gracza i przeciwnika."
   damageToDeal: 7

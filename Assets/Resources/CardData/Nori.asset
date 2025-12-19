@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7045004583434894865
+--- !u!114 &-4197147762704657297
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalBuffSelfEffect
   effectName: ConditionalBuffSelfEffect
-  effectDescription: "\"Je\u015Bli Dori i Ori s\u0105 na planszy, to Nori zyskuje
-    +3\""
+  effectDescription: "Je\u015Bli Dori i Ori s\u0105 na planszy, to Nori zyskuje +3."
   powerToAdd: 3
   alliesNames:
   - Dori
@@ -32,10 +31,11 @@ MonoBehaviour:
   m_Name: Nori
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Nori
-  artwork: {fileID: 0}
+  artwork: {fileID: -6270640371412702150, guid: fdd345af33450fa41be3ad1b750bf986, type: 3}
   faction: 1
   range: 0
   power: 5
-  effect: {fileID: -7045004583434894865}
-  effectDescription: "\"Je\u015Bli Dori i Ori s\u0105 na planszy, to Nori zyskuje
-    +3\""
+  powerDisplayOverride: 
+  effect: {fileID: -4197147762704657297}
+  effectDescription: "Je\u015Bli Dori i Ori s\u0105 na planszy, to Nori zyskuje +3."
+  maxCopies: 1

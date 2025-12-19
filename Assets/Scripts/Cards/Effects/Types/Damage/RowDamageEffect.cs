@@ -7,6 +7,9 @@ public class RowDamageEffect : CardEffect, IRowTargetableEffect
 {
     [SerializeField] private int damageToDeal;
 
+    [Header("Visual Effects")]
+    public GameObject vfxPrefab;
+
     public void Initialize(int damageAmount)
     {
         this.damageToDeal = damageAmount;
@@ -20,33 +23,43 @@ public class RowDamageEffect : CardEffect, IRowTargetableEffect
 
     public void ExecuteWithRowTarget(CardInstance source, RangeType range, bool isPlayerRow)
     {
-        Debug.Log($"[Effect] Atakowany rz¹d: {range}.");
+        GameController game = GameController.Instance;
 
+        if (source.data.cardName != "Tolkien")
+        {
+            if (isPlayerRow && source.owner == game.player)
+            {
+                Debug.LogWarning("Nie atakuj swojego rzêdu.");
+                return;
+            }
+
+            if (!isPlayerRow && source.owner == game.enemy)
+            {
+                return;
+            }
+        }
+
+        Debug.Log($"[Effect] Atakowany rz¹d: {range}.");
+        
         List<CardInstance> targets = new List<CardInstance>();
 
         if (source.data.cardName == "Tolkien")
         {
+            BoardRow playerRow = FindRowOnScene(range, true);
+            BoardRow enemyRow = FindRowOnScene(range, false);
 
-            foreach (var card in GameController.Instance.playerBoard)
-            {
-                if (card.data.range == range && card.currentPower >= 0) targets.Add(card);
-            }
-
-            foreach (var card in GameController.Instance.enemyBoard)
-            {
-                if (card.data.range == range && card.currentPower >= 0) targets.Add(card);
-            }
+            if (playerRow != null) targets.AddRange(GetCardsFromRow(playerRow));
+            if (enemyRow != null) targets.AddRange(GetCardsFromRow(enemyRow));
         }
         else
         {
-            List<CardInstance> targetBoard = isPlayerRow ? GameController.Instance.playerBoard : GameController.Instance.enemyBoard;
-
-            foreach (var card in targetBoard)
+            BoardRow targetRow = FindRowOnScene(range, isPlayerRow);
+            
+            if (targetRow != null)
             {
-                if (card.data.range == range && card.currentPower >= 0)
-                {
-                    targets.Add(card);
-                }
+                if (vfxPrefab != null) Instantiate(vfxPrefab, targetRow.transform.position, Quaternion.identity);
+
+                targets.AddRange(GetCardsFromRow(targetRow));
             }
         }
 
@@ -54,7 +67,10 @@ public class RowDamageEffect : CardEffect, IRowTargetableEffect
         {
             foreach (var card in targets)
             {
-                card.TakeDamage(damageToDeal);
+                if (card.currentPower >= 0 && !card.isImunne)
+                {
+                    card.TakeDamage(damageToDeal);
+                }
             }
         }
         else
@@ -62,6 +78,30 @@ public class RowDamageEffect : CardEffect, IRowTargetableEffect
             Debug.Log("[Effect] Rz¹d jest pusty.");
         }
 
-            GameController.Instance.UpdateUI();
+        GameController.Instance.EndTargeting();
+    }
+
+    private BoardRow FindRowOnScene(RangeType range, bool isPlayerRow)
+    {
+        BoardRow[] allRows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
+        
+        foreach (var row in allRows)
+        {
+            if (row.rowType == range && row.isPlayerRow == isPlayerRow) return row;
+        }
+
+        return null;
+    }
+
+    private List<CardInstance> GetCardsFromRow(BoardRow rowObject)
+    {
+        List<CardInstance> cards = new List<CardInstance>();
+        CardOnBoard[] visualCards = rowObject.GetComponentsInChildren<CardOnBoard>();
+
+        foreach (var visual in visualCards)
+        {
+            if (visual.cardInstance != null) cards.Add(visual.cardInstance);
+        }
+        return cards;
     }
 }

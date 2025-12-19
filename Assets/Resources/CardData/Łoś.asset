@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7633028010192531942
+--- !u!114 &-1549438439089109396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageTargetEnemyEffect
   effectName: DamageTargetEnemyEffect
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -2 wybranej wrogiej
-    karcie na planszy"
+    karcie na planszy."
   damageToDeal: 2
   targetCount: 1
 --- !u!114 &11400000
@@ -30,10 +30,12 @@ MonoBehaviour:
   m_Name: "\u0141o\u015B"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "\u0141o\u015B"
-  artwork: {fileID: 0}
+  artwork: {fileID: 7481753614599698243, guid: b039247afa22b0046a862190d55a26c6, type: 3}
   faction: 0
   range: 0
   power: 5
-  effect: {fileID: -7633028010192531942}
+  powerDisplayOverride: 
+  effect: {fileID: -1549438439089109396}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -2 wybranej wrogiej
-    karcie na planszy"
+    karcie na planszy."
+  maxCopies: 1

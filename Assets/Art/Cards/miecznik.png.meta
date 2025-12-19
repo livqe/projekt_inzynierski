@@ -3,8 +3,8 @@ guid: cfa06e773a282594f9aee6bc9d896be3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9034475159042637643
-    second: miecznik_0
+      213: 2245487455092933319
+    second: Miecznik_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: miecznik_0
+      name: Miecznik_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4fb3da5a47e06d70800000000000000
-      internalID: 9034475159042637643
+      spriteID: 7c2096c71f2992f10800000000000000
+      internalID: 2245487455092933319
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      miecznik_0: 9034475159042637643
+      Miecznik_0: 2245487455092933319
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

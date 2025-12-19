@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Bombur
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Bombur
-  artwork: {fileID: 0}
+  artwork: {fileID: 8026813791087799925, guid: 341649b1197017a4699b05e21e1010ef, type: 3}
   faction: 1
   range: 0
   power: 3
-  effect: {fileID: 7462139001886498684}
-  effectDescription: Dodaje +2 mocy dla 2 innych wybranych kart na planszy
---- !u!114 &7462139001886498684
+  powerDisplayOverride: 
+  effect: {fileID: 550695887441056582}
+  effectDescription: Dodaje +2 mocy dla 2 innych wybranych kart na planszy.
+  maxCopies: 1
+--- !u!114 &550695887441056582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,6 +34,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuffTargetEffect
   effectName: BuffTargetEffect
-  effectDescription: Dodaje +2 mocy dla 2 innych wybranych kart na planszy
+  effectDescription: Dodaje +2 mocy dla 2 innych wybranych kart na planszy.
   powerToAdd: 2
   targetCount: 2

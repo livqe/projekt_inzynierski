@@ -26,39 +26,38 @@ public class SummonCardEffect : CardEffect
         }
 
         List<CardInstance> cardsToSummon = new List<CardInstance>();
+        int needed = (amountToSummon == "All") ? 999 : int.Parse(amountToSummon);
 
-        if (amountToSummon == "All")
+        foreach (var card in new List<CardInstance>(owner.cardsInDeck))
         {
-            foreach (CardInstance card in owner.cardsInDeck)
+            if (cardsToSummon.Count >= needed) break;
+            if (card.data.cardName == cardToSummon)
             {
-                if (card.data.cardName == cardToSummon)
-                {
-                    cardsToSummon.Add(card);
-                }
+                cardsToSummon.Add(card);
+                owner.cardsInDeck.Remove(card);
             }
         }
-        else
+
+        if (cardsToSummon.Count < needed)
         {
-            int count = int.Parse(amountToSummon);
-            int found = 0;
-            foreach (CardInstance card in owner.cardsInDeck)
+            foreach (var card in new List<CardInstance>(owner.cardsInHand))
             {
+                if (cardsToSummon.Count >= needed) break;
                 if (card.data.cardName == cardToSummon)
                 {
                     cardsToSummon.Add(card);
-                    found++;
-                    if (found >= count) break;
+                    owner.cardsInHand.Remove(card);
+                    game.handManager.RemoveCardVisual(card);
                 }
             }
         }
 
         if (cardsToSummon.Count > 0)
         {
-            foreach (CardInstance card in cardsToSummon)
+            foreach (var card in cardsToSummon)
             {
                 Debug.Log($"[Effect] Przyzywanie {card.data.cardName} z talii.");
 
-                owner.cardsInDeck.Remove(card);
                 game.PlayCard(card, (owner == game.player), false);
             }
         }

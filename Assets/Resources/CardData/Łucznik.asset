@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: "\u0141ucznik"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "\u0141ucznik"
-  artwork: {fileID: 0}
+  artwork: {fileID: -6925384897582889428, guid: da48a603d79f6084485e2c3bc5536324, type: 3}
   faction: 0
   range: 1
   power: 2
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 2

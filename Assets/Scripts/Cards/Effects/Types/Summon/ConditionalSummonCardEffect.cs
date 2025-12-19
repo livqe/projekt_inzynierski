@@ -49,25 +49,34 @@ public class ConditionalSummonCardEffect : CardEffect, IOnOtherCardPlayedEffect
             Debug.Log($"Aktywacja efektu: {effectName}. {requiredAlly} jest na planszy, {source.data.cardName} przyzywa {cardToSummon}.");
 
             Player owner = source.owner;
-            List<CardInstance> toSummon = new List<CardInstance>();
+            List<CardInstance> fromDeck = new List<CardInstance>();
+            List<CardInstance> fromHand = new List<CardInstance>();
 
             foreach (var card in owner.cardsInDeck)
             {
-                if (card.data.cardName == cardToSummon) toSummon.Add(card);
+                if (card.data.cardName == cardToSummon) fromDeck.Add(card);
             }
 
             foreach (var card in owner.cardsInHand)
             {
-                if (card.data.cardName == cardToSummon) toSummon.Add(card);
+                if (card.data.cardName == cardToSummon) fromHand.Add(card);
             }
 
-            foreach (var card in toSummon)
+            foreach (var card in fromDeck)
             {
-                if (owner.cardsInDeck.Contains(card)) owner.cardsInDeck.Remove(card);
+                owner.cardsInDeck.Remove(card);
+                Debug.Log($"Przyzywam {card.data.cardName} z talii.");
+                game.PlayCard(card, (owner == game.player), false);
+            }
+
+            foreach (var card in fromHand)
+            {
+                Debug.Log($"Przyzywam {card.data.cardName} z rêki.");
                 game.PlayCard(card, (owner == game.player), false);
             }
 
             source.effectTriggered = true;
+            game.UpdateUI();
         }
     }
 }

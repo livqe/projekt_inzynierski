@@ -3,8 +3,8 @@ guid: 702f79ee030df01479bbd1ccc6868306
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -306484618207140940
-    second: promotorzy_0
+      213: -7816022769329507410
+    second: Promotorzy_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: promotorzy_0
+      name: Promotorzy_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4b364a21dd52fbbf0800000000000000
-      internalID: -306484618207140940
+      spriteID: ea3ffbdc3b8e78390800000000000000
+      internalID: -7816022769329507410
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      promotorzy_0: -306484618207140940
+      Promotorzy_0: -7816022769329507410
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

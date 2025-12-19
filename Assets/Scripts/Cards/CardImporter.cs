@@ -1,11 +1,11 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEditor;
 using System;
 using System.IO;
 
 public class CardImporter : EditorWindow
 {
-    [MenuItem("Narzêdzia/Importuj Karty Z CSV")]
+    [MenuItem("NarzÄ™dzia/Importuj Karty Z CSV")]
     public static void ImportCards()
     {
         string path = EditorUtility.OpenFilePanel("Wybierz plik CSV z kartami", "Assets/Resources/CardData", "csv");
@@ -24,18 +24,43 @@ public class CardImporter : EditorWindow
                 string[] cols = line.Split(";");
                 if (cols.Length < 7)
                 {
-                    Debug.LogWarning($"Pominiêto liniê (za ma³o kolumn): {line}");
+                    Debug.LogWarning($"PominiÄ™to liniÄ™ (za maÅ‚o kolumn): {line}");
                     continue;
                 }
 
                 CardData card = ScriptableObject.CreateInstance<CardData>();
                 card.cardName = cols[0];
                 card.faction = Enum.TryParse<Faction>(cols[1], out var f) ? f : Faction.Neutralne;
-                card.power = int.TryParse(cols[2], out var p) ? p : 0;
-                card.range = Enum.TryParse<RangeType>(cols[3], out var r) ? r : RangeType.Dowolny;
-                card.effectDescription = cols[4];
-                string effectName = cols[5];
-                string effectParams = cols[6];
+                
+                string powerString = cols[2].Trim();
+                card.power = int.TryParse(powerString, out var p) ? p : 0;
+
+                if (powerString == "-")
+                {
+                    card.powerDisplayOverride = "-";
+                }
+                else if (powerString == "âˆž")
+                {
+                    card.powerDisplayOverride = "âˆž";
+                }
+                else
+                {
+                    card.powerDisplayOverride = "";
+                }
+
+                card.range = Enum.TryParse<RangeType>(cols[3].Trim(), out var r) ? r : RangeType.Dowolny;
+                card.effectDescription = cols[4].Replace("\"", "");
+                string effectName = cols[5].Trim();
+                string effectParams = cols[6].Trim();
+
+                if (cols.Length > 7 && !string.IsNullOrEmpty(cols[7]))
+                {
+                    card.maxCopies = int.TryParse(cols[7].Trim(), out var c) ? c : 1;
+                }
+                else
+                {
+                    card.maxCopies = 1;
+                }
 
                 string assetPath = $"Assets/Resources/CardData/{card.cardName}.asset";
                 AssetDatabase.CreateAsset(card, assetPath);
@@ -65,7 +90,7 @@ public class CardImporter : EditorWindow
             }
             catch (System.Exception ex)
             {
-                Debug.LogError($"B³¹d w linii {lineNumber} CSV. Treœæ linii: {line}\nSzczegó³y b³êdu: {ex.Message}");
+                Debug.LogError($"BÅ‚Ä…d w linii {lineNumber} CSV. TreÅ›Ä‡ linii: {line}\nSzczegÃ³Å‚y bÅ‚Ä™du: {ex.Message}");
             }
         }
 

@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000020981, y: 0.000055552}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 248, y: 374}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &510705614735575657
@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardView
   artworkImage: {fileID: 510705614735575657}
   powerText: {fileID: 5193356905663088010}
+  nameText: {fileID: 0}
   cardInstance:
     data: {fileID: 0}
     currentPower: 0
@@ -91,6 +92,7 @@ MonoBehaviour:
     isImunne: 0
     survivor: 0
     effectTriggered: 0
+    effectTurnCounter: 0
 --- !u!225 &716173088088713636
 CanvasGroup:
   m_ObjectHideFlags: 0

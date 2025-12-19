@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Wartownik
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Wartownik
-  artwork: {fileID: 0}
+  artwork: {fileID: -6037188823997279337, guid: da8417b2c238bef4fa076002cd57213f, type: 3}
   faction: 0
   range: 0
   power: 2
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 2

@@ -3,8 +3,8 @@ guid: da8417b2c238bef4fa076002cd57213f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7734391426259643342
-    second: wartownik_0
+      213: -6037188823997279337
+    second: Wartownik_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wartownik_0
+      name: Wartownik_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 23497f3f9fbe9a490800000000000000
-      internalID: -7734391426259643342
+      spriteID: 7931faf30c8973ca0800000000000000
+      internalID: -6037188823997279337
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      wartownik_0: -7734391426259643342
+      Wartownik_0: -6037188823997279337
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

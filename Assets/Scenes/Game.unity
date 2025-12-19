@@ -863,6 +863,7 @@ GameObject:
   - component: {fileID: 356449962}
   - component: {fileID: 356449961}
   - component: {fileID: 356449965}
+  - component: {fileID: 356449966}
   m_Layer: 0
   m_Name: EnemyRangeRow
   m_TagString: Untagged
@@ -1021,6 +1022,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimpleRowLayout
   spacing: 1.5
   ghostPrefab: {fileID: 5373685307356090488, guid: 17f06480fdc6c3847a0b70005f5f2a34, type: 3}
+--- !u!114 &356449966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356449960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aed9d4ba6ae797429fa8f8a62319292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RowHighlighter
+  highlightColor: {r: 0.3, g: 1, b: 0.3, a: 0.5}
 --- !u!1 &382201213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,23 +1118,23 @@ MonoBehaviour:
   currentState: 0
   isPlayerTurn: 0
   startingDeckAssets:
-  - {fileID: 11400000, guid: f5486e960aa094448ae10fb98d5aa70d, type: 2}
-  - {fileID: 11400000, guid: c303ef36d5c7b714bb60bde5f86ee965, type: 2}
-  - {fileID: 11400000, guid: 87a223ecff8818f4fbb34c254bcc8207, type: 2}
-  - {fileID: 11400000, guid: e34b9bd08e42de248836d81971d810eb, type: 2}
-  - {fileID: 11400000, guid: eec1b5ce53a668b499121f19072559d4, type: 2}
-  - {fileID: 11400000, guid: 3b811ed60fa887145acfc6cfe4dd70b7, type: 2}
-  - {fileID: 11400000, guid: a0a9769acf8596344b6c0b89e988841c, type: 2}
-  - {fileID: 11400000, guid: b180be820ae0e754393c644899511007, type: 2}
-  - {fileID: 11400000, guid: 273b55b37bc84b94ab70efb60a62ddd3, type: 2}
-  - {fileID: 11400000, guid: fc31dc5678c087642a3fc861f6a4039b, type: 2}
-  - {fileID: 11400000, guid: fb9b95e3b4b474c469d3a6f7475674f3, type: 2}
-  - {fileID: 11400000, guid: 25781d1d480373044af0466dbce516af, type: 2}
-  - {fileID: 11400000, guid: fa28b0749b4fabe449ee97af5fa0f907, type: 2}
-  - {fileID: 11400000, guid: fc31dc5678c087642a3fc861f6a4039b, type: 2}
-  - {fileID: 11400000, guid: fc31dc5678c087642a3fc861f6a4039b, type: 2}
+  - {fileID: 11400000, guid: f21f01ab9c94f9a458b7f6d8460c4258, type: 2}
+  - {fileID: 11400000, guid: f11aa189c3ee07a408b973ea354bf8c9, type: 2}
+  - {fileID: 11400000, guid: d5045a2f21486d84593aa24818227e7b, type: 2}
+  - {fileID: 11400000, guid: f21f01ab9c94f9a458b7f6d8460c4258, type: 2}
+  - {fileID: 11400000, guid: f21f01ab9c94f9a458b7f6d8460c4258, type: 2}
+  - {fileID: 11400000, guid: f21f01ab9c94f9a458b7f6d8460c4258, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
+  - {fileID: 11400000, guid: 1af7ad9e39d302249ad7eca282da1f6a, type: 2}
   isDragging: 0
-  promoterCard: {fileID: 11400000, guid: 455fae698b2906344903fa8c7efe8e36, type: 2}
+  promoterCard: {fileID: 11400000, guid: 06682aa60006d5d45b5a0a74f4535c97, type: 2}
   promoterChance: 0.05
   promoterDrawChance: 0.001
 --- !u!114 &382201216
@@ -1772,6 +1786,7 @@ GameObject:
   - component: {fileID: 538694053}
   - component: {fileID: 538694052}
   - component: {fileID: 538694056}
+  - component: {fileID: 538694057}
   m_Layer: 0
   m_Name: EnemyMeleeRow
   m_TagString: Untagged
@@ -1930,6 +1945,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimpleRowLayout
   spacing: 1.5
   ghostPrefab: {fileID: 5373685307356090488, guid: 17f06480fdc6c3847a0b70005f5f2a34, type: 3}
+--- !u!114 &538694057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538694051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aed9d4ba6ae797429fa8f8a62319292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RowHighlighter
+  highlightColor: {r: 0.3, g: 1, b: 0.3, a: 0.5}
 --- !u!1 &583116029
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,6 +4471,7 @@ GameObject:
   - component: {fileID: 1712444823}
   - component: {fileID: 1712444822}
   - component: {fileID: 1712444826}
+  - component: {fileID: 1712444827}
   m_Layer: 0
   m_Name: PlayerMeleeRow
   m_TagString: Untagged
@@ -4601,6 +4630,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimpleRowLayout
   spacing: 1.5
   ghostPrefab: {fileID: 5373685307356090488, guid: 17f06480fdc6c3847a0b70005f5f2a34, type: 3}
+--- !u!114 &1712444827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712444821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aed9d4ba6ae797429fa8f8a62319292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RowHighlighter
+  highlightColor: {r: 0.3, g: 1, b: 0.3, a: 0.5}
 --- !u!1 &1846175958
 GameObject:
   m_ObjectHideFlags: 0
@@ -4861,6 +4903,7 @@ GameObject:
   - component: {fileID: 1970305366}
   - component: {fileID: 1970305365}
   - component: {fileID: 1970305369}
+  - component: {fileID: 1970305370}
   m_Layer: 0
   m_Name: PlayerRangeRow
   m_TagString: Untagged
@@ -5019,6 +5062,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimpleRowLayout
   spacing: 1.5
   ghostPrefab: {fileID: 5373685307356090488, guid: 17f06480fdc6c3847a0b70005f5f2a34, type: 3}
+--- !u!114 &1970305370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970305364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aed9d4ba6ae797429fa8f8a62319292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RowHighlighter
+  highlightColor: {r: 0.3, g: 1, b: 0.3, a: 0.5}
 --- !u!1 &2003652220
 GameObject:
   m_ObjectHideFlags: 0
@@ -5375,9 +5431,9 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 712476565}
   - {fileID: 209150127}
-  - {fileID: 354169198}
-  - {fileID: 382201214}
   - {fileID: 356449964}
   - {fileID: 538694055}
   - {fileID: 1712444825}
   - {fileID: 1970305368}
+  - {fileID: 354169198}
+  - {fileID: 382201214}

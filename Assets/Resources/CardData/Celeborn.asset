@@ -17,10 +17,12 @@ MonoBehaviour:
   faction: 0
   range: 1
   power: 3
-  effect: {fileID: 1533613619918138222}
-  effectDescription: "\"Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
-    Galadriela jest na planszy\""
---- !u!114 &1533613619918138222
+  powerDisplayOverride: 
+  effect: {fileID: 1592869482275112096}
+  effectDescription: "Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
+    Galadriela jest na planszy."
+  maxCopies: 1
+--- !u!114 &1592869482275112096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,7 +35,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConditionalBuffRowEffect
   effectName: ConditionalBuffRowEffect
-  effectDescription: "\"Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
-    Galadriela jest na planszy\""
+  effectDescription: "Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
+    Galadriela jest na planszy."
   powerToAdd: 2
   allyName: Galadriela

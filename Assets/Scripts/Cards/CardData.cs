@@ -17,14 +17,20 @@ public enum RangeType
 [CreateAssetMenu(fileName = "NewCard", menuName = "Cards/CardData")]
 public class CardData : ScriptableObject
 {
-    [Header("Podstawowe dane")]
+    [Header("Base data")]
     public string cardName;
     public Sprite artwork;
     public Faction faction;
     public RangeType range;
     public int power;
 
-    [Header("Efekt specjalny")]
+    [Header("Visuals")]
+    public string powerDisplayOverride;
+
+    [Header("Effect")]
     public CardEffect effect;
     [TextArea] public string effectDescription;
+
+    [Header("Deck building")]
+    public int maxCopies = 1;
 }

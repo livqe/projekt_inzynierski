@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Miecznik
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Miecznik
-  artwork: {fileID: 0}
+  artwork: {fileID: 2245487455092933319, guid: cfa06e773a282594f9aee6bc9d896be3, type: 3}
   faction: 0
   range: 0
   power: 1
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 2

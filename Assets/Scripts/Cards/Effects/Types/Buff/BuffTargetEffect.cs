@@ -21,7 +21,7 @@ public class BuffTargetEffect : CardEffect, ITargetableEffect
     {
         List<CardInstance> myBoard = (source.owner == game.player) ? game.playerBoard : game.enemyBoard;
 
-        bool anyValidTargets = myBoard.Any(c => c.currentPower >= 0 && c != source);
+        bool anyValidTargets = myBoard.Any(c => c != source);
 
         if (anyValidTargets)
         {

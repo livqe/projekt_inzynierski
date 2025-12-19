@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Haldir
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Haldir
-  artwork: {fileID: 0}
+  artwork: {fileID: -430353073214273637, guid: ee4110f49efefd040a350d6c16cf8d1a, type: 3}
   faction: 0
   range: 1
   power: 3
-  effect: {fileID: 383566716313742364}
-  effectDescription: "Na koniec ka\u017Cdej tury otrzymuje +1 do mocy"
---- !u!114 &383566716313742364
+  powerDisplayOverride: 
+  effect: {fileID: 460369479645610391}
+  effectDescription: "Na koniec ka\u017Cdej tury otrzymuje +1 do mocy."
+  maxCopies: 1
+--- !u!114 &460369479645610391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,6 +34,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuffSelfEffect
   effectName: BuffSelfEffect
-  effectDescription: "Na koniec ka\u017Cdej tury otrzymuje +1 do mocy"
+  effectDescription: "Na koniec ka\u017Cdej tury otrzymuje +1 do mocy."
   powerToAdd: 1
   turnFrequency: 1

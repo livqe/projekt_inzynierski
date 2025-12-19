@@ -3,8 +3,8 @@ guid: 4197682c62ffe8a47ac5d47ded9c8870
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8459939484111126654
-    second: katapulta_0
+      213: 5097490839952064159
+    second: Katapulta_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: katapulta_0
+      name: Katapulta_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 28f3144acd1489a80800000000000000
-      internalID: -8459939484111126654
+      spriteID: f9e762949ecedb640800000000000000
+      internalID: 5097490839952064159
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      katapulta_0: -8459939484111126654
+      Katapulta_0: 5097490839952064159
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

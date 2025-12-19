@@ -3,8 +3,8 @@ guid: 6347e181b4bfb7f40a34dade55740a36
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7326251930018569127
-    second: gwardzista_0
+      213: 5580291522541443191
+    second: Gwardzista_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gwardzista_0
+      name: Gwardzista_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7abd6cf60531ca560800000000000000
-      internalID: 7326251930018569127
+      spriteID: 778d438f29d217d40800000000000000
+      internalID: 5580291522541443191
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      gwardzista_0: 7326251930018569127
+      Gwardzista_0: 5580291522541443191
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

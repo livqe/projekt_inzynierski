@@ -3,8 +3,8 @@ guid: 7d241f46c33d90b48a9287bfb2f18487
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5403839652353659924
-    second: "miotacz topor\xF3w_0"
+      213: -6279321581323158582
+    second: "Miotacz Topor\xF3w_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "miotacz topor\xF3w_0"
+      name: "Miotacz Topor\xF3w_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ceb2a4a8774b105b0800000000000000
-      internalID: -5403839652353659924
+      spriteID: acbf9c28a4e5bd8a0800000000000000
+      internalID: -6279321581323158582
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "miotacz topor\xF3w_0": -5403839652353659924
+      "Miotacz Topor\xF3w_0": -6279321581323158582
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

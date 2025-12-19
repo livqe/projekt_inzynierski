@@ -3,8 +3,8 @@ guid: ae060885a9cb90a4da1e0daf95a3a0b1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4604676099411857820
-    second: "or\u0142y_0"
+      213: -4541812441944174230
+    second: "Or\u0142y_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "or\u0142y_0"
+      name: "Or\u0142y_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c91dc2b048817ef30800000000000000
-      internalID: 4604676099411857820
+      spriteID: a61d779c5ad38f0c0800000000000000
+      internalID: -4541812441944174230
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "or\u0142y_0": 4604676099411857820
+      "Or\u0142y_0": -4541812441944174230
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

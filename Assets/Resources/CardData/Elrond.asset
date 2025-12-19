@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8617475993267765908
+--- !u!114 &-2118579173212451254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageTargetEnemyEffect
   effectName: DamageTargetEnemyEffect
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -4 wybranej wrogiej
-    karcie na planszy"
+    karcie na planszy."
   damageToDeal: 4
   targetCount: 1
 --- !u!114 &11400000
@@ -34,6 +34,8 @@ MonoBehaviour:
   faction: 0
   range: 2
   power: 10
-  effect: {fileID: -8617475993267765908}
+  powerDisplayOverride: 
+  effect: {fileID: -2118579173212451254}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -4 wybranej wrogiej
-    karcie na planszy"
+    karcie na planszy."
+  maxCopies: 1

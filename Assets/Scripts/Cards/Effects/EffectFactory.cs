@@ -97,6 +97,11 @@ public static class EffectFactory
                 createdEffect = rowDamageEffect;
                 break;
 
+            case "DestroyRowEffect":
+                var destroyRowEffect = ScriptableObject.CreateInstance<DestroyRowEffect>();
+                createdEffect = destroyRowEffect;
+                break;
+
             // === KATEGORIA: SPECIAL ===
             case "DeathLinkEffect":
                 var deathLinkEffect = ScriptableObject.CreateInstance<DeathLinkEffect>();
@@ -136,6 +141,11 @@ public static class EffectFactory
                 var randomDmgBuffChoiceEffect = ScriptableObject.CreateInstance<RandomDmgBuffChoiceEffect>();
                 randomDmgBuffChoiceEffect.Initialize(int.Parse(parameters[0]), int.Parse(parameters[1]));
                 createdEffect = randomDmgBuffChoiceEffect;
+                break;
+
+            case "InstantWinEffect":
+                var instantWinEffect = ScriptableObject.CreateInstance<InstantWinEffect>();
+                createdEffect = instantWinEffect;
                 break;
 
             // === KATEGORIA: SUMMON ===

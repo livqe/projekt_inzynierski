@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Gwardzista
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Gwardzista
-  artwork: {fileID: 0}
+  artwork: {fileID: 5580291522541443191, guid: 6347e181b4bfb7f40a34dade55740a36, type: 3}
   faction: 1
   range: 0
   power: 2
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 2

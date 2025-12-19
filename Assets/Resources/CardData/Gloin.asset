@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-977620134864427535
+--- !u!114 &-5084968834954748713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageTargetEnemyEffect
   effectName: DamageTargetEnemyEffect
   effectDescription: "Zadaje wybranej wrogiej karcie na planszy obra\u017Cenia o
-    warto\u015Bci -5"
+    warto\u015Bci -5."
   damageToDeal: 5
   targetCount: 1
 --- !u!114 &11400000
@@ -30,10 +30,12 @@ MonoBehaviour:
   m_Name: Gloin
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Gloin
-  artwork: {fileID: 0}
+  artwork: {fileID: 3360667633367857418, guid: 2d687465656c9034b86c49d1bd045efa, type: 3}
   faction: 1
   range: 0
   power: 5
-  effect: {fileID: -977620134864427535}
+  powerDisplayOverride: 
+  effect: {fileID: -5084968834954748713}
   effectDescription: "Zadaje wybranej wrogiej karcie na planszy obra\u017Cenia o
-    warto\u015Bci -5"
+    warto\u015Bci -5."
+  maxCopies: 1

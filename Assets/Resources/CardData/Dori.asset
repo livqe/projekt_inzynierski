@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Dori
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Dori
-  artwork: {fileID: 0}
+  artwork: {fileID: -123346428333242896, guid: 6e79ab5bb883ef24d8541cd1b1fe0b92, type: 3}
   faction: 1
   range: 0
   power: 4
-  effect: {fileID: 8174003535204175896}
-  effectDescription: "\"Je\u015Bli Ori zostanie wyeliminowany, to Dori zyskuje +3\""
---- !u!114 &8174003535204175896
+  powerDisplayOverride: 
+  effect: {fileID: 8234752876390314816}
+  effectDescription: "Je\u015Bli Ori zostanie wyeliminowany, to Dori zyskuje +3."
+  maxCopies: 1
+--- !u!114 &8234752876390314816
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,6 +34,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuffSelfOnAllyDeathEffect
   effectName: BuffSelfOnAllyDeathEffect
-  effectDescription: "\"Je\u015Bli Ori zostanie wyeliminowany, to Dori zyskuje +3\""
+  effectDescription: "Je\u015Bli Ori zostanie wyeliminowany, to Dori zyskuje +3."
   powerToAdd: 3
   allyName: Ori

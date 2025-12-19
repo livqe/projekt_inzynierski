@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: "Miotacz Topor\xF3w"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "Miotacz Topor\xF3w"
-  artwork: {fileID: 0}
+  artwork: {fileID: -6279321581323158582, guid: 7d241f46c33d90b48a9287bfb2f18487, type: 3}
   faction: 1
   range: 1
   power: 1
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 2

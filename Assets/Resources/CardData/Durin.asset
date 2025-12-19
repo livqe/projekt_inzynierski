@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7940005321387390216
+--- !u!114 &-6542585422633133299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ImmuneToDamageEffect
   effectName: ImmuneToDamageEffect
-  effectDescription: "Jest odporny na obra\u017Cenia"
+  effectDescription: "Jest odporny na obra\u017Cenia."
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,5 +31,7 @@ MonoBehaviour:
   faction: 1
   range: 0
   power: 12
-  effect: {fileID: -7940005321387390216}
-  effectDescription: "Jest odporny na obra\u017Cenia"
+  powerDisplayOverride: 
+  effect: {fileID: -6542585422633133299}
+  effectDescription: "Jest odporny na obra\u017Cenia."
+  maxCopies: 1

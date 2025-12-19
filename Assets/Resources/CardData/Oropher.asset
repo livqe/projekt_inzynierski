@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3134617085489057572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d02d47fe0770fe49ba49c5ff59a07aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SummonCardEffect
+  effectName: SummonCardEffect
+  effectDescription: "Wzywa wszsystkich wartownik\xF3w z talii."
+  cardToSummon: Wartownik
+  amountToSummon: All
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,25 +29,11 @@ MonoBehaviour:
   m_Name: Oropher
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Oropher
-  artwork: {fileID: 0}
+  artwork: {fileID: 4087935850918884894, guid: da239eb2bfb42ce4b9894809553b19d6, type: 3}
   faction: 0
   range: 0
   power: 3
-  effect: {fileID: 6812914085123541168}
-  effectDescription: "Wzywa wszsystkich wartownik\xF3w z talii"
---- !u!114 &6812914085123541168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d02d47fe0770fe49ba49c5ff59a07aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SummonCardEffect
-  effectName: SummonCardEffect
-  effectDescription: "Wzywa wszsystkich wartownik\xF3w z talii"
-  cardToSummon: Wartownik
-  amountToSummon: All
+  powerDisplayOverride: 
+  effect: {fileID: -3134617085489057572}
+  effectDescription: "Wzywa wszystkich wartownik\xF3w z talii."
+  maxCopies: 1

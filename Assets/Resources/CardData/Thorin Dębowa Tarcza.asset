@@ -17,10 +17,12 @@ MonoBehaviour:
   faction: 1
   range: 0
   power: 10
-  effect: {fileID: 1082668712533844109}
-  effectDescription: "\"Zyskuje tarcz\u0119 o warto\u015Bci 5 punkt\xF3w, kt\xF3ra
-    chroni go przed obra\u017Ceniami\""
---- !u!114 &1082668712533844109
+  powerDisplayOverride: 
+  effect: {fileID: 1739776035979507852}
+  effectDescription: "Zyskuje tarcz\u0119 o warto\u015Bci 5 punkt\xF3w, kt\xF3ra
+    chroni go przed obra\u017Ceniami."
+  maxCopies: 1
+--- !u!114 &1739776035979507852
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,6 +35,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AddShieldEffect
   effectName: AddShieldEffect
-  effectDescription: "\"Zyskuje tarcz\u0119 o warto\u015Bci 5 punkt\xF3w, kt\xF3ra
-    chroni go przed obra\u017Ceniami\""
+  effectDescription: "Zyskuje tarcz\u0119 o warto\u015Bci 5 punkt\xF3w, kt\xF3ra
+    chroni go przed obra\u017Ceniami."
   shieldToAdd: 5

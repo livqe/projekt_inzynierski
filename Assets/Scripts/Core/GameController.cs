@@ -97,9 +97,25 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        //tu trzeba podmieniæ na wybór frakcji w menu
-        player = new Player("Gracz", Faction.Elfy);
-        enemy = new Player("AI", Faction.Krasnoludy);
+        if (GameSetup.selectedDeck != null)
+        {
+            Debug.Log($"Wszystywanie talii gracza: {GameSetup.selectedDeck.deckName}.");
+
+            player = new Player("Gracz", GameSetup.selectedDeck.faction);
+
+            BuildPlayerDeck(GameSetup.selectedDeck);
+        }
+        else
+        {
+            Debug.LogWarning("Brak wybranej talii.");
+        }
+
+        Faction aiFaction = (player.faction == Faction.Elfy) ? Faction.Krasnoludy : Faction.Elfy;
+        enemy = new Player("AI", aiFaction);
+
+        Debug.Log($"Frakcja gracza: {player.faction}. Frakcja AI: {enemy.faction}.");
+
+        GenerateAIDeck(enemy, aiFaction);
 
         if (roundResultPanel != null) roundResultPanel.SetActive(false);
         if (gameResultPanel != null) gameResultPanel.SetActive(false); 
@@ -124,17 +140,52 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void StartGame()
+    private void BuildPlayerDeck(SavedDeck savedDeck)
     {
-        foreach (CardData data in startingDeckAssets)
+        player.cardsInDeck.Clear();
+        var allCards = Resources.LoadAll<CardData>("CardData");
+
+        foreach (string id in savedDeck.cardIds)
         {
+            CardData data = System.Array.Find(allCards, x => x.cardName == id);
             if (data != null)
             {
                 player.cardsInDeck.Add(new CardInstance(data, player));
-                enemy.cardsInDeck.Add(new CardInstance(data, enemy));
+            }
+        }
+    }
+
+    private void GenerateAIDeck(Player aiPlayer, Faction faction)
+    {
+        aiPlayer.cardsInDeck.Clear();
+
+        CardData[] allCards = Resources.LoadAll<CardData>("CardData");
+        List<CardData> factionCards = new List<CardData>();
+
+        foreach (var card in allCards)
+        {
+            if (card.faction == faction || card.faction == Faction.Neutralne)
+            {
+                if (card.cardName == "Promotorzy") continue;
+
+                factionCards.Add(card);
             }
         }
 
+        for (int i = 0; i < 25; i++)
+        {
+            if (factionCards.Count == 0) break;
+
+            CardData randomData = factionCards[Random.Range(0, factionCards.Count)];
+
+            aiPlayer.cardsInDeck.Add(new CardInstance (randomData, aiPlayer));
+        }
+
+        Debug.Log($"Wygenerowano taliê AI: {aiPlayer.cardsInDeck.Count} kart.");
+    }
+
+    private void StartGame()
+    {
         if (promoterCard != null)
         {
             if (Random.value <= promoterChance)
@@ -249,14 +300,7 @@ public class GameController : MonoBehaviour
         {
             if (card.data.effect is ChanceAutoPlayEffect autoPlay)
             {
-                if (autoPlay.TryAutoPlay(true))
-                {
-                    if (currentPlayer.cardsInHand.Contains(card))
-                    {
-                        currentPlayer.cardsInHand.Remove(card);
-                        PlayCard(card, (card.owner == player), false);
-                    }
-                }
+                autoPlay.TryAutoPlay(this, card, true);
             }
         }
 
@@ -265,14 +309,7 @@ public class GameController : MonoBehaviour
         {
             if (card.data.effect is ChanceAutoPlayEffect autoPlay)
             {
-                if (autoPlay.TryAutoPlay(false))
-                {
-                    if (currentPlayer.cardsInDeck.Contains(card))
-                    {
-                        currentPlayer.cardsInDeck.Remove(card);
-                        PlayCard(card, (card.owner == player), false);
-                    }
-                }
+                autoPlay.TryAutoPlay(this, card, false);
             }
         }
     }
@@ -877,19 +914,25 @@ public class GameController : MonoBehaviour
         if (pendingEffect is IRowTargetableEffect rowEffect)
         {
             Debug.Log($"[GameController] Wybrano rz¹d: {range}.");
-
-            currentState = GameState.Normal;
+            
             rowEffect.ExecuteWithRowTarget(pendingCardSource, range, isPlayerRow);
-            pendingCardSource = null;
-            pendingEffect = null;
-            UpdateUI();
-
-            CheckForAutoPass();
         }
         else
         {
             Debug.Log("Klikniêto rz¹d, ale efekt oczekuje czegoœ innego.");
         }
+    }
+
+    public void EndTargeting()
+    {
+        currentState = GameState.Normal;
+        pendingCardSource = null;
+        pendingEffect = null;
+        UpdateUI();
+
+        CheckForAutoPass();
+
+        Debug.Log("[GameController] Zakoñczono celowanie.");
     }
 
     private void ProcessTurnEndEffect(List<CardInstance> board)

@@ -13,14 +13,16 @@ MonoBehaviour:
   m_Name: Bilbo Baggins
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Bilbo Baggins
-  artwork: {fileID: 0}
+  artwork: {fileID: 5101681347495878609, guid: 43e1e1ae5d61ab849967a4678775fa13, type: 3}
   faction: 2
   range: 0
   power: 2
-  effect: {fileID: 7865967839139598142}
-  effectDescription: "\"Karta zostaje dodana na pole wroga, ale wzamian dobierasz
-    now\u0105 kart\u0119 z talii\""
---- !u!114 &7865967839139598142
+  powerDisplayOverride: 
+  effect: {fileID: 1222425027995553671}
+  effectDescription: "Karta zostaje dodana na pole wroga, ale wzamian dobierasz now\u0105
+    kart\u0119 z talii."
+  maxCopies: 1
+--- !u!114 &1222425027995553671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,6 +35,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpyEffect
   effectName: SpyEffect
-  effectDescription: "\"Karta zostaje dodana na pole wroga, ale wzamian dobierasz
-    now\u0105 kart\u0119 z talii\""
+  effectDescription: "Karta zostaje dodana na pole wroga, ale wzamian dobierasz now\u0105
+    kart\u0119 z talii."
   cardsToDraw: 1

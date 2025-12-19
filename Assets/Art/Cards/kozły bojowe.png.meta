@@ -3,8 +3,8 @@ guid: 98b771b60f56bad41a87784fb07efc3b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9211831409892597831
-    second: "koz\u0142y bojowe_0"
+      213: 4155995730881198470
+    second: "Koz\u0142y Bojowe_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "koz\u0142y bojowe_0"
+      name: "Koz\u0142y Bojowe_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 238
-        height: 359
+        width: 496
+        height: 748
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7402f656cdff6df70800000000000000
-      internalID: 9211831409892597831
+      spriteID: 689b63b09101da930800000000000000
+      internalID: 4155995730881198470
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "koz\u0142y bojowe_0": 9211831409892597831
+      "Koz\u0142y Bojowe_0": 4155995730881198470
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

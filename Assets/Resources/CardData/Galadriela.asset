@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Galadriela
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Galadriela
-  artwork: {fileID: 0}
+  artwork: {fileID: -5120062005690803533, guid: 42d36705c6a036a4b95157808ed87693, type: 3}
   faction: 0
   range: 1
   power: 12
+  powerDisplayOverride: 
   effect: {fileID: 0}
   effectDescription: 
+  maxCopies: 1

@@ -12,6 +12,8 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private int originalIndex;
     private SimpleRowLayout lastHoveredRow;
     private bool isDragActive = false;
+    public static System.Action<CardInstance> OnCardDragStart;
+    public static System.Action OnCardDragEnd;
 
     void Awake()
     {
@@ -49,6 +51,11 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         transform.SetParent(canvas.transform, true);
         canvasGroup.blocksRaycasts = false;
+
+        if (cardView != null && cardView.cardInstance != null)
+        {
+            OnCardDragStart?.Invoke(cardView.cardInstance);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)

@@ -17,9 +17,11 @@ MonoBehaviour:
   faction: 0
   range: 2
   power: 0
-  effect: {fileID: 7190487055613319073}
-  effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie"
---- !u!114 &7190487055613319073
+  powerDisplayOverride: 
+  effect: {fileID: 5980245122149708569}
+  effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie."
+  maxCopies: 1
+--- !u!114 &5980245122149708569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,5 +34,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuffRowEffect
   effectName: BuffRowEffect
-  effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie"
+  effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie."
   powerToAdd: 2

@@ -7,7 +7,9 @@ public class UIDebugger : MonoBehaviour
 {
     void Update()
     {
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current == null) return; 
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
 
@@ -19,18 +21,18 @@ public class UIDebugger : MonoBehaviour
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
 
-            Debug.Log($"--- KLIKNIÊCIE W MIEJSCU {mousePos} ---");
+            Debug.Log($"--- Mysz: {pointerData.position} ---");
 
-            if (results.Count > 0)
+            if (results.Count == 0)
             {
-                foreach (var result in results)
-                {
-                    Debug.Log($"Trafiono w UI: {result.gameObject.name} (Tag: {result.gameObject.tag})");
-                }
+                Debug.LogWarning("Brak celu UI");
             }
             else
             {
-                Debug.Log("UI nie wykry³o ¿adnego obiektu (Raycast przebi³ siê na wylot).");
+                foreach (var result in results)
+                {
+                    Debug.Log($"Trafiono w UI: {result.gameObject.name} | Depth: {result.depth} | Layer: {LayerMask.LayerToName(result.gameObject.layer)}");
+                }
             }
         }
     }

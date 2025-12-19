@@ -102,7 +102,7 @@ public class AIController : MonoBehaviour
 
         potentialTargets = potentialTargets.Where(c => 
             c != source && 
-            c.currentPower > 0 &&
+            c.currentPower >= 0 &&
             !(align == TargetAlignment.Enemy && c.isImunne)
         ).ToList();
 
