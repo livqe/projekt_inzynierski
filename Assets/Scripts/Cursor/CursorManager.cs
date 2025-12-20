@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CursorManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class CursorManager : MonoBehaviour
     private void Update()
     {
         // przytrzymanie lewego przycisku myszy
-        if (Input.GetMouseButton(0))
+        if (Mouse.current.leftButton.isPressed)
         {
             if (!isClicking) // zmiana tylko raz na początek przytrzymania
             {

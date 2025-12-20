@@ -26,7 +26,7 @@ public class TooltipManager : MonoBehaviour
         if (tooltipPanel.activeSelf)
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
-            mousePos += new Vector2(15f, -15f);
+            mousePos += new Vector2(80f, -80f);
             tooltipPanel.transform.position = mousePos;
         }
     }
