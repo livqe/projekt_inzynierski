@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 0
   power: 2
   powerDisplayOverride: 
-  effect: {fileID: 1222425027995553671}
+  effect: {fileID: 2389506327421057527}
   effectDescription: "Karta zostaje dodana na pole wroga, ale wzamian dobierasz now\u0105
     kart\u0119 z talii."
   maxCopies: 1
---- !u!114 &1222425027995553671
+--- !u!114 &2389506327421057527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

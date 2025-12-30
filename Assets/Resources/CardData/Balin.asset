@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1187808804896685839
+--- !u!114 &-112268498101931225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,6 +34,6 @@ MonoBehaviour:
   range: 0
   power: 4
   powerDisplayOverride: 
-  effect: {fileID: -1187808804896685839}
+  effect: {fileID: -112268498101931225}
   effectDescription: "Co drug\u0105 tur\u0119 zyskuje +1 do mocy."
   maxCopies: 1

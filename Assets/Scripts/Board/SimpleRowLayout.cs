@@ -5,9 +5,16 @@ public class SimpleRowLayout : MonoBehaviour
 {
     [Header("Settings")]
     public float spacing = 1.5f;
-    public GameObject ghostPrefab;
+    public float moveSpeed = 10f;
 
+    [Header("Ghost")]
+    public GameObject ghostPrefab;
     private GameObject currentGhost;
+
+    private void OnTransformChildrenChanged()
+    {
+        UpdateLayout();
+    }
 
     public void UpdateGhostPosition(float mouseX)
     {
@@ -25,15 +32,19 @@ public class SimpleRowLayout : MonoBehaviour
         }
 
         int bestIndex = CalculateIndexForX(mouseX);
-        currentGhost.transform.SetSiblingIndex(bestIndex);
 
-        UpdateLayout();
+        if (currentGhost.transform.GetSiblingIndex() != bestIndex)
+        {
+            currentGhost.transform.SetSiblingIndex(bestIndex);
+            UpdateLayout();
+        }
     }
 
     public void RemoveGhost()
     {
         if (currentGhost != null)
         {
+            currentGhost.transform.SetParent(null);
             Destroy(currentGhost);
             currentGhost = null;
             UpdateLayout();
@@ -46,20 +57,28 @@ public class SimpleRowLayout : MonoBehaviour
         return transform.childCount;
     }
 
-    private int CalculateIndexForX(float x)
+    public int CalculateIndexForX(float x)
     {
-        int childCount = transform.childCount;
-        for (int i = 0;  i < childCount; i++)
+        int i = 0;
+
+        foreach (Transform child in transform)
         {
-            Transform child = transform.GetChild(i);
+            if (currentGhost != null && child == currentGhost.transform) continue;
+            if (!child.gameObject.activeSelf) continue;
 
             if (x < child.position.x)
             {
                 return i;
             }
+            i++;
         }
 
-        return childCount;
+        return transform.childCount;
+    }
+
+    void LateUpdate()
+    {
+        if (transform.childCount > 0) UpdateLayout();
     }
 
     [ContextMenu("Arrange the cards")]
@@ -68,7 +87,7 @@ public class SimpleRowLayout : MonoBehaviour
         List<Transform> cards = new List<Transform>();
         foreach (Transform child in transform)
         {
-            if (child.gameObject.activeSelf) cards.Add(child);
+            if (child.gameObject.activeInHierarchy) cards.Add(child);
         }
 
         int count = cards.Count;
@@ -79,14 +98,15 @@ public class SimpleRowLayout : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
+            Transform card = cards[i];
+
             float newX = startX + (i * spacing);
             Vector3 targetPos = new Vector3(newX, 0, 0);
-            cards[i].localPosition = Vector3.Lerp(cards[i].localPosition, targetPos, Time.deltaTime * 10f);
-        }
-    }
 
-    void LateUpdate()
-    {
-        if (transform.childCount > 0) UpdateLayout();
+            if (currentGhost != null && card == currentGhost.transform)
+                card.localPosition = targetPos;
+            else
+                card.localPosition = Vector3.Lerp(card.localPosition, targetPos, Time.deltaTime * moveSpeed);
+        }
     }
 }

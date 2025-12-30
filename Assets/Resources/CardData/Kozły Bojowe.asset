@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 0
   power: 4
   powerDisplayOverride: 
-  effect: {fileID: 1830429032093430593}
+  effect: {fileID: 3616779039271016032}
   effectDescription: "Zadaje obra\u017Cenia o wysoko\u015Bci -2 wybranej karcie wroga
     na planszy."
   maxCopies: 1
---- !u!114 &1830429032093430593
+--- !u!114 &3616779039271016032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

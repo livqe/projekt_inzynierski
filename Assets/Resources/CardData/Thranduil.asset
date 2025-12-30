@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-700649330481802048
+--- !u!114 &-7017947494774135715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35,7 +35,7 @@ MonoBehaviour:
   range: 0
   power: 10
   powerDisplayOverride: 
-  effect: {fileID: -700649330481802048}
+  effect: {fileID: -7017947494774135715}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -4 wybranej wrogiej
     karcie na planszy."
   maxCopies: 1

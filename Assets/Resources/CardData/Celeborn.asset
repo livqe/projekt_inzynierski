@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8122932526842711766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bb9ed6f787044643bbec134300f2db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConditionalBuffRowEffect
+  effectName: ConditionalBuffRowEffect
+  effectDescription: "Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
+    Galadriela jest na planszy."
+  powerToAdd: 2
+  allyName: Galadriela
+  vfxPrefab: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18,24 +36,7 @@ MonoBehaviour:
   range: 1
   power: 3
   powerDisplayOverride: 
-  effect: {fileID: 1592869482275112096}
+  effect: {fileID: -8122932526842711766}
   effectDescription: "Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
     Galadriela jest na planszy."
   maxCopies: 1
---- !u!114 &1592869482275112096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bb9ed6f787044643bbec134300f2db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ConditionalBuffRowEffect
-  effectName: ConditionalBuffRowEffect
-  effectDescription: "Dodaje +2 do mocy ka\u017Cdej karcie w rz\u0119dzie, je\u015Bli
-    Galadriela jest na planszy."
-  powerToAdd: 2
-  allyName: Galadriela

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4237580714514242326
+--- !u!114 &-4469380932321510764
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30,12 +30,12 @@ MonoBehaviour:
   m_Name: Beorn
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Beorn
-  artwork: {fileID: 0}
+  artwork: {fileID: 1970012183552643780, guid: ddb215823874cba4994269e20ad8b2b5, type: 3}
   faction: 2
   range: 0
   power: 9
   powerDisplayOverride: 
-  effect: {fileID: -4237580714514242326}
+  effect: {fileID: -4469380932321510764}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci - 5 wybranej wrogiej
     karcie na planszy."
   maxCopies: 1

@@ -2,40 +2,97 @@ using UnityEngine;
 
 public class RowHighlighter : MonoBehaviour
 {
-    private BoardRow rowLogic;
-    private SpriteRenderer rowImage;
-    private Color defaultColor;
-    public Color highlightColor = new Color(0.3f, 1f, 0.3f, 0.5f);
+    [Header("Config")]
+    public GameObject highlightFrame;
+    public SpriteRenderer frameRenderer;
+
+    [Header("Sprites")]
+    public Sprite dragDropSprite;
+    public Sprite targetSprite;
+
+    [Header("Colors")]
+    public Color defaultColor = new Color(0f, 1f, 0f, 1f);
+    public Color hoverColor = new Color(1f, 0.8f, 0f, 1f);
+    public Color targetDefaultColor = new Color(1f, 1f, 1f, 1f);
+    public Color targetHoverColor = new Color(1f, 1f, 1f, 0.7f);
+
+    private bool isEligible = false;
+    private bool isTargetMode = false;
 
     void Start()
     {
-        rowLogic = GetComponent<BoardRow>();
-        rowImage = GetComponent<SpriteRenderer>();
-        if (rowImage != null) defaultColor = rowImage.color;
+        if (highlightFrame != null) highlightFrame.SetActive(false);
 
-        DragAndPlay.OnCardDragStart += HandleDragStart;
-        DragAndPlay.OnCardDragEnd += HandleDragEnd;
+        if (frameRenderer == null && highlightFrame != null)
+            frameRenderer = highlightFrame.GetComponent<SpriteRenderer>();
+
+        if (dragDropSprite == null && frameRenderer != null)
+            dragDropSprite = frameRenderer.sprite;
     }
 
-    private void OnDestroy()
+    public void SetEligible(bool eligible)
     {
-        DragAndPlay.OnCardDragStart -= HandleDragStart;
-        DragAndPlay.OnCardDragEnd -= HandleDragEnd;
+        isEligible = eligible;
+        isTargetMode = false;
+
+        UpdateVisuals(false);
     }
 
-    private void HandleDragStart(CardInstance card)
+    public void SetTargetMode(bool active)
     {
-        bool isMyRow = rowLogic.isPlayerRow;
-        bool matchesRange = (card.data.range == RangeType.Dowolny) || (card.data.range == rowLogic.rowType);
+        isTargetMode = active;
+        isEligible = false;
 
-        if (isMyRow && matchesRange)
+        if (active && highlightFrame != null)
         {
-            if (rowImage != null) rowImage.color = highlightColor;
+            highlightFrame.SetActive(true);
+
+            if (frameRenderer != null) frameRenderer.sprite = targetSprite;
+            frameRenderer.color = targetDefaultColor;
         }
+        else ResetRow();
     }
 
-    private void HandleDragEnd()
+    private void OnMouseEnter()
     {
-        if (rowImage != null) rowImage.color = defaultColor;
+        UpdateVisuals(true);
+    }
+
+    private void OnMouseExit()
+    {
+        UpdateVisuals(false);
+    }
+
+    public void SetHover(bool isHovered)
+    {
+        if (!isEligible || highlightFrame == null) return;
+
+        if (frameRenderer != null)
+            frameRenderer.color = isHovered ? hoverColor : defaultColor;
+    }
+
+    public void ResetRow()
+    {
+        isEligible = false;
+        isTargetMode = false;
+        if (highlightFrame != null) highlightFrame.SetActive(false);
+    }
+
+    private void UpdateVisuals(bool isHovering)
+    {
+        if (highlightFrame == null) return;
+
+        if (isEligible)
+        {
+            highlightFrame.SetActive(true);
+            if (dragDropSprite != null) frameRenderer.sprite = dragDropSprite;
+            frameRenderer.color = isHovering ? hoverColor : defaultColor;
+        }
+        else if (isTargetMode)
+        {
+            highlightFrame.SetActive(true);
+            if (targetSprite != null) frameRenderer.sprite = targetSprite;
+            frameRenderer.color = isHovering ? targetHoverColor : targetDefaultColor;
+        }
     }
 }

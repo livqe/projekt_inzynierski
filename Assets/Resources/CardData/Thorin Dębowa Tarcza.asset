@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: "Thorin D\u0119bowa Tarcza"
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: "Thorin D\u0119bowa Tarcza"
-  artwork: {fileID: 0}
+  artwork: {fileID: -2464773062150803465, guid: 3cb3d749c72e37745aca95f92089f63f, type: 3}
   faction: 1
   range: 0
   power: 10
   powerDisplayOverride: 
-  effect: {fileID: 1739776035979507852}
+  effect: {fileID: 8124328503781114027}
   effectDescription: "Zyskuje tarcz\u0119 o warto\u015Bci 5 punkt\xF3w, kt\xF3ra
     chroni go przed obra\u017Ceniami."
   maxCopies: 1
---- !u!114 &1739776035979507852
+--- !u!114 &8124328503781114027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1186710549179900
+--- !u!114 &-8801803328719380596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35,6 +35,6 @@ MonoBehaviour:
   range: 1
   power: 4
   powerDisplayOverride: 
-  effect: {fileID: -1186710549179900}
+  effect: {fileID: -8801803328719380596}
   effectDescription: "Otrzymuje +2 do mocy, je\u015Bli Arwena jest na planszy."
   maxCopies: 1

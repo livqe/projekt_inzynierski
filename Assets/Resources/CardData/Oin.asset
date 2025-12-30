@@ -1,6 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-316009849334869675
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Oin
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Oin
+  artwork: {fileID: -4533169812132890318, guid: a27ba4d44f3f4cd4a9e825053f22fd90, type: 3}
+  faction: 1
+  range: 2
+  power: 1
+  powerDisplayOverride: 
+  effect: {fileID: 4092482562735917404}
+  effectDescription: Dodaje +6 mocy dla innej wybranej karty na planszy.
+  maxCopies: 1
+--- !u!114 &4092482562735917404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16,24 +37,3 @@ MonoBehaviour:
   effectDescription: Dodaje +6 mocy dla innej wybranej karty na planszy.
   powerToAdd: 6
   targetCount: 1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
-  m_Name: Oin
-  m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: Oin
-  artwork: {fileID: 0}
-  faction: 1
-  range: 2
-  power: 1
-  powerDisplayOverride: 
-  effect: {fileID: -316009849334869675}
-  effectDescription: Dodaje +6 mocy dla innej wybranej karty na planszy.
-  maxCopies: 1

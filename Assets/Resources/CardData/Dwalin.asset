@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3104287971411146878
+--- !u!114 &-7476598810824149960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30,12 +30,12 @@ MonoBehaviour:
   m_Name: Dwalin
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Dwalin
-  artwork: {fileID: 0}
+  artwork: {fileID: -2913326725423422420, guid: 0067df09ff55f7c468574577cc5029cd, type: 3}
   faction: 1
   range: 0
   power: 6
   powerDisplayOverride: 
-  effect: {fileID: -3104287971411146878}
+  effect: {fileID: -7476598810824149960}
   effectDescription: "Co dwie tury zadaje wrogiej karcie na planszy obra\u017Cenia
     o warto\u015Bci -3."
   maxCopies: 1

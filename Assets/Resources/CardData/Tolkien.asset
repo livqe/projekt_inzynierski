@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 2
   power: 0
   powerDisplayOverride: '-'
-  effect: {fileID: 130842966774832570}
+  effect: {fileID: 771474150108354767}
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
     rz\u0119dzie gracza i przeciwnika."
   maxCopies: 1
---- !u!114 &130842966774832570
+--- !u!114 &771474150108354767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,3 +38,4 @@ MonoBehaviour:
   effectDescription: "Zadaje obra\u017Cenia w wysoko\u015Bci -7 kartom w wybranym
     rz\u0119dzie gracza i przeciwnika."
   damageToDeal: 7
+  vfxPrefab: {fileID: 0}

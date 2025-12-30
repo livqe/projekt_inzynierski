@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 1
   power: 0
   powerDisplayOverride: 
-  effect: {fileID: 7342219783895042179}
+  effect: {fileID: 8837565186695138985}
   effectDescription: "Wzywa wszystkie or\u0142y z talii, je\u015Bli Gandalf jest
     na planszy."
   maxCopies: 1
---- !u!114 &7342219783895042179
+--- !u!114 &8837565186695138985
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,4 +38,4 @@ MonoBehaviour:
   effectDescription: "Wzywa wszystkie or\u0142y z talii, je\u015Bli Gandalf jest
     na planszy."
   cardToSummon: "Or\u0142y"
-  requiredAlly: Gandalf
+  requiredAlly: Gandalf Szary

@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8044034778129494937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 282ee90dc252aaf4689e58532e31c597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuffRowEffect
+  effectName: BuffRowEffect
+  effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie."
+  powerToAdd: 2
+  vfxPrefab: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18,21 +34,6 @@ MonoBehaviour:
   range: 2
   power: 0
   powerDisplayOverride: 
-  effect: {fileID: 5980245122149708569}
+  effect: {fileID: -8044034778129494937}
   effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie."
   maxCopies: 1
---- !u!114 &5980245122149708569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 282ee90dc252aaf4689e58532e31c597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuffRowEffect
-  effectName: BuffRowEffect
-  effectDescription: "Dodaje +2 do mocy wszystkim kartom w rz\u0119dzie."
-  powerToAdd: 2

@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 2
   power: 0
   powerDisplayOverride: '-'
-  effect: {fileID: 937886801592142572}
+  effect: {fileID: 620220350362130885}
   effectDescription: "Jego moc zmienia si\u0119 co tur\u0119 losowo w przedziale
     0-11."
   maxCopies: 1
---- !u!114 &937886801592142572
+--- !u!114 &620220350362130885
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

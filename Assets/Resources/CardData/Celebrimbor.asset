@@ -18,10 +18,10 @@ MonoBehaviour:
   range: 1
   power: 7
   powerDisplayOverride: 
-  effect: {fileID: 4859855780315588521}
+  effect: {fileID: 945243345149580724}
   effectDescription: "Jest odporny na obra\u017Cenia."
   maxCopies: 1
---- !u!114 &4859855780315588521
+--- !u!114 &945243345149580724
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

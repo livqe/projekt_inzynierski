@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 2
   power: 0
   powerDisplayOverride: "\u221E"
-  effect: {fileID: 4378644957281385538}
+  effect: {fileID: 2663054632411730566}
   effectDescription: "Maj\u0105 0,1% szans na wylosowanie z talii. Po zagraniu na
     plansz\u0119 automatycznie zdajesz egzamin - wygrywasz gr\u0119."
   maxCopies: 1
---- !u!114 &4378644957281385538
+--- !u!114 &2663054632411730566
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

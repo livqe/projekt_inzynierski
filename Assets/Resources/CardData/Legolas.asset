@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 2
   power: 9
   powerDisplayOverride: 
-  effect: {fileID: 3794778528891359744}
+  effect: {fileID: 1409598242874067064}
   effectDescription: "Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
     karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)."
   maxCopies: 1
---- !u!114 &3794778528891359744
+--- !u!114 &1409598242874067064
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

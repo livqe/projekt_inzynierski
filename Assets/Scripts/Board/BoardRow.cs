@@ -3,9 +3,10 @@ using UnityEngine.EventSystems;
 
 public class BoardRow : MonoBehaviour, IPointerClickHandler
 {
+    [Header("Row Config")]
     public RangeType rowType;
-
     public bool isPlayerRow;
+    public SimpleRowLayout linkedLayout;
 
     public void OnPointerClick(PointerEventData eventData)
     {

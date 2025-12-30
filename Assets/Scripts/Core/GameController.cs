@@ -189,27 +189,39 @@ public class GameController : MonoBehaviour
     private void GenerateAIDeck(Player aiPlayer, Faction faction)
     {
         aiPlayer.cardsInDeck.Clear();
-
         CardData[] allCards = Resources.LoadAll<CardData>("CardData");
-        List<CardData> factionCards = new List<CardData>();
 
+        List<CardData> factionCards = new List<CardData>();
         foreach (var card in allCards)
         {
             if (card.faction == faction || card.faction == Faction.Neutralne)
             {
                 if (card.cardName == "Promotorzy") continue;
-
                 factionCards.Add(card);
             }
         }
 
-        for (int i = 0; i < 25; i++)
+        Dictionary<string, int> cardsAddedCount = new Dictionary<string, int>();
+
+        int attempts = 0;
+        while (aiPlayer.cardsInDeck.Count < 25 && attempts < 1000)
         {
+            attempts++;
             if (factionCards.Count == 0) break;
 
-            CardData randomData = factionCards[Random.Range(0, factionCards.Count)];
+            CardData randomCard = factionCards[Random.Range(0, factionCards.Count)];
 
-            aiPlayer.cardsInDeck.Add(new CardInstance (randomData, aiPlayer));
+            int maxCopies = 1;
+            maxCopies = randomCard.maxCopies;
+
+            if (!cardsAddedCount.ContainsKey(randomCard.cardName))
+                cardsAddedCount[randomCard.cardName] = 0;
+
+            if (cardsAddedCount[randomCard.cardName] < maxCopies)
+            {
+                aiPlayer.cardsInDeck.Add(new CardInstance(randomCard, aiPlayer));
+                cardsAddedCount[randomCard.cardName]++;
+            }
         }
 
         Debug.Log($"Wygenerowano taliê AI: {aiPlayer.cardsInDeck.Count} kart.");
@@ -410,6 +422,8 @@ public class GameController : MonoBehaviour
     {
         if (pendingCardSource == null) return;
 
+        ClearAllHighlights();
+
         Debug.Log("Anulowanie zagrania karty.");
 
         CardInstance cardToReturn = pendingCardSource;
@@ -459,7 +473,7 @@ public class GameController : MonoBehaviour
 
     public void EndPlayerTurn()
     {
-        isPlayerTurn = false;
+        if (!isPlayerTurn) return;
 
         if (playerHasPassed)
         {
@@ -470,6 +484,10 @@ public class GameController : MonoBehaviour
         if (player.cardsInHand.Count > 0 && !hasPlayedCardThisTurn)
         {
             Debug.Log("Nie mo¿esz spasowaæ bez zagrania karty.");
+            if (handManager != null)
+            {
+
+            }
             return;
         }
 
@@ -479,6 +497,17 @@ public class GameController : MonoBehaviour
             PlayerPassRound();
             return;
         }
+
+        if (currentState == GameState.WaitingForTarget)
+        {
+            CancelPlay();
+        }
+        else
+        {
+            ClearAllHighlights();
+        }
+
+        isPlayerTurn = false;
 
         Debug.Log("[GameController] Gracz koñczy turê.");
         ProcessTurnEndEffect(playerBoard);
@@ -593,20 +622,30 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Czyszczenie sto³u...");
 
+        ClearAllHighlights();
+
         BoardRow[] rows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
         
         foreach (var row in rows)
         {
-            foreach (Transform child in row.transform)
+            Transform container = row.transform;
+            if (row.linkedLayout != null) container = row.linkedLayout.transform;
+
+            for (int i = container.childCount - 1; i >= 0; i--)
             {
+                Transform child = container.GetChild(i);
                 if (child.name.Contains("Ghost")) continue;
                 Destroy(child.gameObject);
             }
+
+            row.GetComponent<BoardRow>().linkedLayout?.RemoveGhost();
         }
 
         //mo¿e cmentarz tutaj
         playerBoard.Clear();
         enemyBoard.Clear();
+
+        hasPlayedCardThisTurn = false;
 
         UpdateUI();
     }
@@ -774,7 +813,11 @@ public class GameController : MonoBehaviour
         BoardRow[] rows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
         foreach (var row in rows)
         {
-            foreach (Transform child in row.transform)
+            Transform cardsContainer = row.transform;
+
+            if (row.linkedLayout != null) cardsContainer = row.linkedLayout.transform;
+
+            foreach (Transform child in cardsContainer)
             {
                 if (child.name.Contains("Ghost")) continue;
 
@@ -862,34 +905,52 @@ public class GameController : MonoBehaviour
         string zoneName = "";
         RangeType finalRow = card.data.range;
 
-        if (specificRow.HasValue)
-        {
-            finalRow = specificRow.Value;
-        }
-        else if (card.data.range == RangeType.Dowolny)
-        {
-            finalRow = (Random.value > 0.5f) ? RangeType.Bliski : RangeType.Daleki;
-        }
+        if (specificRow.HasValue) finalRow = specificRow.Value;
+        else if (card.data.range == RangeType.Dowolny) finalRow = (Random.value > 0.5f) ? RangeType.Bliski : RangeType.Daleki;
 
-        if (isPlayerPlayed)
-            zoneName = (finalRow == RangeType.Daleki) ? "PlayerRangeRow" : "PlayerMeleeRow";
-        else
-            zoneName = (finalRow == RangeType.Daleki) ? "EnemyRangeRow" : "EnemyMeleeRow";
+        if (isPlayerPlayed) zoneName = (finalRow == RangeType.Daleki) ? "PlayerRangeRow" : "PlayerMeleeRow";
+        else zoneName = (finalRow == RangeType.Daleki) ? "EnemyRangeRow" : "EnemyMeleeRow";
 
         GameObject zoneObj = GameObject.Find(zoneName);
+        Transform targetParent = null;
+
         if (zoneObj != null)
         {
-            GameObject newCardObj = Instantiate(cardSpritePrefab, zoneObj.transform);
-            if (insertIndex >= 0) newCardObj.transform.SetSiblingIndex(insertIndex);
-
-            newCardObj.GetComponent<SpriteRenderer>().sprite = card.data.artwork;
-            if (newCardObj.TryGetComponent<CardOnBoard>(out var cardOnBoard)) cardOnBoard.cardInstance = card;
-
-            var visual = newCardObj.GetComponent<CardBoardVisual>();
-            if (visual != null) visual.UpdateVisuals(card);
-
-            newCardObj.transform.localPosition = Vector3.zero;
+            targetParent = zoneObj.transform;
+            BoardRow rowScript = zoneObj.GetComponent<BoardRow>();
+            if (rowScript != null && rowScript.linkedLayout != null)
+            {
+                targetParent = rowScript.linkedLayout.transform;
+            }
         }
+        else
+        {
+            Debug.LogWarning($"Rz¹d {zoneName} nie ma przypisanego LinkedLayout.");
+            return;
+        }
+
+        GameObject newCardObj = Instantiate(cardSpritePrefab, targetParent);
+
+        if (insertIndex >= 0 && insertIndex <= targetParent.childCount) 
+            newCardObj.transform.SetSiblingIndex(insertIndex);
+
+        SpriteRenderer sr = newCardObj.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            if (card.data.artwork != null) sr.sprite = card.data.artwork;
+        }
+        else
+        {
+            Debug.LogWarning($"Karta {card.data.cardName} nie ma przypisanego obrazka.");
+            sr.enabled = false;
+        }
+        
+        if (newCardObj.TryGetComponent<CardOnBoard>(out var cardOnBoard)) cardOnBoard.cardInstance = card;
+
+        var visual = newCardObj.GetComponent<CardBoardVisual>();
+        if (visual != null) visual.UpdateVisuals(card);
+
+        newCardObj.transform.localPosition = Vector3.zero;
     }
 
     public void MoveCardToOtherSide(CardInstance card)
@@ -917,17 +978,62 @@ public class GameController : MonoBehaviour
         pendingEffect = effect;
         selectedTargets.Clear();
 
-        if (effect is ITargetableEffect cardTargetEffect)
+        if (source.owner == player)
         {
-            Debug.Log($"-- Tryb Celowania -- Kliknij {cardTargetEffect.GetTargetCount()} cel(e). Typ: {cardTargetEffect.GetTargetAlignment()}.");
-        }
-        else if (effect is IRowTargetableEffect rowTargetableEffect)
-        {
-            Debug.Log($"-- Tryb Celowania -- Kliknij rz¹d.");
+            if (effect is ITargetableEffect cardTargetEffect)
+            {
+                Debug.Log($"-- Tryb Celowania -- Kliknij {cardTargetEffect.GetTargetCount()} cel(e). Typ: {cardTargetEffect.GetTargetAlignment()}.");
 
-        }
+                TargetAlignment align = cardTargetEffect.GetTargetAlignment();
+                bool isEnemyAction = (align == TargetAlignment.Enemy);
 
-        //tutaj jakieœ opcje UI (np. podœwietlanie celów)
+                CardOnBoard[] allCards = FindObjectsByType<CardOnBoard>(FindObjectsSortMode.None);
+
+                foreach (var cardObj in allCards)
+                {
+                    CardInstance card = cardObj.cardInstance;
+                    if (card == null || card == source) continue;
+
+                    bool isMyCard = playerBoard.Contains(card);
+                    bool isTargetValid = false;
+
+                    if (align == TargetAlignment.Any) isTargetValid = true;
+                    else if (align == TargetAlignment.Friendly && isMyCard) isTargetValid = true;
+                    else if (align == TargetAlignment.Enemy && !isMyCard) isTargetValid = true;
+
+                    if (isTargetValid && align == TargetAlignment.Enemy && card.isImunne)
+                        isTargetValid = false;
+
+                    if (isTargetValid)
+                    {
+                        var hl = cardObj.GetComponent<UnitHighlighter>();
+                        if (hl != null) hl.ShowTarget(true, isEnemyAction);
+                    }
+                }
+            }
+            else if (effect is IRowTargetableEffect rowTargetableEffect)
+            {
+                Debug.Log($"-- Tryb Celowania -- Kliknij rz¹d.");
+
+                BoardRow[] allRows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
+
+                bool isGlobalEffect = (source.data.cardName == "Tolkien");
+
+                foreach (var row in allRows)
+                {
+                    bool shouldHighlight = false;
+
+                    if (isGlobalEffect) shouldHighlight = true;
+                    else if (!row.isPlayerRow) shouldHighlight = true;
+
+                    if (shouldHighlight)
+                    {
+                        var hl = row.GetComponent<RowHighlighter>();
+                        if (hl != null) hl.SetTargetMode(true);
+                    }
+                }
+            }
+        }
     }
 
     public void CardClicked(CardInstance target)
@@ -944,7 +1050,6 @@ public class GameController : MonoBehaviour
 
             bool targetIsOnMyBoard = playerBoard.Contains(target);
             bool sourceIsOnMyBoard = playerBoard.Contains(pendingCardSource);
-
             bool isFriendlySide = (targetIsOnMyBoard == sourceIsOnMyBoard);
 
             TargetAlignment align = targetEffect.GetTargetAlignment();
@@ -959,13 +1064,11 @@ public class GameController : MonoBehaviour
                 Debug.LogWarning("Wybra³eœ swoj¹ kartê zamiast wrogiej.");
                 return;
             }
-
             if (target.isImunne && align == TargetAlignment.Enemy)
             {
                 Debug.LogWarning("Ta karta jest odporna!");
                 return;
             }
-
             if (selectedTargets.Contains(target))
             {
                 Debug.Log("Wybra³eœ ju¿ t¹ kartê.");
@@ -975,17 +1078,22 @@ public class GameController : MonoBehaviour
             selectedTargets.Add(target);
             Debug.Log($"Wybrano cel: {target.data.cardName}.");
 
+            CardOnBoard[] allVisuals = FindObjectsByType<CardOnBoard>(FindObjectsSortMode.None);
+            foreach (var v in allVisuals)
+            {
+                if (v.cardInstance == target)
+                {
+                    var hl = v.GetComponent<UnitHighlighter>();
+                    if (hl != null) hl.ShowTarget(false, false);
+                    break;
+                }
+            }
+
             if (selectedTargets.Count >= targetEffect.GetTargetCount())
             {
-                currentState = GameState.Normal;
                 targetEffect.ExecuteWithTarget(new List<CardInstance>(selectedTargets));
-
-                pendingCardSource = null;
-                pendingEffect = null;
+                EndTargeting();
                 selectedTargets.Clear();
-                UpdateUI();
-
-                CheckForAutoPass();
             }
         }
         else
@@ -1003,6 +1111,8 @@ public class GameController : MonoBehaviour
             Debug.Log($"[GameController] Wybrano rz¹d: {range}.");
 
             rowEffect.ExecuteWithRowTarget(pendingCardSource, range, isPlayerRow);
+
+            EndTargeting();
         }
         else
         {
@@ -1012,6 +1122,8 @@ public class GameController : MonoBehaviour
 
     public void EndTargeting()
     {
+        ClearAllHighlights();
+
         currentState = GameState.Normal;
         pendingCardSource = null;
         pendingEffect = null;
@@ -1020,6 +1132,15 @@ public class GameController : MonoBehaviour
         CheckForAutoPass();
 
         Debug.Log("[GameController] Zakoñczono celowanie.");
+    }
+
+    private void ClearAllHighlights()
+    {
+        UnitHighlighter[] unitHls = FindObjectsByType<UnitHighlighter>(FindObjectsSortMode.None);
+        foreach (var hl in unitHls) hl.ShowTarget(false, false);
+
+        RowHighlighter[] rowHls = FindObjectsByType<RowHighlighter>(FindObjectsSortMode.None);
+        foreach (var hl in rowHls) hl.ResetRow();
     }
 
     private void ProcessTurnEndEffect(List<CardInstance> board)

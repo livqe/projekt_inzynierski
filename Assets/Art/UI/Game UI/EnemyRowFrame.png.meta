@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 1c0832c58c7424e44b6236cbe3b07635
+guid: 200cc15ca833104409be1594b2788e9d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6717296361667475820
-    second: Row_0
+      213: 6934326719146739418
+    second: EnemyRowFrame_0
+  - first:
+      213: -5780803230007121488
+    second: EnemyRowFrame_1
+  - first:
+      213: 3999769996373992610
+    second: EnemyRowFrame_2
+  - first:
+      213: 3914747455140046496
+    second: EnemyRowFrame_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Row_0
+      name: EnemyRowFrame_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 723
-        height: 120
+        width: 1088
+        height: 184
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 49649cf7c8e57c2a0800000000000000
-      internalID: -6717296361667475820
+      spriteID: ad6cd33596dab3060800000000000000
+      internalID: 6934326719146739418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyRowFrame_1
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 174
+        width: 109
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b9aefe171676cfa0800000000000000
+      internalID: -5780803230007121488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyRowFrame_2
+      rect:
+        serializedVersion: 2
+        x: 1065
+        y: 147
+        width: 23
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a42329be99028730800000000000000
+      internalID: 3999769996373992610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyRowFrame_3
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 67
+        width: 6
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a6acf8b11af35630800000000000000
+      internalID: 3914747455140046496
       vertices: []
       indices: 
       edges: []
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Row_0: -6717296361667475820
+      EnemyRowFrame_0: 6934326719146739418
+      EnemyRowFrame_1: -5780803230007121488
+      EnemyRowFrame_2: 3999769996373992610
+      EnemyRowFrame_3: 3914747455140046496
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

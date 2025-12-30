@@ -18,10 +18,10 @@ MonoBehaviour:
   range: 2
   power: 2
   powerDisplayOverride: 
-  effect: {fileID: 8116865797159166816}
+  effect: {fileID: 4785750739715251080}
   effectDescription: "Dodaje +4 do mocy dw\xF3m innym losowym kartom."
   maxCopies: 1
---- !u!114 &8116865797159166816
+--- !u!114 &4785750739715251080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

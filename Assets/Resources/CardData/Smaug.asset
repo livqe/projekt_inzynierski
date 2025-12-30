@@ -1,27 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
-  m_Name: Smaug
-  m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: Smaug
-  artwork: {fileID: 0}
-  faction: 2
-  range: 2
-  power: 0
-  powerDisplayOverride: '-'
-  effect: {fileID: 5291932464154915698}
-  effectDescription: "Niszczy ca\u0142y rz\u0105d kart."
-  maxCopies: 1
---- !u!114 &5291932464154915698
+--- !u!114 &-3496318405546093859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35,4 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DestroyRowEffect
   effectName: DestroyRowEffect
   effectDescription: "Niszczy ca\u0142y rz\u0105d kart."
-  fireParticlePrefab: {fileID: 4960825005401182537, guid: 1642dc76368ae474f85d65c67d787646, type: 3}
+  fireParticlePrefab: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Smaug
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Smaug
+  artwork: {fileID: -2725421469810454795, guid: 9c66ff1e4d564f445868ef6e1a612dcf, type: 3}
+  faction: 2
+  range: 2
+  power: 0
+  powerDisplayOverride: '-'
+  effect: {fileID: -3496318405546093859}
+  effectDescription: "Niszczy ca\u0142y rz\u0105d kart."
+  maxCopies: 1

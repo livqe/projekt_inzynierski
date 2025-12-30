@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2361515682492404691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d964f59a237f241b4d300b797d24d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuffTargetEffect
+  effectName: BuffTargetEffect
+  effectDescription: Dodaje +2 mocy dla 2 innych wybranych kart na planszy.
+  powerToAdd: 2
+  targetCount: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18,22 +34,6 @@ MonoBehaviour:
   range: 0
   power: 3
   powerDisplayOverride: 
-  effect: {fileID: 550695887441056582}
+  effect: {fileID: -2361515682492404691}
   effectDescription: Dodaje +2 mocy dla 2 innych wybranych kart na planszy.
   maxCopies: 1
---- !u!114 &550695887441056582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d964f59a237f241b4d300b797d24d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuffTargetEffect
-  effectName: BuffTargetEffect
-  effectDescription: Dodaje +2 mocy dla 2 innych wybranych kart na planszy.
-  powerToAdd: 2
-  targetCount: 2

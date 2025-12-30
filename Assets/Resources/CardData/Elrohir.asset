@@ -18,10 +18,10 @@ MonoBehaviour:
   range: 1
   power: 3
   powerDisplayOverride: 
-  effect: {fileID: 6002373681100736149}
+  effect: {fileID: 5829742841944358993}
   effectDescription: "Otrzymuje +3 do mocy, je\u015Bli Arwena jest na planszy."
   maxCopies: 1
---- !u!114 &6002373681100736149
+--- !u!114 &5829742841944358993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

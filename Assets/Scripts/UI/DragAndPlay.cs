@@ -10,8 +10,12 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     private Transform originalParent;
     private CardView cardView;
     private int originalIndex;
-    private SimpleRowLayout lastHoveredRow;
+
+    private SimpleRowLayout currentTargetLayout;
+
     private bool isDragActive = false;
+    private bool wasPlayed = false;
+
     public static System.Action<CardInstance> OnCardDragStart;
     public static System.Action OnCardDragEnd;
 
@@ -25,18 +29,16 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     void Update()
     {
-        if (transform.parent == canvas.transform)
+        if (isDragActive && Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
         {
-            if (isDragActive && Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                Debug.Log("Anulowano przeci¹ganie.");
-                CancelDragManually();
-            }
+            Debug.Log("Anulowano przeci¹ganie.");
+            CancelDragManually();
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (wasPlayed) return;
         if (!GameController.Instance.isPlayerTurn) return;
         if (GameController.Instance.currentState == GameState.WaitingForTarget) return;
         if (GetComponent<CardOnBoard>() != null) return;
@@ -55,6 +57,7 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         if (cardView != null && cardView.cardInstance != null)
         {
             OnCardDragStart?.Invoke(cardView.cardInstance);
+            HighlightRows(true);
         }
     }
 
@@ -72,31 +75,43 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         isDragActive = false;
         GameController.Instance.isDragging = false;
-
-        if (transform.parent == originalParent) return;
-
-        Debug.Log("Puszczam kartê.");
         canvasGroup.blocksRaycasts = true;
 
-        if (lastHoveredRow != null)
+        Debug.Log("Puszczam kartê.");
+
+        HighlightRows(false);
+
+        SimpleRowLayout targetLayout = currentTargetLayout;
+        int index = -1;
+
+        if (targetLayout != null)
         {
-            int finalIndex = lastHoveredRow.GetGhostIndex();
-            BoardRow rowData = lastHoveredRow.GetComponent<BoardRow>();
+            Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(eventData.position);
+            index = targetLayout.CalculateIndexForX(mousePosWorld.x);
+            targetLayout.RemoveGhost();
+            currentTargetLayout = null;
+        }
 
-            lastHoveredRow.RemoveGhost();
-            lastHoveredRow = null;
+        if (targetLayout != null)
+        {
+            BoardRow rowData = targetLayout.GetComponentInParent<BoardRow>();
 
-            if (rowData.transform.childCount >= 9)
+            if (rowData != null && IsMoveValid(rowData))
             {
-                Debug.LogWarning("Ten rz¹d jest pe³ny.");
-                ReturnToHand();
-                return;
+                if (targetLayout.transform.childCount >= 9)
+                {
+                    Debug.LogWarning("Ten rz¹d jest pe³ny.");
+                    ReturnToHand();
+                }
+                else
+                {
+                    PlayCardOnBoard(rowData.rowType, targetLayout, index);
+                }
             }
-
-            if (IsMoveValid(rowData))
-                PlayCardOnBoard(rowData.rowType, finalIndex);
             else
+            {
                 ReturnToHand();
+            }
         }
         else
         {
@@ -110,10 +125,12 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         GameController.Instance.isDragging = false;
         GameController.Instance.BlockInteractionFor(0.2f);
 
-        if (lastHoveredRow != null)
+        HighlightRows(false);
+
+        if (currentTargetLayout != null)
         {
-            lastHoveredRow.RemoveGhost();
-            lastHoveredRow = null;
+            currentTargetLayout.RemoveGhost();
+            currentTargetLayout = null;
         }
 
         canvasGroup.blocksRaycasts = true;
@@ -133,26 +150,40 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
             if (rowScript != null && IsMoveValid(rowScript))
             {
-                currentRow = rowScript.GetComponent<SimpleRowLayout>();
+                if (rowScript.linkedLayout != null) currentRow = rowScript.linkedLayout;
+                else Debug.LogError($"Rz¹d {rowScript.name} nie ma przypisanego Linked Layout.");
             }
         }
 
-        if (lastHoveredRow != null && lastHoveredRow != currentRow)
+        if (currentTargetLayout != null && currentTargetLayout != currentRow)
         {
-            lastHoveredRow.RemoveGhost();
+            currentTargetLayout.RemoveGhost();
+
+            var visuals = currentTargetLayout.GetComponentInParent<RowHighlighter>();
+            if (visuals != null) visuals.SetHover(false);
         }
 
         if (currentRow != null)
         {
-            currentRow.UpdateGhostPosition(mousePos.x);
+            if (currentRow != currentTargetLayout)
+            {
+                var visuals = currentRow.GetComponentInParent<RowHighlighter>();
+                if (visuals != null) visuals.SetHover(true);
+            }
         }
 
-        lastHoveredRow = currentRow;
+        currentTargetLayout = currentRow;
+
+        if (currentTargetLayout != null)
+        {
+            currentTargetLayout.UpdateGhostPosition(mousePos.x);
+        }
     }
 
     private bool IsMoveValid(BoardRow row)
     {
         if (!row.isPlayerRow) return false;
+        if (cardView == null || cardView.cardInstance == null) return false;
 
         RangeType cardRange = cardView.cardInstance.data.range;
 
@@ -162,8 +193,9 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         return false;
     }
 
-    private void PlayCardOnBoard(RangeType droppedRowType, int index)
+    private void PlayCardOnBoard(RangeType droppedRowType, SimpleRowLayout layoutScript, int index)
     {
+        wasPlayed = true;
         Debug.Log($"Udane zagranie karty w rzêdzie {droppedRowType}.");
         GameController.Instance.PlayCard(cardView.cardInstance, true, true, droppedRowType, index);
         Destroy(gameObject);
@@ -175,5 +207,26 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         transform.SetSiblingIndex(originalIndex);
         transform.localPosition = Vector3.zero;
         transform.localScale = Vector3.one;
+        wasPlayed = false;
+    }
+
+    private void HighlightRows(bool show)
+    {
+        BoardRow[] allRows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
+
+        foreach (var row in allRows)
+        {
+            RowHighlighter visual = row.GetComponent<RowHighlighter>();
+            if (visual == null) continue;
+
+            if (show)
+            {
+                if (IsMoveValid(row)) visual.SetEligible(true);
+            }
+            else
+            {
+                visual.ResetRow();
+            }
+        }
     }
 }

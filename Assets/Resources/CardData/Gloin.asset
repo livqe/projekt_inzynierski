@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5084968834954748713
+--- !u!114 &-7064713807454634400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35,7 +35,7 @@ MonoBehaviour:
   range: 0
   power: 5
   powerDisplayOverride: 
-  effect: {fileID: -5084968834954748713}
+  effect: {fileID: -7064713807454634400}
   effectDescription: "Zadaje wybranej wrogiej karcie na planszy obra\u017Cenia o
     warto\u015Bci -5."
   maxCopies: 1

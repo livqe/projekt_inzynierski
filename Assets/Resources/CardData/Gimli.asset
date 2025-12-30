@@ -1,6 +1,28 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9054660413387498293
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
+  m_Name: Gimli
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: Gimli
+  artwork: {fileID: -8518673793669137699, guid: daf21ef3ea14742488ff852a4f8ca7d2, type: 3}
+  faction: 1
+  range: 0
+  power: 5
+  powerDisplayOverride: 
+  effect: {fileID: 1526768290666806397}
+  effectDescription: "Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
+    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)."
+  maxCopies: 1
+--- !u!114 &1526768290666806397
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16,25 +38,3 @@ MonoBehaviour:
   effectDescription: "Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
     karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)."
   linkedEnemy: Legolas
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27f1df474a634a944906b23df0dea95c, type: 3}
-  m_Name: Gimli
-  m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: Gimli
-  artwork: {fileID: 0}
-  faction: 1
-  range: 0
-  power: 5
-  powerDisplayOverride: 
-  effect: {fileID: -9054660413387498293}
-  effectDescription: "Je\u015Bli Legolas i Gimli s\u0105 razem na planszy, to obie
-    karty zostaj\u0105 wyeliminowane (moc obu kart przyjmuje warto\u015B\u0107 0)."
-  maxCopies: 1

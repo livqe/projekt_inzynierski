@@ -18,11 +18,11 @@ MonoBehaviour:
   range: 1
   power: 6
   powerDisplayOverride: 
-  effect: {fileID: 2116638816632560125}
+  effect: {fileID: 4466751402770993066}
   effectDescription: "Co tur\u0119 zadaje obra\u017Cenia w wysoko\u015Bci -1 losowej
     wrogiej karcie na planszy."
   maxCopies: 1
---- !u!114 &2116638816632560125
+--- !u!114 &4466751402770993066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

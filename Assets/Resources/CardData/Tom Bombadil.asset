@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4874257260969128197
+--- !u!114 &-2339522872529767026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,6 +34,6 @@ MonoBehaviour:
   range: 2
   power: 13
   powerDisplayOverride: 
-  effect: {fileID: -4874257260969128197}
+  effect: {fileID: -2339522872529767026}
   effectDescription: Dodaje +7 do mocy losowej przyjaznej karcie na planszy.
   maxCopies: 1
