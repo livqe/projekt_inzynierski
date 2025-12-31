@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UnitHighlighter : MonoBehaviour
 {
@@ -12,9 +13,10 @@ public class UnitHighlighter : MonoBehaviour
 
     [Header("Colors")]
     public Color defaultColor = new Color(1f, 1f, 1f, 1f);
-    public Color hoverColor = new Color(1f, 1f, 1f, 0.7f);
+    public Color hoverColor = new Color(1f, 1f, 1f, 0.4f);
 
     private bool isActive = false;
+    private Collider2D myCollider;
 
     private void OnValidate()
     {
@@ -24,6 +26,8 @@ public class UnitHighlighter : MonoBehaviour
 
     void Awake()
     {
+        myCollider = GetComponent<Collider2D>();
+
         if (targetFrame != null) targetFrame.SetActive(false);
 
         if (frameRenderer == null && targetFrame != null)
@@ -45,15 +49,13 @@ public class UnitHighlighter : MonoBehaviour
         }
     }
 
-    private void OnMouseEnter()
+    void Update()
     {
-        if (isActive && frameRenderer != null)
-            frameRenderer.color = hoverColor;
-    }
+        if (!isActive || myCollider == null || frameRenderer == null) return;
+            
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
-    private void OnMouseExit()
-    {
-        if (isActive && frameRenderer != null)
-            frameRenderer.color = defaultColor;
+        if (myCollider.OverlapPoint(mousePos)) frameRenderer.color = hoverColor;
+        else frameRenderer.color = defaultColor;
     }
 }

@@ -57,6 +57,12 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+    public void CreateNewDeckButton()
+    {
+        SceneDataTransfer.openInCreateMode = true;
+        SceneManager.LoadScene("DeckBuilder");
+    }
+
     private void StartGameWithDeck(SavedDeck deck)
     {
         GameSetup.selectedDeck = deck;
@@ -87,4 +93,9 @@ public class MainMenuController : MonoBehaviour
 public static class GameSetup
 {
     public static SavedDeck selectedDeck;
+}
+
+public static class SceneDataTransfer
+{
+    public static bool openInCreateMode = false;
 }

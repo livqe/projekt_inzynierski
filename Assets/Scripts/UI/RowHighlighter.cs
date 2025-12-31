@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RowHighlighter : MonoBehaviour
 {
@@ -19,8 +20,12 @@ public class RowHighlighter : MonoBehaviour
     private bool isEligible = false;
     private bool isTargetMode = false;
 
+    private Collider2D myCollider;
+
     void Start()
     {
+        myCollider = GetComponent<Collider2D>();
+
         if (highlightFrame != null) highlightFrame.SetActive(false);
 
         if (frameRenderer == null && highlightFrame != null)
@@ -47,20 +52,24 @@ public class RowHighlighter : MonoBehaviour
         {
             highlightFrame.SetActive(true);
 
-            if (frameRenderer != null) frameRenderer.sprite = targetSprite;
+            if (targetSprite != null) frameRenderer.sprite = targetSprite;
             frameRenderer.color = targetDefaultColor;
         }
         else ResetRow();
     }
 
-    private void OnMouseEnter()
+    void Update()
     {
-        UpdateVisuals(true);
-    }
+        if ((!isEligible && !isTargetMode) || myCollider == null || highlightFrame == null) return;
 
-    private void OnMouseExit()
-    {
-        UpdateVisuals(false);
+        if (isTargetMode)
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            bool isHovering = myCollider.OverlapPoint(mousePos);
+
+            if (isHovering) frameRenderer.color = targetHoverColor;
+            else frameRenderer.color = targetDefaultColor;
+        }
     }
 
     public void SetHover(bool isHovered)
@@ -68,7 +77,10 @@ public class RowHighlighter : MonoBehaviour
         if (!isEligible || highlightFrame == null) return;
 
         if (frameRenderer != null)
+        {
+            if (dragDropSprite != null) frameRenderer.sprite = dragDropSprite;
             frameRenderer.color = isHovered ? hoverColor : defaultColor;
+        }
     }
 
     public void ResetRow()

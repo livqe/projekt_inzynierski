@@ -54,8 +54,6 @@ public class AIController : MonoBehaviour
         int randomIndex = Random.Range(0, AIPlayer.cardsInHand.Count);
         CardInstance cardToPlay = AIPlayer.cardsInHand[randomIndex];
 
-        AIPlayer.cardsInHand.RemoveAt(randomIndex);
-
         Debug.Log($"[AI] Zagrywam {cardToPlay.data.cardName}.");
 
         RangeType targetRow = cardToPlay.data.range;

@@ -404,7 +404,7 @@ MonoBehaviour:
   friendlySprite: {fileID: 28897549265741390, guid: d1d08a086bb82094a97a197e95c2166d, type: 3}
   enemySprite: {fileID: 1775261691520949112, guid: 1f5697c53d7fefd4c9671dd10e397e1b, type: 3}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 1, g: 1, b: 1, a: 0.7}
+  hoverColor: {r: 1, g: 1, b: 1, a: 0.54901963}
 --- !u!1 &6079501187480728130
 GameObject:
   m_ObjectHideFlags: 0

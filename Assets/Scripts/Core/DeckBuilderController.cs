@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
-using UnityEditor;
 
 public class DeckBuilderController : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class DeckBuilderController : MonoBehaviour
     public GameObject deckSelectionPanel;
     public GameObject factionSelectionPanel;
     public GameObject editorPanel;
+    public GameObject exitConfirmationPanel;
 
     [Header("UI Controls")]
     public Button saveButton;
@@ -21,11 +21,11 @@ public class DeckBuilderController : MonoBehaviour
     public Transform deckListContainer;
     public GameObject deckSlotPrefab;
 
-    [Header("Editor UI - Library")]
+    [Header("Editor Library UI")]
     public Transform libraryContainer;
     public GameObject libraryItemPrefab;
 
-    [Header("Editor UI - Current Deck")]
+    [Header("Editor Current Deck UI")]
     public Transform currentDeckContainer;
     public GameObject deckItemPrefab;
     public TextMeshProUGUI deckCountText;
@@ -40,6 +40,9 @@ public class DeckBuilderController : MonoBehaviour
 
     private List<BuilderLibraryItem> spawnedLibraryItem = new List<BuilderLibraryItem>();
 
+    private string originalDeckName = "";
+    private bool isEditingExistingDeck = false;
+
     void Start()
     {
         allCardAssets = Resources.LoadAll<CardData>("CardData").ToList();
@@ -50,7 +53,15 @@ public class DeckBuilderController : MonoBehaviour
             saveButton.onClick.AddListener(SaveAndExit);
         }
 
-        ShowDeckSelection();
+        if (exitConfirmationPanel != null)
+            exitConfirmationPanel.SetActive(false);
+
+        if (SceneDataTransfer.openInCreateMode)
+        {
+            ShowFactionSelection();
+            SceneDataTransfer.openInCreateMode = false;
+        }
+        else ShowDeckSelection();
     }
 
     public void ShowDeckSelection()
@@ -70,15 +81,25 @@ public class DeckBuilderController : MonoBehaviour
 
     public void CreateNewDeck(Faction faction)
     {
-        currentDeck = new SavedDeck("Nowa Talia", faction);
-        allDecks.Add(currentDeck);
+        isEditingExistingDeck = false;
+        originalDeckName = "";
 
-        OpenEditor(currentDeck);
+        currentDeck = new SavedDeck("Nowa Talia", faction);
+
+        OpenEditor();
     }
 
-    public void OpenEditor(SavedDeck deck)
+    public void OpenEditorForExisting(SavedDeck deck)
     {
+        isEditingExistingDeck = true;
+        originalDeckName = deck.deckName;
         currentDeck = deck;
+
+        OpenEditor();
+    }
+
+    public void OpenEditor()
+    {
         deckSelectionPanel.SetActive(false);
         factionSelectionPanel.SetActive(false);
         editorPanel.SetActive(true);
@@ -191,7 +212,43 @@ public class DeckBuilderController : MonoBehaviour
 
     public void SaveAndExit()
     {
-        currentDeck.deckName = deckNameInput.text;
+        string deckName = deckNameInput.text.Trim();
+
+        if (string.IsNullOrEmpty(deckName))
+        {
+            Debug.LogWarning("Nazwa talii nie mo¿ê byæ pusta.");
+            return;
+        }
+
+        if (!isEditingExistingDeck || (isEditingExistingDeck && deckName != originalDeckName))
+        {
+            bool nameExists = false;
+
+            foreach (var deck in allDecks)
+            {
+                if (deck.deckName == deckName)
+                {
+                    nameExists = true;
+                    break;
+                }
+            }
+
+            if (nameExists)
+            {
+                Debug.LogWarning($"Talia o nazwie {deckName} ju¿ istnieje.");
+                if (warningText != null)
+                {
+                    warningText.text = "Taka nazwa ju¿ istnieje!";
+                    warningText.color = Color.red;
+                }
+                return;
+            }
+        }
+
+        currentDeck.deckName = deckName;
+
+        if (!isEditingExistingDeck) allDecks.Add(currentDeck);
+
         DeckStorage.SaveDecks(allDecks);
         ShowDeckSelection();
     }
@@ -204,13 +261,30 @@ public class DeckBuilderController : MonoBehaviour
         {
             GameObject slot = Instantiate(deckSlotPrefab, deckListContainer);
             slot.GetComponentInChildren<TextMeshProUGUI>().text = $"{deck.deckName}";
-            slot.GetComponent<Button>().onClick.AddListener(() => OpenEditor(deck));
+            slot.GetComponent<Button>().onClick.AddListener(() => OpenEditorForExisting(deck));
         }
     }
 
     public void OnReturn()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void OnDeckEditorReturn()
+    {
+        if (exitConfirmationPanel != null) exitConfirmationPanel.SetActive(true);
+        else ConfirmExitWithoutSaving();
+    }
+
+    public void CancelExit()
+    {
+        if (exitConfirmationPanel != null) exitConfirmationPanel.SetActive(false);
+    }
+
+    public void ConfirmExitWithoutSaving()
+    {
+        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("DeckBuilder");
     }
 
     public void CreateDwarvesDeck() => CreateNewDeck(Faction.Krasnoludy);

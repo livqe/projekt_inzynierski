@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
 [CreateAssetMenu(menuName = "Card/Effects/Damage/RowDamageEffect")]
 public class RowDamageEffect : CardEffect, IRowTargetableEffect
 {

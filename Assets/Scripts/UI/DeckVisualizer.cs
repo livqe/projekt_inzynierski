@@ -1,24 +1,24 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DeckVisualizer : MonoBehaviour
 {
-    public Player owner;
-    public TextMeshProUGUI deckCounterText;
-    public SpriteRenderer[] cardSprites;
+    [Header("UI")]
+    public TextMeshProUGUI counterText;
+    public GameObject cardStack;
+    public Image stackImage;
 
-    void Update()
+    public void SetFactionVisual(Sprite cardBack)
     {
-        if (owner == null) return;
+        if (stackImage != null) stackImage.sprite = cardBack;
+    }
 
-        int count = owner.cardsInDeck.Count;
-        deckCounterText.text = count.ToString();
+    public void UpdateCount(int count)
+    {
+        if (counterText != null) counterText.text = count.ToString();
 
-        if (cardSprites.Length >= 3)
-        {
-            cardSprites[0].enabled = count > 0;
-            cardSprites[1].enabled = count > 10;
-            cardSprites[2].enabled = count > 20;
-        }
+        if (cardStack != null)
+            cardStack.SetActive(count > 0);
     }
 }

@@ -20,6 +20,14 @@ public enum TargetAlignment
     Enemy
 }
 
+[System.Serializable]
+public struct FactionVisuals
+{
+    public Faction faction;
+    public Sprite cardBack;
+    public Sprite avatarSprite;
+}
+
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
@@ -40,6 +48,18 @@ public class GameController : MonoBehaviour
     public GameObject gameResultPanel;
     public TextMeshProUGUI gameResultText;
     public TextMeshProUGUI gameFinalPointsText;
+    public Image gameResultPlayerAvatar;
+    public Image gameResultEnemyAvatar;
+    public DeckVisualizer playerDeckVisual;
+    public DeckVisualizer enemyDeckVisual;
+    public OpponentHandManager enemyHandVisual;
+    public RoundGemVisual playerRoundGem;
+    public RoundGemVisual enemyRoundGem;
+    public Image playerAvatarImage;
+    public Image enemyAvatarImage;
+
+    [Header("Prefabs")]
+    public GameObject cardSpritePrefab;
 
     [Header("Game Config")]
     public int cardsToDrawOnStart = 10;
@@ -54,12 +74,10 @@ public class GameController : MonoBehaviour
     private int enemyWins = 0;
     private bool isGameEnded = false;
 
-    [Header("Prefabs")]
-    public GameObject cardSpritePrefab;
-
-    [Header("Faction Ability")]
+    [Header("Faction Assets")]
     public FactionAbility elfAbility;
     public FactionAbility dwarfAbility;
+    public List<FactionVisuals> factionVisuals;
 
     public GameState currentState = GameState.Normal;
     private CardInstance pendingCardSource;
@@ -73,9 +91,6 @@ public class GameController : MonoBehaviour
     public bool isPlayerTurn = false;
 
     private bool hasPlayedCardThisTurn = false;
-
-    [Header("Debug / Test Deck")]
-    public List<CardData> startingDeckAssets;
 
     public bool isDragging = false;
     private float interactionalBlockTimer = 0f;
@@ -244,11 +259,25 @@ public class GameController : MonoBehaviour
             }
         }
 
+        Sprite playerBack = GetCardBackForFaction(player.faction);
+        Sprite enemyBack = GetCardBackForFaction(enemy.faction);
+
+        if (playerDeckVisual != null) playerDeckVisual.SetFactionVisual(playerBack);
+        if (enemyDeckVisual != null) enemyDeckVisual.SetFactionVisual(enemyBack);
+        if (enemyHandVisual != null) enemyHandVisual.setCardBackSprite(enemyBack);
+
+        if (playerAvatarImage != null) playerAvatarImage.sprite = GetAvatarForFaction(player.faction);
+        if (enemyAvatarImage != null) enemyAvatarImage.sprite = GetAvatarForFaction(enemy.faction);
+
         ShuffleDeck(player.cardsInDeck);
         ShuffleDeck(enemy.cardsInDeck);
 
         HandManager tempHandManager = handManager;
         handManager = null;
+
+        if (playerDeckVisual != null) playerDeckVisual.UpdateCount(player.cardsInDeck.Count);
+        if (enemyDeckVisual != null) enemyDeckVisual.UpdateCount(enemy.cardsInDeck.Count);
+        if (enemyHandVisual != null) enemyHandVisual.ClearHand();
 
         DrawCard(player, cardsToDrawOnStart);
         DrawCard(enemy, cardsToDrawOnStart);
@@ -267,6 +296,22 @@ public class GameController : MonoBehaviour
             deck[i] = deck[randomIndex];
             deck[randomIndex] = temp;
         }
+    }
+
+    private Sprite GetCardBackForFaction(Faction f)
+    {
+        foreach (var visual in factionVisuals)
+            if (visual.faction == f) return visual.cardBack;
+
+        return null;
+    }
+
+    private Sprite GetAvatarForFaction(Faction f)
+    {
+        foreach (var item in factionVisuals)
+            if (item.faction == f) return item.avatarSprite;
+
+        return null;
     }
 
     private void StartMulliganPhase()
@@ -381,9 +426,12 @@ public class GameController : MonoBehaviour
         if (isPlayerPlayed && player.cardsInHand.Contains(card))
         {
             player.cardsInHand.Remove(card);
-
-            if (handManager != null)
-                handManager.RemoveCardVisual(card);
+            if (handManager != null) handManager.RemoveCardVisual(card);
+        }
+        else if (!isPlayerPlayed && enemy.cardsInHand.Contains(card))
+        {
+            enemy.cardsInHand.Remove(card);
+            if (enemyHandVisual != null) enemyHandVisual.RemoveCard();
         }
 
         if (isPlayerPlayed & countsAsAction) hasPlayedCardThisTurn = true;
@@ -416,6 +464,9 @@ public class GameController : MonoBehaviour
         {
             CheckForAutoPass();
         }
+
+        if (playerDeckVisual != null) playerDeckVisual.UpdateCount(player.cardsInDeck.Count);
+        if (enemyDeckVisual != null) enemyDeckVisual.UpdateCount(enemy.cardsInDeck.Count);
     }
 
     public void CancelPlay()
@@ -598,6 +649,9 @@ public class GameController : MonoBehaviour
         ActivateFactionAbility(player);
         ActivateFactionAbility(enemy);
 
+        if (playerRoundGem != null) playerRoundGem.UpdateLives(enemyWins);
+        if (enemyRoundGem != null) enemyRoundGem.UpdateLives(playerWins);
+
         Debug.Log($"Wynik: Gracz {playerWins} : {enemyWins} Przeciwnik");
 
         if (roundResultText != null) roundResultText.text = resultMsg;
@@ -730,6 +784,12 @@ public class GameController : MonoBehaviour
 
         if (gameFinalPointsText != null)
             gameFinalPointsText.text = $"{playerWins} : {enemyWins}";
+
+        if (gameResultPlayerAvatar != null && playerAvatarImage != null)
+            gameResultPlayerAvatar.sprite = playerAvatarImage.sprite;
+
+        if (gameResultEnemyAvatar != null && enemyAvatarImage != null)
+            gameResultEnemyAvatar.sprite = enemyAvatarImage.sprite;
 
         if (gameResultImage != null && resultSprite != null)
             gameResultImage.sprite = resultSprite;
@@ -877,8 +937,16 @@ public class GameController : MonoBehaviour
 
                 Debug.Log($"Gracz {drawingPlayer.playerName} dobiera: {cardToDraw.data.cardName}");
 
-                if (drawingPlayer == player && handManager != null)
-                    handManager.AddCardToHandVisual(cardToDraw);
+                if (drawingPlayer == player)
+                {
+                    if (handManager != null) handManager.AddCardToHandVisual(cardToDraw);
+                    if (playerDeckVisual != null) playerDeckVisual.UpdateCount(player.cardsInDeck.Count);
+                }
+                else
+                {
+                    if (enemyHandVisual != null) enemyHandVisual.AddCard();
+                    if (enemyDeckVisual != null) enemyDeckVisual.UpdateCount(enemy.cardsInDeck.Count);
+                }
             }
         }
         UpdateUI();
