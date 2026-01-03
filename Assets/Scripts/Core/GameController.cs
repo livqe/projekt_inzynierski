@@ -106,6 +106,8 @@ public class GameController : MonoBehaviour
 
     private CanvasGroup resultCanvasGroup;
 
+    [SerializeField] private Animator enemyTurnRingAnimator;
+
     [SerializeField] private Image gameResultImage;
     [SerializeField] private Sprite winSprite;
     [SerializeField] private Sprite loseSprite;
@@ -126,7 +128,7 @@ public class GameController : MonoBehaviour
 
         Instance = this;
 
-        // ---- DODANE: inicjalizacja panelu koñca gry ----
+        // ---- DODANE: inicjalizacja panelu koï¿½ca gry ----
         if (gameResultPanel != null)
         {
             resultCanvasGroup = gameResultPanel.GetComponent<CanvasGroup>();
@@ -239,7 +241,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        Debug.Log($"Wygenerowano taliê AI: {aiPlayer.cardsInDeck.Count} kart.");
+        Debug.Log($"Wygenerowano taliï¿½ AI: {aiPlayer.cardsInDeck.Count} kart.");
     }
 
     private void StartGame()
@@ -248,13 +250,13 @@ public class GameController : MonoBehaviour
         {
             if (Random.value <= promoterChance)
             {
-                Debug.Log("Robi siê powa¿nie. Promotorzy do³¹czyli do talii gracza.");
+                Debug.Log("Robi siï¿½ powaï¿½nie. Promotorzy doï¿½ï¿½czyli do talii gracza.");
                 player.cardsInDeck.Add(new CardInstance(promoterCard, player));
             }
 
             if (Random.value <= promoterChance)
             {
-                Debug.Log("Robi siê powa¿nie. Promotorzy do³¹czyli do talii przeciwnika.");
+                Debug.Log("Robi siï¿½ powaï¿½nie. Promotorzy doï¿½ï¿½czyli do talii przeciwnika.");
                 enemy.cardsInDeck.Add(new CardInstance(promoterCard, enemy));
             }
         }
@@ -347,13 +349,13 @@ public class GameController : MonoBehaviour
     {
         isPlayerTurn = true;
 
-        Debug.Log("Pocz¹tek tury gracza");
+        Debug.Log("Poczï¿½tek tury gracza");
 
         hasPlayedCardThisTurn = false;
 
         if (player.cardsInHand.Count == 0)
         {
-            Debug.Log("Brak kart w rêce. Musisz spasowaæ.");
+            Debug.Log("Brak kart w rï¿½ce. Musisz spasowaï¿½.");
             CheckAutoPlayCards(player);
             PlayerPassRound();
             return;
@@ -366,12 +368,17 @@ public class GameController : MonoBehaviour
     {
         if (enemyHasPassed)
         {
-            Debug.Log("Przeciwnik spasowa³, powrót do gracza.");
+            Debug.Log("Przeciwnik spasowaï¿½, powrï¿½t do gracza.");
             if (!playerHasPassed) StartPlayerTurn();
             return;
         }
 
         Debug.Log("Tura przeciwnika.");
+
+        //animacja
+        if (enemyTurnRingAnimator != null)
+            enemyTurnRingAnimator.SetBool("IsEnemyTurn", true);
+            //animacja
 
         if (AIController.Instance != null)
             AIController.Instance.MakeDecision();
@@ -408,7 +415,7 @@ public class GameController : MonoBehaviour
         {
             if (hasPlayedCardThisTurn)
             {
-                Debug.LogWarning("Ju¿ zagra³eœ kartê w tej turze.");
+                Debug.LogWarning("Juï¿½ zagraï¿½eï¿½ kartï¿½ w tej turze.");
 
                 if (handManager != null) handManager.AddCardToHandVisual(card);
                 return;
@@ -436,7 +443,7 @@ public class GameController : MonoBehaviour
 
         if (isPlayerPlayed & countsAsAction) hasPlayedCardThisTurn = true;
 
-        Debug.Log($"[Game Controller] Zagrano kartê: {card.data.cardName}.");
+        Debug.Log($"[Game Controller] Zagrano kartï¿½: {card.data.cardName}.");
 
         List<CardInstance> targetBoard = isPlayerPlayed ? playerBoard : enemyBoard;
 
@@ -528,13 +535,13 @@ public class GameController : MonoBehaviour
 
         if (playerHasPassed)
         {
-            Debug.Log("Gracz spasowa³ w tej rundzie, nie mo¿e wykonywaæ ruchów.");
+            Debug.Log("Gracz spasowaï¿½ w tej rundzie, nie moï¿½e wykonywaï¿½ ruchï¿½w.");
             return;
         }
 
         if (player.cardsInHand.Count > 0 && !hasPlayedCardThisTurn)
         {
-            Debug.Log("Nie mo¿esz spasowaæ bez zagrania karty.");
+            Debug.Log("Nie moï¿½esz spasowaï¿½ bez zagrania karty.");
             if (handManager != null)
             {
 
@@ -560,15 +567,20 @@ public class GameController : MonoBehaviour
 
         isPlayerTurn = false;
 
-        Debug.Log("[GameController] Gracz koñczy turê.");
+        Debug.Log("[GameController] Gracz koï¿½czy turï¿½.");
         ProcessTurnEndEffect(playerBoard);
         StartEnemyTurn();
     }
 
     public void EndEnemyTurn()
     {
-        Debug.Log("[GameController] AI koñczy turê.");
+        Debug.Log("[GameController] AI koï¿½czy turï¿½.");
         ProcessTurnEndEffect(enemyBoard);
+
+        //animacja
+        if (enemyTurnRingAnimator != null)
+            enemyTurnRingAnimator.SetBool("IsEnemyTurn", false);
+        //animacja
 
         if (!playerHasPassed) StartPlayerTurn();
         else StartEnemyTurn();
@@ -578,7 +590,7 @@ public class GameController : MonoBehaviour
     {
         isPlayerTurn = false;
 
-        Debug.Log("[GameController] Gracz spasowa³");
+        Debug.Log("[GameController] Gracz spasowaï¿½");
         playerHasPassed = true;
 
         ProcessTurnEndEffect(playerBoard);
@@ -589,7 +601,7 @@ public class GameController : MonoBehaviour
 
     public void EnemyPassRound()
     {
-        Debug.Log("[GameController] AI pasuje rundê.");
+        Debug.Log("[GameController] AI pasuje rundï¿½.");
         enemyHasPassed = true;
 
         ProcessTurnEndEffect(enemyBoard);
@@ -602,7 +614,7 @@ public class GameController : MonoBehaviour
     {
         if (player.cardsInHand.Count == 0)
         {
-            Debug.Log("Rêka pusta. Automatyczny pas rundy.");
+            Debug.Log("Rï¿½ka pusta. Automatyczny pas rundy.");
             PlayerPassRound();
         }
     }
@@ -628,14 +640,14 @@ public class GameController : MonoBehaviour
             playerWins++;
             player.lostLastRound = false;
             enemy.lostLastRound = true;
-            resultMsg = "Wygra³eœ rundê!";
+            resultMsg = "Wygraï¿½eï¿½ rundï¿½!";
         }
         else if (enemyScore > playerScore)
         {
             enemyWins++;
             player.lostLastRound = true;
             enemy.lostLastRound = false;
-            resultMsg = "Przegra³eœ rundê!";
+            resultMsg = "Przegraï¿½eï¿½ rundï¿½!";
         }
         else
         {
@@ -674,7 +686,7 @@ public class GameController : MonoBehaviour
 
     private void CleanUpBoard()
     {
-        Debug.Log("Czyszczenie sto³u...");
+        Debug.Log("Czyszczenie stoï¿½u...");
 
         ClearAllHighlights();
 
@@ -695,7 +707,7 @@ public class GameController : MonoBehaviour
             row.GetComponent<BoardRow>().linkedLayout?.RemoveGhost();
         }
 
-        //mo¿e cmentarz tutaj
+        //moï¿½e cmentarz tutaj
         playerBoard.Clear();
         enemyBoard.Clear();
 
@@ -733,23 +745,34 @@ public class GameController : MonoBehaviour
         resultCanvasGroup.alpha = 0f;
         gameResultPanel.transform.localScale = startScale;
 
+        RectTransform rt = gameResultPanel.GetComponent<RectTransform>();
+
+        Vector2 endPos = rt.anchoredPosition;   // obecna pozycja docelowa
+        Vector2 startPos = endPos + new Vector2(0f, Screen.height); // nad ekranem
+
+        rt.anchoredPosition = startPos;
+
         while (time < animationDuration)
         {
             time += Time.deltaTime;
             float t = time / animationDuration;
 
-            // easing (lekko miêkkie wejœcie)
             float eased = Mathf.SmoothStep(0f, 1f, t);
 
             resultCanvasGroup.alpha = eased;
             gameResultPanel.transform.localScale = Vector3.Lerp(startScale, Vector3.one, eased);
+            rt.anchoredPosition = Vector2.Lerp(startPos, endPos, eased);
 
             yield return null;
         }
 
         resultCanvasGroup.alpha = 1f;
         gameResultPanel.transform.localScale = Vector3.one;
+        rt.anchoredPosition = endPos;
     }
+
+
+
 
     private void EndGame()
     {
@@ -768,13 +791,13 @@ public class GameController : MonoBehaviour
         }
         else if (playerWins >= roundsToWin)
         {
-            finalMsg = "ZWYCIÊSTWO!";
+            finalMsg = "ZWYCIï¿½STWO!";
             resultSprite = winSprite;
             resultSound = winSound;
         }
         else
         {
-            finalMsg = "PORA¯KA...";
+            finalMsg = "PORAï¿½KA...";
             resultSprite = loseSprite;
             resultSound = loseSound;
         }
@@ -828,7 +851,7 @@ public class GameController : MonoBehaviour
             selfDeathEffect.OnDeath(this, deadCard);
         }
 
-        Debug.Log($"[GameController] Przetwarzanie œmierci karty: {deadCard.data.cardName}.");
+        Debug.Log($"[GameController] Przetwarzanie ï¿½mierci karty: {deadCard.data.cardName}.");
 
         if (playerBoard.Contains(deadCard)) playerBoard.Remove(deadCard);
         else if (enemyBoard.Contains(deadCard)) enemyBoard.Remove(deadCard);
@@ -896,7 +919,7 @@ public class GameController : MonoBehaviour
         {
             if (drawingPlayer.cardsInDeck.Count == 0)
             {
-                Debug.Log($"[GameController] {player.playerName} nie ma ju¿ kart w talii.");
+                Debug.Log($"[GameController] {player.playerName} nie ma juï¿½ kart w talii.");
                 return;
             }
 
@@ -993,7 +1016,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"Rz¹d {zoneName} nie ma przypisanego LinkedLayout.");
+            Debug.LogWarning($"Rzï¿½d {zoneName} nie ma przypisanego LinkedLayout.");
             return;
         }
 
@@ -1081,7 +1104,7 @@ public class GameController : MonoBehaviour
             }
             else if (effect is IRowTargetableEffect rowTargetableEffect)
             {
-                Debug.Log($"-- Tryb Celowania -- Kliknij rz¹d.");
+                Debug.Log($"-- Tryb Celowania -- Kliknij rzï¿½d.");
 
                 BoardRow[] allRows = FindObjectsByType<BoardRow>(FindObjectsSortMode.None);
 
@@ -1112,7 +1135,7 @@ public class GameController : MonoBehaviour
         {
             if (target == pendingCardSource)
             {
-                Debug.LogWarning("Nie celuj w kartê u¿ywaj¹c¹ efektu.");
+                Debug.LogWarning("Nie celuj w kartï¿½ uï¿½ywajï¿½cï¿½ efektu.");
                 return;
             }
 
@@ -1124,12 +1147,12 @@ public class GameController : MonoBehaviour
 
             if (align == TargetAlignment.Friendly && !isFriendlySide)
             {
-                Debug.LogWarning("Wybra³eœ wrog¹ kartê zamiast sojusznika.");
+                Debug.LogWarning("Wybraï¿½eï¿½ wrogï¿½ kartï¿½ zamiast sojusznika.");
                 return;
             }
             if (align == TargetAlignment.Enemy && isFriendlySide)
             {
-                Debug.LogWarning("Wybra³eœ swoj¹ kartê zamiast wrogiej.");
+                Debug.LogWarning("Wybraï¿½eï¿½ swojï¿½ kartï¿½ zamiast wrogiej.");
                 return;
             }
             if (target.isImunne && align == TargetAlignment.Enemy)
@@ -1139,7 +1162,7 @@ public class GameController : MonoBehaviour
             }
             if (selectedTargets.Contains(target))
             {
-                Debug.Log("Wybra³eœ ju¿ t¹ kartê.");
+                Debug.Log("Wybraï¿½eï¿½ juï¿½ tï¿½ kartï¿½.");
                 return;
             }
 
@@ -1166,7 +1189,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Klikniêto kartê, ale gra czeka na wybór rzêdu.");
+            Debug.Log("Klikniï¿½to kartï¿½, ale gra czeka na wybï¿½r rzï¿½du.");
         }
     }
 
@@ -1176,7 +1199,7 @@ public class GameController : MonoBehaviour
 
         if (pendingEffect is IRowTargetableEffect rowEffect)
         {
-            Debug.Log($"[GameController] Wybrano rz¹d: {range}.");
+            Debug.Log($"[GameController] Wybrano rzï¿½d: {range}.");
 
             rowEffect.ExecuteWithRowTarget(pendingCardSource, range, isPlayerRow);
 
@@ -1184,7 +1207,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Klikniêto rz¹d, ale efekt oczekuje czegoœ innego.");
+            Debug.Log("Klikniï¿½to rzï¿½d, ale efekt oczekuje czegoï¿½ innego.");
         }
     }
 
@@ -1199,7 +1222,7 @@ public class GameController : MonoBehaviour
 
         CheckForAutoPass();
 
-        Debug.Log("[GameController] Zakoñczono celowanie.");
+        Debug.Log("[GameController] Zakoï¿½czono celowanie.");
     }
 
     private void ClearAllHighlights()
@@ -1245,7 +1268,7 @@ public class GameController : MonoBehaviour
 
     public void ForceWinGame(Player winner)
     {
-        Debug.Log($"NATYCHMIASTOWE ZWYCIÊSTWO {winner.playerName}!");
+        Debug.Log($"NATYCHMIASTOWE ZWYCIï¿½STWO {winner.playerName}!");
         isGameEnded = true;
 
         string finalMsg = "";

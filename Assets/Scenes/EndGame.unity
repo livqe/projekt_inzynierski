@@ -240,8 +240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20c0cf2dd34c35c47abecbc970856328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CursorManager
-  defaultCursor: {fileID: 2800000, guid: 3a0e5f51261ad09499aead89caceedb5, type: 3}
-  clickCursor: {fileID: 2800000, guid: bc3dac21a98b0434f885d87976bd206c, type: 3}
+  defaultCursor: {fileID: 2800000, guid: e0c83f9508277c84bbb460a4aeed70a6, type: 3}
+  clickCursor: {fileID: 2800000, guid: c28eb74618e459a4aa081b6932b841c1, type: 3}
   hotspot: {x: 0, y: 0}
 --- !u!4 &1051407196
 Transform:

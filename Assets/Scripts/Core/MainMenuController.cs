@@ -16,9 +16,16 @@ public class MainMenuController : MonoBehaviour
     [Header("Buttons inside Deck Panel")]
     public Button createNewDeckButton;
     public Button backButton;
+    MagicSceneFader sceneFader;
+
 
     private void Start()
     {
+        //sceneFader = FindObjectOfType<MagicSceneFader>();
+
+        //if (sceneFader == null)
+            //Debug.LogError("Brak MagicSceneFader w scenie!");
+        
         if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
         if (deckSelectionPanel != null) deckSelectionPanel.SetActive(false);
 
@@ -34,6 +41,7 @@ public class MainMenuController : MonoBehaviour
         {
             Debug.Log("Brak talii. Idziemy do edytora.");
             SceneManager.LoadScene("DeckBuilder");
+            //sceneFader.FadeToScene("DeckBuilder");
         }
         else
         {
@@ -61,17 +69,20 @@ public class MainMenuController : MonoBehaviour
     {
         SceneDataTransfer.openInCreateMode = true;
         SceneManager.LoadScene("DeckBuilder");
+        //sceneFader.FadeToScene("DeckBuilder");
     }
 
     private void StartGameWithDeck(SavedDeck deck)
     {
         GameSetup.selectedDeck = deck;
         SceneManager.LoadScene("Game");
+        //sceneFader.FadeToScene("Game");
     }
 
     public void OnEditDeck()
     {
         SceneManager.LoadScene("DeckBuilder");
+        //sceneFader.FadeToScene("DeckBuilder");
     }
 
     public void OnExit()
