@@ -15,7 +15,7 @@ public class CardView : MonoBehaviour
     {
         cardInstance = card;
 
-        if (card.data.artwork != null) artworkImage.sprite = card.data.artwork;
+        if (artworkImage != null) artworkImage.sprite = card.data.artwork;
         if (nameText != null) nameText.text = card.data.cardName;
 
         if (powerText != null)
@@ -35,7 +35,15 @@ public class CardView : MonoBehaviour
             else
             {
                 powerText.gameObject.SetActive(true);
-                powerText.text = card.data.power.ToString();
+                powerText.text = card.currentPower.ToString();
+
+                Color finalColor = Color.black;
+
+                if (card.currentPower > card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#4ACD00", out finalColor);
+                else if (card.currentPower < card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#CB0000", out finalColor);
+                else ColorUtility.TryParseHtmlString("#333333", out finalColor);
+
+                powerText.color = finalColor;
             }
         }
     }

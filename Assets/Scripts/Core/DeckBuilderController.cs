@@ -12,6 +12,7 @@ public class DeckBuilderController : MonoBehaviour
     public GameObject factionSelectionPanel;
     public GameObject editorPanel;
     public GameObject exitConfirmationPanel;
+    public GameObject deleteConfirmationPanel;
 
     [Header("UI Controls")]
     public Button saveButton;
@@ -39,6 +40,8 @@ public class DeckBuilderController : MonoBehaviour
     private List<CardData> allCardAssets;
 
     private List<BuilderLibraryItem> spawnedLibraryItem = new List<BuilderLibraryItem>();
+
+    private SavedDeck deckToDelete;
 
     private string originalDeckName = "";
     private bool isEditingExistingDeck = false;
@@ -87,6 +90,33 @@ public class DeckBuilderController : MonoBehaviour
         currentDeck = new SavedDeck("Nowa Talia", faction);
 
         OpenEditor();
+    }
+
+    public void RequestDeleteDeck(SavedDeck deck)
+    {
+        deckToDelete = deck;
+
+        if (deleteConfirmationPanel != null) deleteConfirmationPanel.SetActive(true);
+    }
+
+    public void DeleteDeck()
+    {
+        if (deckToDelete != null)
+        {
+            if (currentDeck == deckToDelete) CreateNewDeck(deckToDelete.faction);
+
+            allDecks.Remove(deckToDelete);
+            DeckStorage.SaveDecks(allDecks);
+            RefreshDeckList();
+        }
+
+        CloseDeletePanel();
+    }
+
+    public void CloseDeletePanel()
+    {
+        deckToDelete = null;
+        if (deleteConfirmationPanel != null) deleteConfirmationPanel.SetActive(false);
     }
 
     public void OpenEditorForExisting(SavedDeck deck)
@@ -260,8 +290,40 @@ public class DeckBuilderController : MonoBehaviour
         foreach (var deck in allDecks)
         {
             GameObject slot = Instantiate(deckSlotPrefab, deckListContainer);
-            slot.GetComponentInChildren<TextMeshProUGUI>().text = $"{deck.deckName}";
-            slot.GetComponent<Button>().onClick.AddListener(() => OpenEditorForExisting(deck));
+
+            var nameText = slot.transform.Find("DeckNameText");
+            var factionText = slot.transform.Find("FactionText");
+
+            if (nameText != null) nameText.GetComponent<TextMeshProUGUI>().text = $"{deck.deckName}";
+            if (factionText != null)
+            {
+                factionText.GetComponent<TextMeshProUGUI>().text = $"{deck.faction.ToString()}";
+                factionText.GetComponent<TextMeshProUGUI>().color = (deck.faction == Faction.Elfy) ? Color.green : Color.red;
+            }
+
+            Transform artImage = slot.transform.Find("ArtContainer/ArtworkImage");
+
+            if (artImage != null)
+            {
+                Image imgComponent = artImage.GetComponent<Image>();
+                DeckSlotVisual visual = slot.GetComponent<DeckSlotVisual>();
+
+                if (imgComponent != null)
+                {
+                    imgComponent.sprite = (deck.faction == Faction.Elfy) ? visual.elfSprite : visual.dwarfSprite;
+                }
+            }
+
+            Button mainButton = slot.GetComponent<Button>();
+            if (mainButton != null) 
+                mainButton.onClick.AddListener(() => OpenEditorForExisting(deck));
+
+            Button[] buttons = slot.GetComponentsInChildren<Button>();
+            foreach (var btn in buttons)
+            {
+                if (btn != mainButton && btn.gameObject.name.Contains("Delete"))
+                    btn.onClick.AddListener(() => RequestDeleteDeck(deck));
+            }
         }
     }
 

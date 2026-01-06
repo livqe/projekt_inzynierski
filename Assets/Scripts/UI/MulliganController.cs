@@ -162,7 +162,33 @@ public class MulliganController : MonoBehaviour
         {
             previewPanel.SetActive(true);
             if (previewImage != null) previewImage.sprite = card.data.artwork;
-            if (previewPower != null) previewPower.text = card.data.power.ToString();
+
+            if (!string.IsNullOrEmpty(card.data.powerDisplayOverride))
+            {
+                string overrideVal = card.data.powerDisplayOverride;
+
+                if (overrideVal == "-")
+                    previewPower.gameObject.SetActive(false);
+                else
+                {
+                    previewPower.gameObject.SetActive(true);
+                    previewPower.text = overrideVal;
+                }
+            }
+            else
+            {
+                previewPower.gameObject.SetActive(true);
+                previewPower.text = card.currentPower.ToString();
+
+                Color finalColor = Color.black;
+
+                if (card.currentPower > card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#4ACD00", out finalColor);
+                else if (card.currentPower < card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#CB0000", out finalColor);
+                else ColorUtility.TryParseHtmlString("#333333", out finalColor);
+
+                previewPower.color = finalColor;
+            }
+
             if (previewEffect != null) previewEffect.text = card.data.effectDescription;
         }
     }

@@ -17,6 +17,8 @@ public class DwarvesFactionAbility : FactionAbility
             dwarf.AddPower(1);
         }
 
+        game.UpdateUI();
+
         Debug.Log($"{abilityName}: wszystkie krasnoludy w rêce zyska³y +1 si³y.");
     }
 }

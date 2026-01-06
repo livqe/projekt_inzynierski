@@ -13,9 +13,14 @@ public class CardBoardVisual : MonoBehaviour
         if (powerText != null)
         {
             powerText.text = card.currentPower.ToString();
-            if (card.currentPower > card.data.power) powerText.color = Color.green;
-            else if (card.currentPower < card.data.power) powerText.color = Color.red;
-            else powerText.color = Color.black;
+
+            Color finalColor = Color.black;
+
+            if (card.currentPower > card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#4ACD00", out finalColor);
+            else if (card.currentPower < card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#CB0000", out finalColor);
+            else ColorUtility.TryParseHtmlString("#333333", out finalColor);
+
+            powerText.color = finalColor;
         }
     }
 }

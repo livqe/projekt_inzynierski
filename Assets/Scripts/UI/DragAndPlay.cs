@@ -38,6 +38,8 @@ public class DragAndPlay : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (MenuController.IsGamePaused) return;
+
         if (wasPlayed) return;
         if (!GameController.Instance.isPlayerTurn) return;
         if (GameController.Instance.currentState == GameState.WaitingForTarget) return;

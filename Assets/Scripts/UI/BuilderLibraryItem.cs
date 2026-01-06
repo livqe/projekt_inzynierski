@@ -52,7 +52,7 @@ public class BuilderLibraryItem : MonoBehaviour, IPointerClickHandler, IPointerE
     public void OnPointerEnter(PointerEventData eventData)
     {
         string status = availableCopies > 0
-            ? $"<color=white>Dostêpne: {availableCopies / data.maxCopies}</color>"
+            ? $"<color=white>Dostêpne: {availableCopies + " / " + data.maxCopies}</color>"
             : $"<color=red>Limit osi¹gniêty {data.maxCopies}</color>";
 
         string fullContent = $"{data.effectDescription}\n\n{status}";

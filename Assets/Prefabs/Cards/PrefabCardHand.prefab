@@ -67,6 +67,7 @@ MonoBehaviour:
     survivor: 0
     effectTriggered: 0
     effectTurnCounter: 0
+    basePowerFromEffect: 0
 --- !u!114 &8043919841969073943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,8 +243,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f4a31fb99c447894289a662b0c64d4a2, type: 2}
-  m_sharedMaterial: {fileID: -3682114706634859462, guid: f4a31fb99c447894289a662b0c64d4a2, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 62016fe47691e1c4e88d38e51fb4305d, type: 2}
+  m_sharedMaterial: {fileID: -6341728633213225360, guid: 62016fe47691e1c4e88d38e51fb4305d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -267,15 +268,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.2
+  m_fontSize: 11.35
   m_fontSizeBase: 9
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 4
   m_fontSizeMax: 20
-  m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_fontStyle: 1
+  m_HorizontalAlignment: 32
+  m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

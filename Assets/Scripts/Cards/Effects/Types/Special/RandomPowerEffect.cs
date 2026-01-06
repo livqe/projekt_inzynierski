@@ -33,8 +33,11 @@ public class RandomPowerEffect : CardEffect, IOnTurnEndEffect
 
     private void RandomizePower(CardInstance source)
     {
+        int currentBuffs = source.currentPower - source.basePowerFromEffect;
         int newPower = Random.Range(minPower, maxPower + 1);
-        source.currentPower = newPower;
+
+        source.basePowerFromEffect = newPower;
+        source.currentPower = newPower + currentBuffs;
 
         GameController.Instance.UpdateUI();
 

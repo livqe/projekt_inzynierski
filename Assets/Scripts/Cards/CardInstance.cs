@@ -17,6 +17,7 @@ public class CardInstance
     public bool survivor;
     public bool effectTriggered = false;
     public int effectTurnCounter = 0;
+    public int basePowerFromEffect;
 
     public CardInstance(CardData cardData, Player owner)
     {
@@ -37,6 +38,7 @@ public class CardInstance
         }
 
         this.effectTriggered = false;
+        this.basePowerFromEffect = data.power;
     }
 
     public void AddShield(int amount)

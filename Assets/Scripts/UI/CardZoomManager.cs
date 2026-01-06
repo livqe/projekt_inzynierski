@@ -33,7 +33,33 @@ public class CardZoomManager : MonoBehaviour
         zoomPanel.SetActive(true);
 
         if (zoomImage != null) zoomImage.sprite = card.data.artwork;
-        if (zoomPowerText != null) zoomPowerText.text = card.currentPower.ToString();
+
+        if (!string.IsNullOrEmpty(card.data.powerDisplayOverride))
+        {
+            string overrideVal = card.data.powerDisplayOverride;
+
+            if (overrideVal == "-")
+                zoomPowerText.gameObject.SetActive(false);
+            else
+            {
+                zoomPowerText.gameObject.SetActive(true);
+                zoomPowerText.text = overrideVal;
+            }
+        }
+        else
+        {
+            zoomPowerText.gameObject.SetActive(true);
+            zoomPowerText.text = card.currentPower.ToString();
+
+            Color finalColor = Color.black;
+
+            if (card.currentPower > card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#4ACD00", out finalColor);
+            else if (card.currentPower < card.basePowerFromEffect) ColorUtility.TryParseHtmlString("#CB0000", out finalColor);
+            else ColorUtility.TryParseHtmlString("#333333", out finalColor);
+
+            zoomPowerText.color = finalColor;
+        }
+
         if (zoomEffectText != null) zoomEffectText.text = card.data.effectDescription;
     }
 

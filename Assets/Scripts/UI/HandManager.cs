@@ -42,4 +42,16 @@ public class HandManager : MonoBehaviour
             }
         }
     }
+
+    public void RefreshHandVisuals()
+    {
+        if (handContainer == null) return;
+
+        foreach (Transform child in handContainer)
+        {
+            var cardView = child.GetComponent<CardView>();
+            
+            if (cardView != null && cardView.cardInstance != null) cardView.LoadCardData(cardView.cardInstance);
+        }
+    }
 }
