@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum GameState
@@ -61,6 +62,8 @@ public class GameController : MonoBehaviour
     public Image enemyAvatarImage;
     public TextMeshProUGUI playerNameText;
     public TextMeshProUGUI enemyNameText;
+    public PassButtonController passButtonController;
+    public GameObject enemyPassInfoPanel;
 
     [Header("Prefabs")]
     public GameObject cardSpritePrefab;
@@ -119,10 +122,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private Sprite loseSprite;
     [SerializeField] private Sprite drawSprite;
 
-    [SerializeField] private AudioSource audioSource;
+    public AudioSource audioSource;
     [SerializeField] private AudioClip winSound;
     [SerializeField] private AudioClip loseSound;
     [SerializeField] private AudioClip drawSound;
+    [SerializeField] private AudioClip roundSound;
+    [SerializeField] private AudioClip cardSound;
+    [SerializeField] private AudioClip laughSound;
 
     private void Awake()
     {
@@ -169,8 +175,8 @@ public class GameController : MonoBehaviour
         Faction aiFaction = (player.faction == Faction.Elfy) ? Faction.Krasnoludy : Faction.Elfy;
 
         string eName = "Przeciwnik";
-        if (aiFaction == Faction.Krasnoludy) eName = "Szaleniec Thrain";
-        if (aiFaction == Faction.Elfy) eName = "Książe Mrocznej Puszczy";
+        if (aiFaction == Faction.Krasnoludy) eName = "Alatar";
+        if (aiFaction == Faction.Elfy) eName = "Pallando";
 
         enemy = new Player(eName, aiFaction);
 
@@ -184,6 +190,8 @@ public class GameController : MonoBehaviour
         if (playerNameText != null) playerNameText.text = player.playerName;
         if (enemyNameText != null) enemyNameText.text = enemy.playerName;
 
+        if (enemyPassInfoPanel != null) enemyPassInfoPanel.SetActive(false);
+
         StartGame();
     }
 
@@ -193,14 +201,20 @@ public class GameController : MonoBehaviour
 
         if (isGameEnded)
         {
-            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+            if (MagicSceneFader.Instance != null)
+            {
+                MagicSceneFader.Instance.FadeToScene(mainMenuSceneName);
+            }
+            else
+            {
                 SceneManager.LoadScene(mainMenuSceneName);
-        }
+            }
 
-        if (currentState == GameState.WaitingForTarget)
-        {
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-                CancelPlay();
+            if (currentState == GameState.WaitingForTarget)
+            {
+                if (Keyboard.current.escapeKey.wasPressedThisFrame)
+                    CancelPlay();
+            }
         }
     }
 
@@ -372,6 +386,9 @@ public class GameController : MonoBehaviour
 
         hasPlayedCardThisTurn = false;
 
+        if (passButtonController != null && !playerHasPassed)
+            passButtonController.SetInteractable(true);
+
         if (player.cardsInHand.Count == 0)
         {
             Debug.Log("Brak kart w ręce. Musisz spasować.");
@@ -393,6 +410,9 @@ public class GameController : MonoBehaviour
         }
 
         Debug.Log("Tura przeciwnika.");
+
+        if (passButtonController != null)
+            passButtonController.SetInteractable(false);
 
         //animacja
         if (enemyTurnRingAnimator != null)
@@ -428,7 +448,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void PlayCard(CardInstance card, bool isPlayerPlayed, bool countsAsAction, RangeType? targetRow = null, int insertIndex = -1)
+    public void PlayCard(CardInstance card, bool isPlayerPlayed, bool countsAsAction, RangeType? targetRow = null, int insertIndex = -1, bool skipEffect = false)
     {
         if (isPlayerPlayed && countsAsAction)
         {
@@ -475,14 +495,30 @@ public class GameController : MonoBehaviour
             targetBoard.Add(card);
         }
 
+        if (audioSource != null && cardSound != null)
+            audioSource.PlayOneShot(cardSound);
+
         SpawnCardOnBoardVisual(card, isPlayerPlayed, targetRow, insertIndex);
+        UpdateUI();
 
-        if (card.data.effect != null)
+        bool hasEffect = !skipEffect && card.data.effect != null;
+
+        if (countsAsAction) BlockInteractionFor(1f);
+
+        if (hasEffect)
         {
-            Debug.Log($" -> Uruchomiono efekt: {card.data.effect.effectName}.");
-            card.data.effect.ActivateEffect(this, card);
+            StartCoroutine(PlayCardEffectWithDelay(card, countsAsAction, isPlayerPlayed));
         }
+        else
+        {
+            if (skipEffect) Debug.Log($"Zagrano {card.data.cardName} bez efektu.");
 
+            StartCoroutine(WaitAndFinalize(card, countsAsAction, 0.5f));
+        }
+    }
+
+    private void FinalizePlayCard(CardInstance card, bool isPlayerPlayed, bool countsAsAction)
+    {
         NotifyOtherCardsOnPlay(card);
         UpdateUI();
 
@@ -493,6 +529,36 @@ public class GameController : MonoBehaviour
 
         if (playerDeckVisual != null) playerDeckVisual.UpdateCount(player.cardsInDeck.Count);
         if (enemyDeckVisual != null) enemyDeckVisual.UpdateCount(enemy.cardsInDeck.Count);
+
+        if (!isPlayerPlayed && countsAsAction) EndEnemyTurn();
+    }
+
+    private IEnumerator WaitAndFinalize(CardInstance card, bool countsAsAction, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (currentState != GameState.WaitingForTarget)
+        {
+            bool isPlayerPlayed = (card.owner == player);
+            FinalizePlayCard(card, isPlayerPlayed, countsAsAction);
+        }
+    }
+
+    private IEnumerator PlayCardEffectWithDelay(CardInstance card, bool countsAsAction, bool isPlayerPlayed)
+    {
+        yield return new WaitForSeconds(0.4f);
+
+        if (card.data.effect != null)
+        {
+            Debug.Log($"Uruchomiono efekt po opóźnieniu: {card.data.effect}.");
+            card.data.effect.ActivateEffect(this, card);
+        }
+
+        if (currentState != GameState.WaitingForTarget)
+        {
+            yield return new WaitForSeconds(1f);
+            FinalizePlayCard(card, isPlayerPlayed, countsAsAction);
+        }
     }
 
     public void CancelPlay()
@@ -519,12 +585,21 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (pendingCardHandIndex >= 0 && pendingCardHandIndex <= player.cardsInHand.Count)
-            player.cardsInHand.Insert(pendingCardHandIndex, cardToReturn);
-        else
-            player.cardsInHand.Add(cardToReturn);
+        if (cardToReturn.owner == player)
+        {
+            if (pendingCardHandIndex >= 0 && pendingCardHandIndex <= player.cardsInHand.Count)
+                player.cardsInHand.Insert(pendingCardHandIndex, cardToReturn);
+            else
+                player.cardsInHand.Add(cardToReturn);
 
-        if (handManager != null) handManager.AddCardToHandVisual(cardToReturn, pendingCardHandIndex);
+            if (handManager != null) handManager.AddCardToHandVisual(cardToReturn, pendingCardHandIndex);
+        }
+        else if (cardToReturn.owner == enemy)
+        {
+            enemy.cardsInHand.Add(cardToReturn);
+
+            if (enemyHandVisual != null) enemyHandVisual.AddCard();
+        }
 
         hasPlayedCardThisTurn = false;
         currentState = GameState.Normal;
@@ -534,6 +609,14 @@ public class GameController : MonoBehaviour
         pendingCardHandIndex = -1;
 
         UpdateUI();
+
+        if (!isPlayerTurn && !enemyHasPassed) StartCoroutine(RestartAITurnDelay());
+    }
+
+    private IEnumerator RestartAITurnDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (AIController.Instance != null) AIController.Instance.MakeDecision();
     }
 
     public void BlockInteractionFor(float duration)
@@ -594,6 +677,7 @@ public class GameController : MonoBehaviour
         if (enemyHasPassed)
         {
             Debug.Log("Przeciwnik już spasował. Natychmiastowa tura gracza.");
+            ProcessTurnEndEffect(enemyBoard);
             StartPlayerTurn();
         }
         else StartEnemyTurn();
@@ -602,15 +686,18 @@ public class GameController : MonoBehaviour
     public void EndEnemyTurn()
     {
         Debug.Log("[GameController] AI kończy turę.");
+
         ProcessTurnEndEffect(enemyBoard);
 
-        //animacja
         if (enemyTurnRingAnimator != null)
             enemyTurnRingAnimator.SetBool("IsEnemyTurn", false);
-        //animacja
 
-        if (!playerHasPassed) StartPlayerTurn();
-        else StartEnemyTurn();
+        if (playerHasPassed)
+        {
+            ProcessTurnEndEffect(playerBoard);
+            StartEnemyTurn();
+        }
+        else StartPlayerTurn(); 
     }
 
     public void PlayerPassRound()
@@ -619,6 +706,9 @@ public class GameController : MonoBehaviour
 
         Debug.Log("[GameController] Gracz spasował.");
         playerHasPassed = true;
+
+        if (passButtonController != null)
+            passButtonController.SetInteractable(false);
 
         ProcessTurnEndEffect(playerBoard);
         CheckRoundEnd();
@@ -630,6 +720,17 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("[GameController] AI pasuje rundę.");
         enemyHasPassed = true;
+
+        StartCoroutine(ShowEnemyPassNotification());
+    }
+
+    private IEnumerator ShowEnemyPassNotification()
+    {
+        if (enemyPassInfoPanel != null) enemyPassInfoPanel.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        if (enemyPassInfoPanel != null) enemyPassInfoPanel.SetActive(false);
 
         ProcessTurnEndEffect(enemyBoard);
         CheckRoundEnd();
@@ -688,6 +789,9 @@ public class GameController : MonoBehaviour
             enemy.lostLastRound = false;
             resultMsg = "Remis";
         }
+
+        if (audioSource != null && roundSound != null)
+            audioSource.PlayOneShot(roundSound);
 
         ActivateFactionAbility(player);
         ActivateFactionAbility(enemy);
@@ -755,6 +859,9 @@ public class GameController : MonoBehaviour
 
         playerHasPassed = false;
         enemyHasPassed = false;
+
+        if (enemyPassInfoPanel != null) enemyPassInfoPanel.SetActive(false);
+        if (passButtonController != null) passButtonController.SetInteractable(false);
 
         currentState = GameState.Normal;
         pendingCardSource = null;
@@ -859,7 +966,10 @@ public class GameController : MonoBehaviour
         }
 
         if (audioSource != null && resultSound != null)
+        {
             audioSource.PlayOneShot(resultSound);
+            audioSource.PlayOneShot(laughSound);
+        }
 
         currentState = GameState.WaitingForTarget;
     }
@@ -895,7 +1005,7 @@ public class GameController : MonoBehaviour
         {
             if (visual.cardInstance == deadCard)
             {
-                Destroy(visual.gameObject);
+                StartCoroutine(DestroyVisualWithDelay(visual.gameObject));
                 break;
             }
         }
@@ -917,6 +1027,14 @@ public class GameController : MonoBehaviour
                 deathEffect.OnOtherCardDeath(this, card, deadCard);
             }
         }
+    }
+
+    private IEnumerator DestroyVisualWithDelay(GameObject visualObj)
+    {
+        yield return new WaitForSeconds(0.7f);
+
+        if (visualObj != null) Destroy(visualObj);
+        UpdateUI();
     }
 
     public void UpdateUI()
@@ -1153,7 +1271,7 @@ public class GameController : MonoBehaviour
     private int CountValidTargets(CardInstance source, ITargetableEffect effect)
     {
         TargetAlignment align = effect.GetTargetAlignment();
-        bool isEnemyAction = (align == TargetAlignment.Enemy);
+        bool isEnemyAction = (source.owner == enemy);
 
         CardOnBoard[] allCards = FindObjectsByType<CardOnBoard>(FindObjectsSortMode.None);
         int count = 0;
@@ -1170,18 +1288,58 @@ public class GameController : MonoBehaviour
             else if (align == TargetAlignment.Friendly && isMyCard) isTargetValid = true;
             else if (align == TargetAlignment.Enemy && !isMyCard) isTargetValid = true;
 
+            if (isEnemyAction)
+            {
+                bool isOnEnemyBoard = enemyBoard.Contains(card);
+
+                if (align == TargetAlignment.Any) isTargetValid = true;
+                else if (align == TargetAlignment.Friendly && isOnEnemyBoard) isTargetValid = true;
+                else if (align == TargetAlignment.Enemy && !isOnEnemyBoard) isTargetValid = true;
+            }
+
             if (isTargetValid && align == TargetAlignment.Enemy && card.isImunne)
                 isTargetValid = false;
 
             if (isTargetValid)
             {
-                var hl = cardObj.GetComponent<UnitHighlighter>();
-                if (hl != null) hl.ShowTarget(true, isEnemyAction);
+                if (!isEnemyAction)
+                {
+                    var hl = cardObj.GetComponent<UnitHighlighter>();
+                    bool isOffensive = (align == TargetAlignment.Enemy);
+                    if (hl != null) hl.ShowTarget(true, isOffensive);
+                }
+                
                 count++;
             }
         }
 
         return count;
+    }
+
+    private IEnumerator FinalizeTargetingSequence(CardInstance source, CardEffect effect, List<CardInstance> targets = null, RangeType? rowTarget = null, bool isPlayerRow = false)
+    {
+        if (targets != null)
+        {
+            if (effect is ITargetableEffect targetEffect)
+                targetEffect.ExecuteWithTarget(targets);
+        }
+        else if (rowTarget.HasValue)
+        {
+            if (effect is IRowTargetableEffect rowEffect)
+                rowEffect.ExecuteWithRowTarget(source, rowTarget.Value, isPlayerRow);
+        }
+
+        bool isPlayerSource = (source.owner == player);
+
+        ClearAllHighlights();
+        selectedTargets.Clear();
+
+        BlockInteractionFor(1.0f);
+        yield return new WaitForSeconds(1.0f);
+
+        EndTargeting();
+
+        FinalizePlayCard(source, isPlayerSource, true);
     }
 
     public void CardClicked(CardInstance target)
@@ -1243,9 +1401,7 @@ public class GameController : MonoBehaviour
 
             if (selectedTargets.Count >= limit)
             {
-                targetEffect.ExecuteWithTarget(new List<CardInstance>(selectedTargets));
-                EndTargeting();
-                selectedTargets.Clear();
+                StartCoroutine(FinalizeTargetingSequence(pendingCardSource, pendingEffect, new List<CardInstance>(selectedTargets), null));
             }
         }
         else
@@ -1262,9 +1418,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log($"[GameController] Wybrano rząd: {range}.");
 
-            rowEffect.ExecuteWithRowTarget(pendingCardSource, range, isPlayerRow);
-
-            EndTargeting();
+            StartCoroutine(FinalizeTargetingSequence(pendingCardSource, pendingEffect, null, range, isPlayerRow));
         }
         else
         {
@@ -1279,9 +1433,6 @@ public class GameController : MonoBehaviour
         currentState = GameState.Normal;
         pendingCardSource = null;
         pendingEffect = null;
-        UpdateUI();
-
-        CheckForAutoPass();
 
         Debug.Log("[GameController] Zakończono celowanie.");
     }
@@ -1297,8 +1448,12 @@ public class GameController : MonoBehaviour
 
     private void ProcessTurnEndEffect(List<CardInstance> board)
     {
-        foreach (CardInstance card in board)
+        List<CardInstance> boardCopy = new List<CardInstance>(board);
+
+        foreach (CardInstance card in boardCopy)
         {
+            if (!board. Contains(card)) continue;
+
             if (card.data.effect != null && card.data.effect is IOnTurnEndEffect)
             {
                 IOnTurnEndEffect turnEffect = (IOnTurnEndEffect)card.data.effect;
@@ -1338,21 +1493,49 @@ public class GameController : MonoBehaviour
         isGameEnded = true;
 
         string finalMsg = "";
+        Sprite resultSprite = null;
+        AudioClip resultSound = null;
 
         if (winner == player)
         {
             playerWins = roundsToWin;
+            resultSprite = winSprite;
+            resultSound = winSound;
             finalMsg = "EGZAMIN ZDANY!";
         }
         else
         {
             enemyWins = roundsToWin;
+            resultSprite = loseSprite;
+            resultSound = loseSound;
             finalMsg = "OBLANY EGZAMIN...";
         }
 
         if (gameResultText != null) gameResultText.text = finalMsg;
-        if (gameResultPanel != null) gameResultPanel.SetActive(true);
         if (gameFinalPointsText != null) gameFinalPointsText.text = $"{playerWins} : {enemyWins}";
+        if (gameResultPlayerNameText != null) gameResultPlayerNameText.text = player.playerName;
+        if (gameResultEnemyNameText != null) gameResultEnemyNameText.text = enemy.playerName;
+
+        if (gameResultPlayerAvatar != null && playerAvatarImage != null)
+            gameResultPlayerAvatar.sprite = playerAvatarImage.sprite;
+        if (gameResultEnemyAvatar != null && enemyAvatarImage != null)
+            gameResultEnemyAvatar.sprite = enemyAvatarImage.sprite;
+
+        if (gameResultImage != null && resultSprite != null)
+            gameResultImage.sprite = resultSprite;
+
+        if (gameResultPanel != null)
+        {
+            gameResultPanel.SetActive(true);
+            StopAllCoroutines();
+            StartCoroutine(AnimateEndGamePanel());
+        }
+
+        if (audioSource != null && resultSound != null)
+        {
+            audioSource.PlayOneShot(resultSound);
+            audioSource.PlayOneShot(laughSound);
+        }
 
         currentState = GameState.WaitingForTarget;
     }

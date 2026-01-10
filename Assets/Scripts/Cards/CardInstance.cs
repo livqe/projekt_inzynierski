@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,8 +9,25 @@ public class CardInstance
     [System.NonSerialized]
     public Player owner;
     
-    public int currentPower;
-    public int shield;
+    [SerializeField] private int _currentPower;
+    public Action<int> OnPowerChanged;
+
+    [SerializeField] private int _shield;
+    public Action OnShieldChanged;
+
+    public int shield
+    {
+        get { return _shield; }
+        set
+        {
+            if (_shield != value)
+            {
+                _shield = value;
+                OnShieldChanged?.Invoke();
+            }
+        }
+    }
+
     public bool isImunne;
     public Faction Faction => data.faction;
     public string Name => data.cardName;
@@ -19,12 +36,25 @@ public class CardInstance
     public int effectTurnCounter = 0;
     public int basePowerFromEffect;
 
+
+    public int currentPower
+    {
+        get { return _currentPower; }
+        set 
+        {
+            int difference = value - _currentPower;
+            _currentPower = value;
+
+            if (difference != 0) OnPowerChanged?.Invoke(difference);
+        }
+    }
+
     public CardInstance(CardData cardData, Player owner)
     {
         this.data = cardData;
         this.owner = owner;
-        this.currentPower = cardData.power;
-        this.shield = 0;
+        this._currentPower = cardData.power;
+        this._shield = Mathf.Max(0, cardData.baseShield);
         this.isImunne = false;
         this.effectTurnCounter = 0;
 

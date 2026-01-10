@@ -10,6 +10,9 @@ public class AIController : MonoBehaviour
     [Header("Settings")]
     public float thinkingTime = 1.5f;
 
+    private int actionRetries = 0;
+    private const int MAX_RETRIES = 3;
+
     private void Awake()
     {
         Instance = this;
@@ -27,12 +30,12 @@ public class AIController : MonoBehaviour
 
         int myPoints = GetBoardPoints(GameController.Instance.enemyBoard);
         int playerPoints = GetBoardPoints(GameController.Instance.playerBoard);
-
         bool playerPassed = GameController.Instance.HasPlayerPassed();
 
         if (myPoints > playerPoints && playerPassed)
         {
             Debug.Log("[AI] Pasujê.");
+            ResetRetries();
             PassTurn();
             yield break;
         }
@@ -40,14 +43,23 @@ public class AIController : MonoBehaviour
         if (GameController.Instance.enemy.cardsInHand.Count == 0)
         {
             Debug.Log("[AI] Brak kart. Pasujê.");
+            ResetRetries();
             PassTurn();
             yield break;
         }
 
-        PlayCardLogic();
+        if (actionRetries >= MAX_RETRIES)
+        {
+            Debug.Log("[AI] Osi¹gniêto limit prób. Pasujê.");
+            ResetRetries();
+            PassTurn();
+            yield break;
+        }
+
+        yield return StartCoroutine(PlayCardLogic());
     }
 
-    private void PlayCardLogic()
+    private IEnumerator PlayCardLogic()
     {
         Player AIPlayer = GameController.Instance.enemy;
 
@@ -56,18 +68,29 @@ public class AIController : MonoBehaviour
 
         Debug.Log($"[AI] Zagrywam {cardToPlay.data.cardName}.");
 
+        bool forcePlayWithoutEffect = (actionRetries >= 2);
+
+        if (forcePlayWithoutEffect)
+            Debug.Log("[AI] Zbyt wiele prób celowania. Zagrywam kartê bez efektu.");
+
+        actionRetries++;
+
         RangeType targetRow = cardToPlay.data.range;
         if (targetRow == RangeType.Dowolny)
         {
             targetRow = (Random.value > 0.5f) ? RangeType.Bliski : RangeType.Daleki;
         }
 
-        GameController.Instance.PlayCard(cardToPlay, false, true, targetRow);
+        GameController.Instance.PlayCard(cardToPlay, false, true, targetRow, -1, forcePlayWithoutEffect);
+
+        yield return new WaitForSeconds(0.7f);
 
         if (GameController.Instance.currentState == GameState.WaitingForTarget)
             StartCoroutine(PerformAITargeting());
         else
-            EndAITurn();
+        {
+            ResetRetries();
+        }
     }
 
     private IEnumerator PerformAITargeting()
@@ -104,20 +127,33 @@ public class AIController : MonoBehaviour
             !(align == TargetAlignment.Enemy && c.isImunne)
         ).ToList();
 
-        if (potentialTargets.Count > 0)
-        {
-            CardInstance chosenTarget = potentialTargets[Random.Range(0, potentialTargets.Count)];
+        int requiredCount = effect.GetTargetCount();
+        int availableCount = potentialTargets.Count;
+        int targetsToPick = Mathf.Min(requiredCount, availableCount);
 
-            Debug.Log($"[AI] Mój cel: {chosenTarget.data.cardName}.");
-            GameController.Instance.CardClicked(chosenTarget);
+        if (targetsToPick > 0)
+        {
+            for (int i = 0; i < targetsToPick; i++)
+            {
+                if (potentialTargets.Count == 0) break;
+
+                int randIdx = Random.Range(0, potentialTargets.Count);
+                CardInstance chosenTarget = potentialTargets[randIdx];
+
+                Debug.Log($"[AI] Klikam cel {i + 1}/{targetsToPick}: {chosenTarget.data.cardName}.");
+
+                ResetRetries();
+
+                GameController.Instance.CardClicked(chosenTarget);
+
+                potentialTargets.RemoveAt(randIdx);
+            }
         }
         else
         {
             Debug.Log("[AI] Brak celów.");
             GameController.Instance.CancelPlay();
         }
-
-        EndAITurn();
     }
 
     private void HandleRowTargeting(IRowTargetableEffect effect, CardInstance source)
@@ -127,19 +163,21 @@ public class AIController : MonoBehaviour
         bool isPlayerRow = true;
 
         Debug.Log($"[AI] Wybieram rz¹d: {randomRow}.");
-        GameController.Instance.RowClicked(randomRow, isPlayerRow);
 
-        EndAITurn();
+        ResetRetries();
+
+        GameController.Instance.RowClicked(randomRow, isPlayerRow);
     }
 
     private void PassTurn()
     {
+        ResetRetries();
         GameController.Instance.EnemyPassRound();
     }
 
-    private void EndAITurn()
+    public void ResetRetries()
     {
-        GameController.Instance.EndEnemyTurn();
+        actionRetries = 0;
     }
 
     private int GetBoardPoints(List<CardInstance> board)

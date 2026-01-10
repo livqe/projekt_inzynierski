@@ -42,5 +42,7 @@ public class RandomPowerEffect : CardEffect, IOnTurnEndEffect
         GameController.Instance.UpdateUI();
 
         Debug.Log($"[Effect] {source.data.cardName} ma teraz {newPower} mocy.");
+
+        source.TakeDamage(0);
     }
 }

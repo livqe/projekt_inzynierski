@@ -17,7 +17,7 @@ MonoBehaviour:
   faction: 2
   range: 2
   power: 0
-  powerDisplayOverride: "\u221E"
+  powerDisplayOverride: '-'
   effect: {fileID: 2663054632411730566}
   effectDescription: "Maj\u0105 0,1% szans na wylosowanie z talii. Po zagraniu na
     plansz\u0119 automatycznie zdajesz egzamin - wygrywasz gr\u0119."

@@ -18,6 +18,7 @@ public class MulliganController : MonoBehaviour
     public GameObject previewPanel;
     public Image previewImage;
     public TextMeshProUGUI previewPower;
+    public TextMeshProUGUI previewShield;
     public TextMeshProUGUI previewEffect;
 
     [Header("Settings")]
@@ -163,7 +164,9 @@ public class MulliganController : MonoBehaviour
             previewPanel.SetActive(true);
             if (previewImage != null) previewImage.sprite = card.data.artwork;
 
-            if (!string.IsNullOrEmpty(card.data.powerDisplayOverride))
+            bool useOverride = !string.IsNullOrEmpty(card.data.powerDisplayOverride) && (card.currentPower == card.data.power);
+
+            if (useOverride)
             {
                 string overrideVal = card.data.powerDisplayOverride;
 
@@ -187,6 +190,16 @@ public class MulliganController : MonoBehaviour
                 else ColorUtility.TryParseHtmlString("#333333", out finalColor);
 
                 previewPower.color = finalColor;
+            }
+
+            if (card.data.baseShield > 0)
+            {
+                previewShield.gameObject.SetActive(true);
+                previewShield.text = card.data.baseShield.ToString();
+            }
+            else
+            {
+                previewShield.gameObject.SetActive(false);
             }
 
             if (previewEffect != null) previewEffect.text = card.data.effectDescription;

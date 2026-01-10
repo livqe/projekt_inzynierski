@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DestroyRowEffect
   effectName: DestroyRowEffect
   effectDescription: "Niszczy ca\u0142y rz\u0105d kart."
-  fireParticlePrefab: {fileID: 0}
+  fireParticlePrefab: {fileID: 4960825005401182537, guid: 1642dc76368ae474f85d65c67d787646, type: 3}
+  fireAudioSource: {fileID: 8300000, guid: 12dea7f1a7d6eef40a295780f194831b, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

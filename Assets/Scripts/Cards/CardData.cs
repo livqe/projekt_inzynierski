@@ -23,6 +23,7 @@ public class CardData : ScriptableObject
     public Faction faction;
     public RangeType range;
     public int power;
+    public int baseShield = -1;
 
     [Header("Visuals")]
     public string powerDisplayOverride;

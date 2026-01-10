@@ -329,7 +329,14 @@ public class DeckBuilderController : MonoBehaviour
 
     public void OnReturn()
     {
-        SceneManager.LoadScene("Menu");
+        if (MagicSceneFader.Instance != null)
+        {
+            MagicSceneFader.Instance.FadeToScene("Menu");
+        }
+        else
+        {
+            SceneManager.LoadScene("Menu");
+        }
     }
 
     public void OnDeckEditorReturn()
@@ -345,8 +352,16 @@ public class DeckBuilderController : MonoBehaviour
 
     public void ConfirmExitWithoutSaving()
     {
-        SceneManager.LoadScene("Menu");
-        SceneManager.LoadScene("DeckBuilder");
+        if (MagicSceneFader.Instance != null)
+        {
+            MagicSceneFader.Instance.FadeToScene("Menu");
+            MagicSceneFader.Instance.FadeToScene("DeckBuilder");
+        }
+        else
+        {
+            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("DeckBuilder");
+        }
     }
 
     public void CreateDwarvesDeck() => CreateNewDeck(Faction.Krasnoludy);

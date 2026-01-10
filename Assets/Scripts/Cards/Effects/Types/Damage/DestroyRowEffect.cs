@@ -1,11 +1,13 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Audio;
 
 [CreateAssetMenu(menuName = "Card/Effects/Damage/DestroyRowEffect")]
 public class DestroyRowEffect : CardEffect, IRowTargetableEffect
 {
-    [Header("Visual Effect")]
+    [Header("Effects")]
     public GameObject fireParticlePrefab;
+    public AudioClip fireAudioSource;
 
     public override void ActivateEffect(GameController game, CardInstance source)
     {
@@ -36,6 +38,9 @@ public class DestroyRowEffect : CardEffect, IRowTargetableEffect
             GameObject vfx = Instantiate(fireParticlePrefab, targetRowObject.transform.position, Quaternion.identity);
             Destroy(vfx, 2.0f);
         }
+
+        if (GameController.Instance.audioSource != null && fireAudioSource != null)
+            GameController.Instance.audioSource.PlayOneShot(fireAudioSource);
 
         CardOnBoard[] cardVisuals = targetRowObject.GetComponentsInChildren<CardOnBoard>();
         List<CardInstance> cardsToDestroy = new List<CardInstance>();

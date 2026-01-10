@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3a0e5f51261ad09499aead89caceedb5
+guid: 346a302898ef1f6459d32da53e0f7457
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6468827618327317693
-    second: kursor_a_0
+      213: 4912233997480514018
+    second: fire_texture_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -57,7 +57,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 7
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: kursor_a_0
+      name: fire_texture_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 36
+        height: 285
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3433d50fd8b1a36a0800000000000000
-      internalID: -6468827618327317693
+      spriteID: 2e15c696bc2cb2440800000000000000
+      internalID: 4912233997480514018
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      kursor_a_0: -6468827618327317693
+      fire_texture_0: 4912233997480514018
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

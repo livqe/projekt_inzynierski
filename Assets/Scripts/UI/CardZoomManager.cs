@@ -11,6 +11,7 @@ public class CardZoomManager : MonoBehaviour
     public GameObject zoomPanel;
     public Image zoomImage;
     public TextMeshProUGUI zoomPowerText;
+    public TextMeshProUGUI zoomShieldText;
     public TextMeshProUGUI zoomEffectText;
 
     private bool isZoomed = false;
@@ -34,7 +35,9 @@ public class CardZoomManager : MonoBehaviour
 
         if (zoomImage != null) zoomImage.sprite = card.data.artwork;
 
-        if (!string.IsNullOrEmpty(card.data.powerDisplayOverride))
+        bool useOverride = !string.IsNullOrEmpty(card.data.powerDisplayOverride) && (card.currentPower == card.data.power);
+
+        if (useOverride)
         {
             string overrideVal = card.data.powerDisplayOverride;
 
@@ -58,6 +61,16 @@ public class CardZoomManager : MonoBehaviour
             else ColorUtility.TryParseHtmlString("#333333", out finalColor);
 
             zoomPowerText.color = finalColor;
+        }
+
+        if (card.data.baseShield > 0)
+        {
+            zoomShieldText.gameObject.SetActive(true);
+            zoomShieldText.text = card.data.baseShield.ToString();
+        }
+        else
+        {
+            zoomShieldText.gameObject.SetActive(false);
         }
 
         if (zoomEffectText != null) zoomEffectText.text = card.data.effectDescription;

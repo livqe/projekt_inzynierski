@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 9a1a0cc8e70c58341a4ad1cff0481ee1
+guid: 4097c5f2eaf84034bb8f84e6183008a8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4063475507679113618
-    second: kursor_0
+      213: 1144140318276148857
+    second: wound_texture 1_0
+  - first:
+      213: 4048897160091511225
+    second: wound_texture 1_1
+  - first:
+      213: 6088666111394686465
+    second: wound_texture 1_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +30,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -57,7 +63,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 7
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: kursor_0
+      name: wound_texture 1_0
       rect:
         serializedVersion: 2
-        x: 43
-        y: 15
-        width: 180
-        height: 374
+        x: 0
+        y: 336
+        width: 104
+        height: 170
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e6e49431e82ab97c0800000000000000
-      internalID: -4063475507679113618
+      spriteID: 97e5d0cbe8dc0ef00800000000000000
+      internalID: 1144140318276148857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wound_texture 1_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 167
+        width: 104
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b9a75fd382903830800000000000000
+      internalID: 4048897160091511225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wound_texture 1_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 104
+        height: 169
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 106a3a5b1994f7450800000000000000
+      internalID: 6088666111394686465
       vertices: []
       indices: 
       edges: []
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      kursor_0: -4063475507679113618
+      wound_texture 1_0: 1144140318276148857
+      wound_texture 1_1: 4048897160091511225
+      wound_texture 1_2: 6088666111394686465
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

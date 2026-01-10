@@ -19,7 +19,6 @@ public class CardHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExit
         isHovered = true;
 
         transform.localScale = originalScale * 1.2f;
-        //wyci¹ganie na wierzch tutaj
     }
 
     public void OnPointerExit(PointerEventData eventData)

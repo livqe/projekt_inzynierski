@@ -1,8 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 using UnityEngine.UI;
-using TMPro;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -21,20 +22,23 @@ public class MainMenuController : MonoBehaviour
     public Button backButton;
 
     [Header("UI")]
-    MagicSceneFader sceneFader;
     public TMP_InputField playerNameInput;
 
     [Header("Animation")]
     public GameObject animator;
 
+    [Header("Tutorial Animation")]
+    public CanvasGroup tutorialCanvasGroup;
+
+    [SerializeField] private float tutorialAnimDuration = 0.6f;
+    [SerializeField] private Vector3 tutorialStartScale = new Vector3(0.9f, 0.9f, 1f);
+
     private const string PLAYER_NAME_KEY = "PlayerName";
 
     private void Start()
     {
-        //sceneFader = FindObjectOfType<MagicSceneFader>();
+        if (MagicSceneFader.Instance == null) Debug.LogWarning("Brak MagicSceneFader.");
 
-        //if (sceneFader == null)
-        //Debug.LogError("Brak MagicSceneFader w scenie!");
         if (PlayerPrefs.HasKey(PLAYER_NAME_KEY))
         {
             string savedName = PlayerPrefs.GetString(PLAYER_NAME_KEY);
@@ -60,8 +64,7 @@ public class MainMenuController : MonoBehaviour
         if (decks == null || decks.Count == 0)
         {
             Debug.Log("Brak talii. Idziemy do edytora.");
-            SceneManager.LoadScene("DeckBuilder");
-            //sceneFader.FadeToScene("DeckBuilder");
+            LoadSceneWithFade("DeckBuilder");
         }
         else
         {
@@ -89,8 +92,7 @@ public class MainMenuController : MonoBehaviour
     public void CreateNewDeckButton()
     {
         SceneDataTransfer.openInCreateMode = true;
-        SceneManager.LoadScene("DeckBuilder");
-        //sceneFader.FadeToScene("DeckBuilder");
+        LoadSceneWithFade("DeckBuilder");
     }
 
     private void StartGameWithDeck(SavedDeck deck)
@@ -106,14 +108,12 @@ public class MainMenuController : MonoBehaviour
         GameSetup.playerName = nameToSave;
         GameSetup.selectedDeck = deck;
 
-        SceneManager.LoadScene("Game");
-        //sceneFader.FadeToScene("Game");
+        LoadSceneWithFade("Game");
     }
 
     public void OnEditDeck()
     {
-        SceneManager.LoadScene("DeckBuilder");
-        //sceneFader.FadeToScene("DeckBuilder");
+        LoadSceneWithFade("DeckBuilder");
     }
 
     public void OnSettings()
@@ -122,6 +122,7 @@ public class MainMenuController : MonoBehaviour
         if (settingsPanel != null)
         {
             settingsPanel.SetActive(true);
+            if (animator != null) animator.SetActive(true);
             var settingsCtrl = settingsPanel.GetComponent<SettingsMenuController>();
             if (settingsCtrl != null) settingsCtrl.InitializeSettings();
         }
@@ -129,7 +130,14 @@ public class MainMenuController : MonoBehaviour
 
     public void OnTutorial()
     {
-        if (tutorialPanel != null) tutorialPanel.SetActive(true);
+        if (tutorialPanel != null)
+        {
+            tutorialPanel.SetActive(true);
+            StopAllCoroutines();
+            StartCoroutine(AnimateTutorialPanel());
+        }
+
+
     }
 
     public void OnExit()
@@ -148,6 +156,81 @@ public class MainMenuController : MonoBehaviour
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (tutorialPanel != null) tutorialPanel.SetActive(false);
         if (animator != null) animator.SetActive(false);
+    }
+
+    public void OnCloseTutorial()
+    {
+        StopAllCoroutines();
+        StartCoroutine(AnimateTutorialPanelClose());
+    }
+
+    private void LoadSceneWithFade(string sceneName)
+    {
+        if (MagicSceneFader.Instance != null) 
+            MagicSceneFader.Instance.FadeToScene(sceneName);
+        else
+        {
+            Debug.LogWarning("Fader nie znaleziony.");
+            SceneManager.LoadScene(sceneName);
+        }
+    }
+
+    private IEnumerator AnimateTutorialPanel()
+    {
+        float time = 0f;
+
+        RectTransform rt = tutorialPanel.GetComponent<RectTransform>();
+
+        Vector2 endPos = Vector2.zero;
+        Vector2 startPos = endPos + new Vector2(0f, Screen.height);
+
+        tutorialCanvasGroup.alpha = 0f;
+        tutorialPanel.transform.localScale = tutorialStartScale;
+        rt.anchoredPosition = startPos;
+
+        while (time < tutorialAnimDuration)
+        {
+            time += Time.deltaTime;
+            float t = time / tutorialAnimDuration;
+            float eased = Mathf.SmoothStep(0f, 1f, t);
+
+            tutorialCanvasGroup.alpha = eased;
+            tutorialPanel.transform.localScale = Vector3.Lerp(tutorialStartScale, Vector3.one, eased);
+            rt.anchoredPosition = Vector2.Lerp(startPos, endPos, eased);
+
+            yield return null;
+        }
+
+        tutorialCanvasGroup.alpha = 1f;
+        tutorialPanel.transform.localScale = Vector3.one;
+        rt.anchoredPosition = endPos;
+    }
+
+    private IEnumerator AnimateTutorialPanelClose()
+    {
+        float time = 0f;
+
+        RectTransform rt = tutorialPanel.GetComponent<RectTransform>();
+
+        Vector2 currentPos = rt.anchoredPosition;
+        Vector2 targetPos = currentPos + new Vector2(0f, Screen.height);
+
+        while (time < tutorialAnimDuration)
+        {
+            time += Time.deltaTime;
+            float t = time / tutorialAnimDuration;
+
+            float eased = Mathf.SmoothStep(0f, 1f, t);
+
+            tutorialCanvasGroup.alpha = Mathf.Lerp(1f, 0f, eased);
+            tutorialPanel.transform.localScale = Vector3.Lerp(Vector3.one, tutorialStartScale, eased);
+            rt.anchoredPosition = Vector2.Lerp(currentPos, targetPos, eased);
+
+            yield return null;
+        }
+
+        tutorialCanvasGroup.alpha = 0f;
+        tutorialPanel.SetActive(false);
     }
 }
 

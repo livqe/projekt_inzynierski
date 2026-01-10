@@ -46,6 +46,7 @@ public class CardBoardInteraction : MonoBehaviour, IPointerClickHandler, IPointe
 
         if (spriteRenderer) spriteRenderer.sortingOrder += 10;
         if (visual && visual.powerText) visual.powerText.sortingOrder += 10;
+        if (visual && visual.shieldText) visual.shieldText.sortingOrder += 10;
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -57,6 +58,7 @@ public class CardBoardInteraction : MonoBehaviour, IPointerClickHandler, IPointe
 
         if (spriteRenderer) spriteRenderer.sortingOrder -= 10;
         if (visual && visual.powerText) visual.powerText.sortingOrder -= 10;
+        if (visual && visual.shieldText) visual.shieldText.sortingOrder -= 10;
     }
 
     void OnDisable()
@@ -66,6 +68,7 @@ public class CardBoardInteraction : MonoBehaviour, IPointerClickHandler, IPointe
             transform.localScale = originalScale;
             if (spriteRenderer) spriteRenderer.sortingOrder -= 10;
             if (visual && visual.powerText) visual.powerText.sortingOrder -= 10;
+            if (visual && visual.shieldText) visual.shieldText.sortingOrder -= 10;
             isHovered = false;
         }
     }

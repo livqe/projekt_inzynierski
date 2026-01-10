@@ -8,6 +8,7 @@ public class CardView : MonoBehaviour
     public Image artworkImage;
     public TextMeshProUGUI powerText;
     public TextMeshProUGUI nameText;
+    public TextMeshProUGUI shieldText;
 
     [HideInInspector] public CardInstance cardInstance;
 
@@ -20,7 +21,9 @@ public class CardView : MonoBehaviour
 
         if (powerText != null)
         {
-            if (!string.IsNullOrEmpty(card.data.powerDisplayOverride))
+            bool useOverride = !string.IsNullOrEmpty(card.data.powerDisplayOverride) && (card.currentPower == card.data.power);
+            
+            if (useOverride)
             {
                 string overrideVal = card.data.powerDisplayOverride;
 
@@ -44,6 +47,21 @@ public class CardView : MonoBehaviour
                 else ColorUtility.TryParseHtmlString("#333333", out finalColor);
 
                 powerText.color = finalColor;
+            }
+
+            if (shieldText != null)
+            {
+                int amount = card.shield;
+
+                if (amount > 0)
+                {
+                    shieldText.text = amount.ToString();
+                    shieldText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    shieldText.gameObject.SetActive(false);
+                }
             }
         }
     }

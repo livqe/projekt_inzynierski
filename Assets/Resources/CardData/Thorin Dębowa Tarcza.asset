@@ -17,8 +17,9 @@ MonoBehaviour:
   faction: 1
   range: 0
   power: 10
+  baseShield: 5
   powerDisplayOverride: 
-  effect: {fileID: 8124328503781114027}
+  effect: {fileID: 0}
   effectDescription: "Zyskuje tarcz\u0119 o warto\u015Bci 5 punkt\xF3w, kt\xF3ra
     chroni go przed obra\u017Ceniami."
   maxCopies: 1

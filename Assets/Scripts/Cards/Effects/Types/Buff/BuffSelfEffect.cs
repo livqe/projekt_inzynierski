@@ -27,7 +27,7 @@ public class BuffSelfEffect : CardEffect, IOnTurnEndEffect
             Debug.Log($"[Effect] {source.data.cardName} otrzymuje +{powerToAdd} mocy.");
             source.AddPower(powerToAdd);
 
-            source.effectTurnCounter = 0;
+            source.effectTurnCounter = 1;
         }
         else
         {
