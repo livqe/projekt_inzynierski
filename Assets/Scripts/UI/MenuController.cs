@@ -67,7 +67,7 @@ public class MenuController : MonoBehaviour
         Time.timeScale = 1f;
         IsGamePaused = false;
 
-        SceneManager.LoadScene("Menu");
+        MagicSceneFader.Instance.FadeToScene("Menu");
     }
 
     public void OpenSettings()

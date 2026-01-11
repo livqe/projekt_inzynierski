@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f58616c4c02c397408a5a008b6eff41e
+guid: 664dcab107855c94bb714ef6410bd27c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1469909079130451432
-    second: paper_0
+      213: 7696884773267781985
+    second: Sauron1_v2_1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: paper_0
+      name: Sauron1_v2_1_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 2
-        width: 1913
-        height: 1078
+        x: 27
+        y: 9
+        width: 779
+        height: 1435
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 812de4efa75d99be0800000000000000
-      internalID: -1469909079130451432
+      spriteID: 1693db3ebe3d0da60800000000000000
+      internalID: 7696884773267781985
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      paper_0: -1469909079130451432
+      Sauron1_v2_1_0: 7696884773267781985
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

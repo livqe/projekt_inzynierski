@@ -352,16 +352,8 @@ public class DeckBuilderController : MonoBehaviour
 
     public void ConfirmExitWithoutSaving()
     {
-        if (MagicSceneFader.Instance != null)
-        {
-            MagicSceneFader.Instance.FadeToScene("Menu");
-            MagicSceneFader.Instance.FadeToScene("DeckBuilder");
-        }
-        else
-        {
-            SceneManager.LoadScene("Menu");
-            SceneManager.LoadScene("DeckBuilder");
-        }
+        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("DeckBuilder");
     }
 
     public void CreateDwarvesDeck() => CreateNewDeck(Faction.Krasnoludy);
